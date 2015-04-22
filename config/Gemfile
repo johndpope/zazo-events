@@ -1,0 +1,51 @@
+source 'https://rubygems.org'
+
+# Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
+gem 'rails'
+gem 'mysql2'
+
+gem 'jbuilder', '~> 2.0'
+# bundle exec rake doc:rails generates the API under doc/api.
+gem 'sdoc', '~> 0.4.0', group: :doc
+
+gem 'pry-rails'
+gem 'figaro', github: 'asux/figaro', branch: 'feature/eb-set-command'
+gem 'settingslogic'
+gem 'rollbar'
+gem 'newrelic_rpm'
+
+group :development do
+  gem 'better_errors'
+  gem 'binding_of_caller'
+  gem 'guard-bundler'
+  gem 'guard-rails'
+  gem 'guard-rspec'
+  gem 'guard-rubocop'
+  gem 'guard-pow', require: false
+  gem 'terminal-notifier-guard'
+  gem 'quiet_assets'
+  gem 'rb-fchange', require: false
+  gem 'rb-fsevent', require: false
+  gem 'rb-inotify', require: false
+  gem 'rails_layout'
+  gem 'rsense'
+end
+
+group :development, :test do
+  gem 'pry-rescue'
+  gem 'pry-remote'
+  gem 'pry-byebug'
+  gem 'rspec-rails'
+  gem 'factory_girl_rails'
+end
+
+group :test do
+  gem 'database_cleaner'
+  gem 'faker'
+  gem 'capybara'
+  gem 'launchy'
+  gem 'shoulda-matchers'
+  gem 'simplecov', require: false
+  gem 'webmock'
+  gem 'vcr'
+end

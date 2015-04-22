@@ -1,0 +1,12 @@
+defaults: &settings
+  version: 0.0.0
+  app_name: Zazo SQS Worker
+
+development:
+  <<: *settings
+
+test:
+  <<: *settings
+
+production:
+  <<: *settings
