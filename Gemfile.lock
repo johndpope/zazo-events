@@ -167,6 +167,8 @@ GEM
     pry-rescue (1.4.1)
       interception (>= 0.5)
       pry
+    puma (2.11.2)
+      rack (>= 1.1, < 2.0)
     quiet_assets (1.1.0)
       railties (>= 3.1, < 5.0)
     rack (1.6.0)
@@ -327,6 +329,7 @@ DEPENDENCIES
   pry-rails
   pry-remote
   pry-rescue
+  puma
   quiet_assets
   rails
   rails_layout
