@@ -10,11 +10,13 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 gem 'puma'
 gem 'pry-rails'
+gem 'awesome_print'
 gem 'figaro', github: 'asux/figaro', branch: 'feature/eb-set-command'
 gem 'settingslogic'
 gem 'rollbar'
 gem 'newrelic_rpm'
 gem 'rails-api'
+gem 'hashie'
 
 group :development do
   gem 'better_errors'

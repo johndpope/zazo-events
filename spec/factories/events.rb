@@ -7,6 +7,5 @@ FactoryGirl.define do
     initiator_id 'RxDrzAIuF9mFw7Xx9NSM'
     target 'user'
     target_id '6pqpuUZFp1zCXLykfTIx'
-    raw_data
   end
 end
