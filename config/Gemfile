@@ -14,6 +14,7 @@ gem 'figaro', github: 'asux/figaro', branch: 'feature/eb-set-command'
 gem 'settingslogic'
 gem 'rollbar'
 gem 'newrelic_rpm'
+gem 'rails-api'
 
 group :development do
   gem 'better_errors'
