@@ -4,7 +4,7 @@ box: wercker/rvm
 # http://devcenter.wercker.com/articles/languages/ruby/settingup-rails4.html
 # You will want to define your database as follows:
 services:
-  - wercker/postgresql
+  - userminddeployer/postgresql9.4
 # See more about services on our devcenter:
 # http://devcenter.wercker.com/articles/services/
 build:
@@ -27,7 +27,9 @@ build:
           echo "ruby version $(ruby --version) running"
           echo "from location $(which ruby)"
           echo -p "gem list: $(gem list)"
-
+    - script:
+        name: Set up db
+        code: bundle exec rake db:schema:load RAILS_ENV=test
     - script:
         name: create rspec and coverage dir
         code: mkdir -p $WERCKER_REPORT_ARTIFACTS_DIR/rspec $WERCKER_REPORT_ARTIFACTS_DIR/coverage
