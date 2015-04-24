@@ -86,8 +86,8 @@ RSpec.describe Event, type: :model do
       end
 
       specify do
-        pending 'FIXME: triggered_at timestampt differs'
-        is_expected.to have_attributes(params.merge(raw_params: params.stringify_keys))
+        raw_params = JSON.parse(params.to_json)
+        is_expected.to have_attributes(params.merge(raw_params: raw_params))
       end
       it { is_expected.to be_valid }
     end

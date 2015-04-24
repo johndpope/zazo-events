@@ -11,7 +11,7 @@ class CreateEvents < ActiveRecord::Migration
       t.text :data
       t.text :raw_params
 
-      t.timestamps null: false
+      t.timestamps null: false, limit: 3
     end
 
     add_index :events, :name

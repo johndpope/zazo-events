@@ -20,9 +20,9 @@ RSpec.describe Api::V1::EventsController, type: :controller do
 
     context 'when event exists' do
       let!(:event) { create(:event) }
-      it 'returns array of events', pending: 'FIXME: milliseconds differrs' do
+      it 'returns array of events' do
         get :index
-        expect(JSON.parse(response.body)).to eq([event.attributes])
+        expect(JSON.parse(response.body)).to eq([JSON.parse(event.to_json)])
       end
     end
   end
@@ -98,7 +98,7 @@ RSpec.describe Api::V1::EventsController, type: :controller do
         expect(response).to have_http_status(:success)
       end
 
-      it 'renders event', pending: 'FIXME: milliseconds differrs' do
+      it 'renders event' do
         get :show, params
         expect(JSON.parse(response.body)).to eq(JSON.parse(event.to_json))
       end
