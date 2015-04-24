@@ -5,8 +5,6 @@ class Event < ActiveRecord::Base
             presence: true
 
   validates :triggered_by, inclusion: { in: SOURCES }
-  serialize :data, JSON
-  serialize :raw_params, JSON
 
   def self.create_from_s3_event(records)
     Array.wrap(records).map do |record|

@@ -9,8 +9,8 @@ RSpec.describe Event, type: :model do
     it { is_expected.to have_db_column(:initiator_id).of_type(:string) }
     it { is_expected.to have_db_column(:target).of_type(:string) }
     it { is_expected.to have_db_column(:target_id).of_type(:string) }
-    it { is_expected.to have_db_column(:data).of_type(:text) }
-    it { is_expected.to have_db_column(:raw_params).of_type(:text) }
+    it { is_expected.to have_db_column(:data).of_type(:json) }
+    it { is_expected.to have_db_column(:raw_params).of_type(:json) }
   end
 
   describe 'validations' do
@@ -21,8 +21,6 @@ RSpec.describe Event, type: :model do
     it { is_expected.to validate_presence_of(:initiator_id) }
 
     it { is_expected.to validate_inclusion_of(:triggered_by).in_array(%w(aws:s3 zazo:api zazo:ios zazo:android)) }
-    it { is_expected.to serialize(:data) }
-    it { is_expected.to serialize(:raw_params) }
   end
 
   describe '.create_from_s3_event' do

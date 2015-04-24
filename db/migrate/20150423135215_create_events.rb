@@ -8,8 +8,8 @@ class CreateEvents < ActiveRecord::Migration
       t.string :initiator_id
       t.string :target
       t.string :target_id
-      t.text :data
-      t.text :raw_params
+      t.json :data
+      t.json :raw_params
 
       t.timestamps null: false, limit: 3
     end
