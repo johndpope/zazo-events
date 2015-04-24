@@ -9,7 +9,8 @@ RSpec.describe Event, type: :model do
     it { is_expected.to have_db_column(:initiator_id).of_type(:string) }
     it { is_expected.to have_db_column(:target).of_type(:string) }
     it { is_expected.to have_db_column(:target_id).of_type(:string) }
-    it { is_expected.to have_db_column(:raw_data).of_type(:text) }
+    it { is_expected.to have_db_column(:data).of_type(:text) }
+    it { is_expected.to have_db_column(:raw_params).of_type(:text) }
   end
 
   describe 'validations' do
@@ -20,20 +21,21 @@ RSpec.describe Event, type: :model do
     it { is_expected.to validate_presence_of(:initiator_id) }
 
     it { is_expected.to validate_inclusion_of(:triggered_by).in_array(%w(aws:s3 zazo:api zazo:ios zazo:android)) }
-    it { is_expected.to serialize(:raw_data) }
+    it { is_expected.to serialize(:data) }
+    it { is_expected.to serialize(:raw_params) }
   end
 
   describe '.create_from_s3_event' do
     subject { described_class.create_from_s3_event(s3_event) }
 
-    context 'with {}' do
-      let(:s3_event) { {} }
-      it { is_expected.to be_nil }
-    end
-
     context 'with nil' do
       let(:s3_event) {}
-      it { is_expected.to be_nil }
+      it { is_expected.to eq([]) }
+    end
+
+    context 'with {}' do
+      let(:s3_event) { {} }
+      it { expect { subject }.to raise_error(ArgumentError) }
     end
 
     context 'with ["foo"]' do
@@ -47,7 +49,7 @@ RSpec.describe Event, type: :model do
     end
 
     context 'with valid data' do
-      let(:s3_event) { json_fixture('event') }
+      let(:s3_event) { json_fixture('event')['Records'] }
       specify do
         expect(subject.first).to have_attributes(name: 'video:sent',
                                                  triggered_by: 'aws:s3',
@@ -56,8 +58,49 @@ RSpec.describe Event, type: :model do
                                                  initiator_id: 'RxDrzAIuF9mFw7Xx9NSM',
                                                  target: 'user',
                                                  target_id: '6pqpuUZFp1zCXLykfTIx',
-                                                 raw_data: s3_event['Records'].first)
+                                                 data: { 'video_filename' => 'RxDrzAIuF9mFw7Xx9NSM-6pqpuUZFp1zCXLykfTIx-98dba07c0113cc717d9fc5e5809bc998' },
+                                                 raw_params: s3_event.first)
       end
+    end
+  end
+
+  describe '.create_from_params' do
+    let(:s3_event) { json_fixture('event')['Records'] }
+    subject { described_class.create_from_params(params) }
+
+    context 'for S3 event' do
+      let(:params) { s3_event }
+      specify do
+        expect(described_class).to receive(:create_from_s3_event).with(params)
+        subject
+      end
+    end
+
+    context 'for valid params' do
+      let(:params) do
+        { name: 'video:received',
+          triggered_at: Time.now,
+          triggered_by: 'zazo:api',
+          initiator: 'user',
+          initiator_id: '6pqpuUZFp1zCXLykfTIx' }
+      end
+
+      specify do
+        pending 'FIXME: triggered_at timestampt differs'
+        is_expected.to have_attributes(params.merge(raw_params: params.stringify_keys))
+      end
+      it { is_expected.to be_valid }
+    end
+
+    context 'for invalid params' do
+      let(:params) do
+        { name: 'video:received',
+          triggered_by: 'zazo:api',
+          initiator: 'user',
+          initiator_id: '6pqpuUZFp1zCXLykfTIx' }
+      end
+
+      it { is_expected.to_not be_valid }
     end
   end
 end

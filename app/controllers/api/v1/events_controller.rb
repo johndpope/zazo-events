@@ -4,14 +4,15 @@ class Api::V1::EventsController < ApplicationController
   end
 
   def create
-    return create_s3_event if params.key?('Records')
-    @event = Event.new(event_params.merge(raw_data: event_params[:event]))
+    @event = Event.create_from_params(event_params)
+    return render json: @event, status: :created if @event.is_a?(Array)
     if @event.valid?
-      @event.save
       render json: @event, status: :created
     else
       render json: { errors: @event.errors }, status: :unprocessable_entity
     end
+  rescue TypeError, ArgumentError => error
+    render json: { errors: [error.message] }, status: :unprocessable_entity
   end
 
   def show
@@ -22,13 +23,11 @@ class Api::V1::EventsController < ApplicationController
   private
 
   def event_params
-    params.permit(:event).permit(:name, :triggered_at, :triggered_by, :initiator, :initiator_id)
-  end
-
-  def create_s3_event
-    @events = Event.create_from_s3_event(params)
-    render json: @events, status: :created
-  rescue TypeError, ArgumentError => error
-    render json: { errors: [error.message] }, status: :unprocessable_entity
+    if params.key?('Records')
+      params.require('Records')
+    else
+      params.permit(:name, :triggered_at, :triggered_by, :initiator,
+                    :initiator_id, :target, :target_id, data: params[:data].try(:keys))
+    end
   end
 end

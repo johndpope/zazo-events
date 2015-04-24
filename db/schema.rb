@@ -15,15 +15,16 @@ ActiveRecord::Schema.define(version: 20150423135215) do
 
   create_table "events", force: :cascade do |t|
     t.string   "name",         limit: 255
-    t.datetime "triggered_at"
+    t.datetime "triggered_at",               precision: 3
     t.string   "triggered_by", limit: 255
     t.string   "initiator",    limit: 255
     t.string   "initiator_id", limit: 255
     t.string   "target",       limit: 255
     t.string   "target_id",    limit: 255
-    t.text     "raw_data",     limit: 65535
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
+    t.text     "data",         limit: 65535
+    t.text     "raw_params",   limit: 65535
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
   end
 
   add_index "events", ["initiator"], name: "index_events_on_initiator", using: :btree
