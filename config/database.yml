@@ -7,7 +7,6 @@ default: &default
   host: <%= Figaro.env.db_host %>
   port: <%= Figaro.env.db_port.to_i %>
 
-
 development:
   <<: *default
 
@@ -22,6 +21,8 @@ staging:
 
 production:
   <<: *default
+  sslmode: verify-full
+  sslrootcert: config/rds-combined-ca-bundle.pem
 
 statistics:
   <<: *default
