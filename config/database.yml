@@ -1,11 +1,12 @@
 default: &default
   adapter: postgresql
-  encoding: utf8
+  encoding: unicode
+  pool: 5
   database: <%= Figaro.env.db_name %>
   username: <%= Figaro.env.db_username %>
   password: <%= Figaro.env.db_password %>
   host: <%= Figaro.env.db_host %>
-  port: <%= Figaro.env.db_port.to_i %>
+  port: <%= Figaro.env.db_port %>
 
 development:
   <<: *default
@@ -21,6 +22,7 @@ staging:
 
 production:
   <<: *default
+  pool: 10
   sslmode: verify-full
   sslrootcert: config/rds-combined-ca-bundle.pem
 
