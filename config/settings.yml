@@ -8,5 +8,8 @@ development:
 test:
   <<: *settings
 
+staging:
+  <<: *settings
+
 production:
   <<: *settings
