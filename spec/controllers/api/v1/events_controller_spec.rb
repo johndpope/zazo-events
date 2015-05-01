@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Api::V1::EventsController, type: :controller do
-  let(:s3_event) { json_fixture('event') }
+  let(:s3_event) { json_fixture('s3_event') }
   let(:attributes) do
     { name: 'video:sent',
       triggered_by: 'aws:s3',
@@ -48,6 +48,36 @@ RSpec.describe Api::V1::EventsController, type: :controller do
       end
     end
 
+    context 'S3 test event' do
+      let(:params) { json_fixture('s3_test_event') }
+
+      it 'returns http ok' do
+        post :create, params
+        expect(response).to have_http_status(:ok)
+      end
+
+      specify do
+        expect do
+          post :create, params
+        end.to_not change { Event.count }
+      end
+    end
+
+    context 'generic test event' do
+      let(:params) { { name: 'test' } }
+
+      it 'returns http ok' do
+        post :create, params
+        expect(response).to have_http_status(:ok)
+      end
+
+      specify do
+        expect do
+          post :create, params
+        end.to_not change { Event.count }
+      end
+    end
+
     context 'generic event' do
       let(:params) { attributes }
 
@@ -79,7 +109,7 @@ RSpec.describe Api::V1::EventsController, type: :controller do
     end
 
     context 'with invalid params' do
-      let(:params) { { name: 'test' } }
+      let(:params) { { name: 'bad_event' } }
 
       it 'returns http unprocessable_entity' do
         post :create, params

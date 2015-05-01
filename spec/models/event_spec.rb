@@ -47,7 +47,7 @@ RSpec.describe Event, type: :model do
     end
 
     context 'with valid data' do
-      let(:s3_event) { json_fixture('event')['Records'] }
+      let(:s3_event) { json_fixture('s3_event')['Records'] }
       specify do
         expect(subject.first).to have_attributes(name: 'video:sent',
                                                  triggered_by: 'aws:s3',
@@ -63,7 +63,7 @@ RSpec.describe Event, type: :model do
   end
 
   describe '.create_from_params' do
-    let(:s3_event) { json_fixture('event')['Records'] }
+    let(:s3_event) { json_fixture('s3_event')['Records'] }
     subject { described_class.create_from_params(params) }
 
     context 'for S3 event' do

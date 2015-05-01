@@ -1,4 +1,6 @@
 class Api::V1::EventsController < ApplicationController
+  before_action :skip_test_message, only: :create
+
   def index
     render json: Event.all
   end
@@ -29,5 +31,10 @@ class Api::V1::EventsController < ApplicationController
       params.permit(:name, :triggered_at, :triggered_by, :initiator,
                     :initiator_id, :target, :target_id, data: params[:data].try(:keys))
     end
+  end
+
+  def skip_test_message
+    test_regexp = /test/i
+    head :ok if params['Event'].try(:match, test_regexp) || params['name'].try(:match, test_regexp)
   end
 end
