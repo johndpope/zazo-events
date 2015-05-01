@@ -22,11 +22,13 @@ class Event < ActiveRecord::Base
     event.triggered_at = record.eventTime.to_datetime
     event.initiator = 'user'
     video_filename = record.s3.object[:key]
-    event.data = { video_filename: video_filename }
-    initiator_id, target_id, _hash = video_filename.split('-')
-    event.initiator_id = initiator_id
+    sender_id, receiver_id, _hash = video_filename.split('-')
+    event.data = { sender_id: sender_id,
+                   receiver_id: receiver_id,
+                   video_filename: video_filename }
+    event.initiator_id = sender_id
     event.target = 'user'
-    event.target_id = target_id
+    event.target_id = receiver_id
     event.raw_params = raw_record
     event.message_id = message_id
     event.save! && event

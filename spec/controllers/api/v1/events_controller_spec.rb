@@ -11,7 +11,9 @@ RSpec.describe Api::V1::EventsController, type: :controller do
       initiator_id: 'RxDrzAIuF9mFw7Xx9NSM',
       target: 'user',
       target_id: '6pqpuUZFp1zCXLykfTIx',
-      data: { 'video_filename' => 'RxDrzAIuF9mFw7Xx9NSM-6pqpuUZFp1zCXLykfTIx-98dba07c0113cc717d9fc5e5809bc998' } }
+      data: { 'sender_id' => 'RxDrzAIuF9mFw7Xx9NSM',
+              'receiver_id' => '6pqpuUZFp1zCXLykfTIx',
+              'video_filename' => 'RxDrzAIuF9mFw7Xx9NSM-6pqpuUZFp1zCXLykfTIx-98dba07c0113cc717d9fc5e5809bc998' } }
   end
 
   describe 'GET #index' do
@@ -113,7 +115,9 @@ RSpec.describe Api::V1::EventsController, type: :controller do
           initiator_id: 'RxDrzAIuF9mFw7Xx9NSM',
           target: 'user',
           target_id: '6pqpuUZFp1zCXLykfTIx',
-          data: { 'video_filename' => 'RxDrzAIuF9mFw7Xx9NSM-6pqpuUZFp1zCXLykfTIx-98dba07c0113cc717d9fc5e5809bc998' },
+          data: { 'sender_id' => 'RxDrzAIuF9mFw7Xx9NSM',
+                  'receiver_id' => '6pqpuUZFp1zCXLykfTIx',
+                  'video_filename' => 'RxDrzAIuF9mFw7Xx9NSM-6pqpuUZFp1zCXLykfTIx-98dba07c0113cc717d9fc5e5809bc998' },
           raw_params: nil)
       end
 
@@ -130,7 +134,9 @@ RSpec.describe Api::V1::EventsController, type: :controller do
             initiator_id: 'RxDrzAIuF9mFw7Xx9NSM',
             target: 'user',
             target_id: '6pqpuUZFp1zCXLykfTIx',
-            data: { 'video_filename' => 'RxDrzAIuF9mFw7Xx9NSM-6pqpuUZFp1zCXLykfTIx-98dba07c0113cc717d9fc5e5809bc998' },
+            data: { 'sender_id' => 'RxDrzAIuF9mFw7Xx9NSM',
+                    'receiver_id' => '6pqpuUZFp1zCXLykfTIx',
+                    'video_filename' => 'RxDrzAIuF9mFw7Xx9NSM-6pqpuUZFp1zCXLykfTIx-98dba07c0113cc717d9fc5e5809bc998' },
             raw_params: nil,
             message_id: message_id)
         end
