@@ -35,7 +35,7 @@ class Event < ActiveRecord::Base
     if params.is_a?(Array)
       create_from_s3_event(params)
     else
-      create(params.merge(raw_params: params))
+      create(params)
     end
   end
 end

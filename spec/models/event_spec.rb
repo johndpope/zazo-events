@@ -84,8 +84,7 @@ RSpec.describe Event, type: :model do
       end
 
       specify do
-        raw_params = JSON.parse(params.to_json)
-        is_expected.to have_attributes(params.merge(raw_params: raw_params))
+        is_expected.to have_attributes(params.merge(raw_params: nil))
       end
       it { is_expected.to be_valid }
     end

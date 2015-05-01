@@ -103,8 +103,7 @@ RSpec.describe Api::V1::EventsController, type: :controller do
           target: 'user',
           target_id: '6pqpuUZFp1zCXLykfTIx',
           data: { 'video_filename' => 'RxDrzAIuF9mFw7Xx9NSM-6pqpuUZFp1zCXLykfTIx-98dba07c0113cc717d9fc5e5809bc998' },
-          raw_params: attributes.stringify_keys
-        )
+          raw_params: nil)
       end
     end
 
