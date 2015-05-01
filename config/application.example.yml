@@ -1,0 +1,29 @@
+db_name: zazo_events
+db_username: postgres
+db_password:
+db_host: localhost
+db_port: '5432'
+
+rollbar_access_token:
+
+newrelic_license_key:
+newrelic_api_key:
+
+development:
+  secret_key_base:
+
+test:
+  secret_key_base:
+  db_name: zazo_events_test
+
+staging:
+  secret_key_base:
+  db_host:
+  db_username:
+  db_password:
+
+production:
+  secret_key_base:
+  db_host:
+  db_username:
+  db_password:
