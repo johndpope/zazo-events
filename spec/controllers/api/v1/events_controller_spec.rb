@@ -31,9 +31,9 @@ RSpec.describe Api::V1::EventsController, type: :controller do
     context 'S3 event' do
       let(:params) { s3_event }
 
-      it 'returns http created' do
+      it 'returns http ok' do
         post :create, params
-        expect(response).to have_http_status(:created)
+        expect(response).to have_http_status(:ok)
       end
 
       specify do
@@ -81,9 +81,9 @@ RSpec.describe Api::V1::EventsController, type: :controller do
     context 'generic event' do
       let(:params) { attributes }
 
-      it 'returns http created' do
+      it 'returns http ok' do
         post :create, params
-        expect(response).to have_http_status(:created)
+        expect(response).to have_http_status(:ok)
       end
 
       specify do

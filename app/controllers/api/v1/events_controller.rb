@@ -7,9 +7,9 @@ class Api::V1::EventsController < ApplicationController
 
   def create
     @event = Event.create_from_params(event_params)
-    return render json: @event, status: :created if @event.is_a?(Array)
+    return render json: @event if @event.is_a?(Array)
     if @event.valid?
-      render json: @event, status: :created
+      render json: @event
     else
       render json: { errors: @event.errors }, status: :unprocessable_entity
     end
