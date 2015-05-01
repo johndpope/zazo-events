@@ -17,7 +17,7 @@ class Event < ActiveRecord::Base
     fail ArgumentError, 'record must be a S3 event hash' unless raw_record.key?('eventName')
     record = Hashie::Mash.new(raw_record)
     event = new
-    event.name = record.eventName.include?('ObjectCreated') && 'video:sent' || record.eventName
+    event.name = record.eventName.include?('ObjectCreated') && 'video:s3:uploaded' || record.eventName
     event.triggered_by = record.eventSource
     event.triggered_at = record.eventTime.to_datetime
     event.initiator = 'user'

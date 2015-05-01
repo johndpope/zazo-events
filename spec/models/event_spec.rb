@@ -52,7 +52,7 @@ RSpec.describe Event, type: :model do
     context 'with valid data' do
       let(:s3_event) { json_fixture('s3_event')['Records'] }
       specify do
-        expect(subject.first).to have_attributes(name: 'video:sent',
+        expect(subject.first).to have_attributes(name: 'video:s3:uploaded',
                                                  triggered_by: 'aws:s3',
                                                  triggered_at: '2015-04-22T18:01:20.663Z'.to_datetime,
                                                  initiator: 'user',

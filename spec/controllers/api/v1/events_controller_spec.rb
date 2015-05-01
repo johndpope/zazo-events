@@ -4,7 +4,7 @@ RSpec.describe Api::V1::EventsController, type: :controller do
   let(:message_id) { Digest::UUID.uuid_v4 }
   let(:s3_event) { json_fixture('s3_event') }
   let(:attributes) do
-    { name: 'video:sent',
+    { name: 'video:s3:uploaded',
       triggered_by: 'aws:s3',
       triggered_at: '2015-04-22T18:01:20.663Z',
       initiator: 'user',
@@ -106,7 +106,7 @@ RSpec.describe Api::V1::EventsController, type: :controller do
       it 'creates event with valid attributes' do
         post :create, params
         expect(Event.last).to have_attributes(
-          name: 'video:sent',
+          name: 'video:s3:uploaded',
           triggered_by: 'aws:s3',
           triggered_at: '2015-04-22T18:01:20.663Z'.to_datetime,
           initiator: 'user',
@@ -123,7 +123,7 @@ RSpec.describe Api::V1::EventsController, type: :controller do
         it 'creates event with valid attributes' do
           post :create, params
           expect(Event.last).to have_attributes(
-            name: 'video:sent',
+            name: 'video:s3:uploaded',
             triggered_by: 'aws:s3',
             triggered_at: '2015-04-22T18:01:20.663Z'.to_datetime,
             initiator: 'user',
