@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150423135215) do
+ActiveRecord::Schema.define(version: 20150501153653) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -28,10 +28,12 @@ ActiveRecord::Schema.define(version: 20150423135215) do
     t.json     "raw_params"
     t.datetime "created_at",   precision: 3, null: false
     t.datetime "updated_at",   precision: 3, null: false
+    t.uuid     "message_id"
   end
 
   add_index "events", ["initiator"], name: "index_events_on_initiator", using: :btree
   add_index "events", ["initiator_id"], name: "index_events_on_initiator_id", using: :btree
+  add_index "events", ["message_id"], name: "index_events_on_message_id", using: :btree
   add_index "events", ["name"], name: "index_events_on_name", using: :btree
   add_index "events", ["target"], name: "index_events_on_target", using: :btree
   add_index "events", ["target_id"], name: "index_events_on_target_id", using: :btree

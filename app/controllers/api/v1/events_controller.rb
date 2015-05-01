@@ -6,7 +6,7 @@ class Api::V1::EventsController < ApplicationController
   end
 
   def create
-    @event = Event.create_from_params(event_params)
+    @event = Event.create_from_params(event_params, request.headers['X-Aws-Sqsd-Msgid'])
     return render json: @event if @event.is_a?(Array)
     if @event.valid?
       render json: @event

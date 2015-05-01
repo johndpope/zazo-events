@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Event, type: :model do
+  let(:message_id) { Digest::UUID.uuid_v4 }
+
   describe 'columns' do
     it { is_expected.to have_db_column(:name).of_type(:string) }
     it { is_expected.to have_db_column(:triggered_at).of_type(:datetime) }
@@ -11,6 +13,7 @@ RSpec.describe Event, type: :model do
     it { is_expected.to have_db_column(:target_id).of_type(:string) }
     it { is_expected.to have_db_column(:data).of_type(:json) }
     it { is_expected.to have_db_column(:raw_params).of_type(:json) }
+    it { is_expected.to have_db_column(:message_id).of_type(:uuid) }
   end
 
   describe 'validations' do
@@ -64,12 +67,12 @@ RSpec.describe Event, type: :model do
 
   describe '.create_from_params' do
     let(:s3_event) { json_fixture('s3_event')['Records'] }
-    subject { described_class.create_from_params(params) }
+    subject { described_class.create_from_params(params, message_id) }
 
     context 'for S3 event' do
       let(:params) { s3_event }
       specify do
-        expect(described_class).to receive(:create_from_s3_event).with(params)
+        expect(described_class).to receive(:create_from_s3_event).with(params, message_id)
         subject
       end
     end
@@ -84,7 +87,7 @@ RSpec.describe Event, type: :model do
       end
 
       specify do
-        is_expected.to have_attributes(params.merge(raw_params: nil))
+        is_expected.to have_attributes(params.merge(raw_params: nil, message_id: message_id))
       end
       it { is_expected.to be_valid }
     end
@@ -98,6 +101,20 @@ RSpec.describe Event, type: :model do
       end
 
       it { is_expected.to_not be_valid }
+    end
+
+    context 'for duplicated message' do
+      let(:params) do
+        { name: 'video:received',
+          triggered_at: Time.now,
+          triggered_by: 'zazo:api',
+          initiator: 'user',
+          initiator_id: '6pqpuUZFp1zCXLykfTIx' }
+      end
+      before { create(:event, message_id: message_id) }
+      specify do
+        expect { subject }.to_not change { described_class.count }
+      end
     end
   end
 end

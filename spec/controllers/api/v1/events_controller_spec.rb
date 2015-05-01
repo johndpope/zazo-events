@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Api::V1::EventsController, type: :controller do
+  let(:message_id) { Digest::UUID.uuid_v4 }
   let(:s3_event) { json_fixture('s3_event') }
   let(:attributes) do
     { name: 'video:sent',
@@ -12,6 +13,7 @@ RSpec.describe Api::V1::EventsController, type: :controller do
       target_id: '6pqpuUZFp1zCXLykfTIx',
       data: { 'video_filename' => 'RxDrzAIuF9mFw7Xx9NSM-6pqpuUZFp1zCXLykfTIx-98dba07c0113cc717d9fc5e5809bc998' } }
   end
+
   describe 'GET #index' do
     it 'returns http success' do
       get :index
@@ -45,6 +47,15 @@ RSpec.describe Api::V1::EventsController, type: :controller do
       it 'creates event with valid attributes' do
         post :create, params
         expect(Event.last).to have_attributes(attributes)
+      end
+
+      context 'with X-Aws-Sqsd-Msgid header' do
+        before { request.headers['X-Aws-Sqsd-Msgid'] = message_id }
+
+        it 'creates event with valid attributes' do
+          post :create, params
+          expect(Event.last).to have_attributes(attributes.merge(message_id: message_id))
+        end
       end
     end
 
@@ -104,6 +115,25 @@ RSpec.describe Api::V1::EventsController, type: :controller do
           target_id: '6pqpuUZFp1zCXLykfTIx',
           data: { 'video_filename' => 'RxDrzAIuF9mFw7Xx9NSM-6pqpuUZFp1zCXLykfTIx-98dba07c0113cc717d9fc5e5809bc998' },
           raw_params: nil)
+      end
+
+      context 'with X-Aws-Sqsd-Msgid header' do
+        before { request.headers['X-Aws-Sqsd-Msgid'] = message_id }
+
+        it 'creates event with valid attributes' do
+          post :create, params
+          expect(Event.last).to have_attributes(
+            name: 'video:sent',
+            triggered_by: 'aws:s3',
+            triggered_at: '2015-04-22T18:01:20.663Z'.to_datetime,
+            initiator: 'user',
+            initiator_id: 'RxDrzAIuF9mFw7Xx9NSM',
+            target: 'user',
+            target_id: '6pqpuUZFp1zCXLykfTIx',
+            data: { 'video_filename' => 'RxDrzAIuF9mFw7Xx9NSM-6pqpuUZFp1zCXLykfTIx-98dba07c0113cc717d9fc5e5809bc998' },
+            raw_params: nil,
+            message_id: message_id)
+        end
       end
     end
 
