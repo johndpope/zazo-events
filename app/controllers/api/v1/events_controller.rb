@@ -29,7 +29,9 @@ class Api::V1::EventsController < ApplicationController
       params.require('Records')
     else
       params.permit(:name, :triggered_at, :triggered_by, :initiator,
-                    :initiator_id, :target, :target_id, data: params[:data].try(:keys))
+                    :initiator_id, :target, :target_id,
+                    data: params[:data].try(:keys),
+                    raw_params: params[:raw_params].try(:keys))
     end
   end
 
