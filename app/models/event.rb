@@ -6,6 +6,8 @@ class Event < ActiveRecord::Base
 
   validates :triggered_by, inclusion: { in: SOURCES }
 
+  default_scope -> { order(:triggered_at) }
+
   def self.create_from_s3_event(records, message_id = nil)
     Array.wrap(records).map do |record|
       create_from_s3_record(record, message_id)
