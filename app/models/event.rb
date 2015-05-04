@@ -27,8 +27,8 @@ class Event < ActiveRecord::Base
                    receiver_id: receiver_id,
                    video_filename: video_filename }
     event.initiator_id = sender_id
-    event.target = 'user'
-    event.target_id = receiver_id
+    event.target = 'video'
+    event.target_id = video_filename
     event.raw_params = raw_record
     event.message_id = message_id
     event.save! && event
