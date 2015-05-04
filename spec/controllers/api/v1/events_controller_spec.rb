@@ -1,17 +1,21 @@
 require 'rails_helper'
 
 RSpec.describe Api::V1::EventsController, type: :controller do
-  let(:s3_event) { json_fixture('event') }
+  let(:message_id) { Digest::UUID.uuid_v4 }
+  let(:s3_event) { json_fixture('s3_event') }
   let(:attributes) do
-    { name: 'video:sent',
+    { name: 'video:s3:uploaded',
       triggered_by: 'aws:s3',
       triggered_at: '2015-04-22T18:01:20.663Z',
-      initiator: 'user',
-      initiator_id: 'RxDrzAIuF9mFw7Xx9NSM',
-      target: 'user',
-      target_id: '6pqpuUZFp1zCXLykfTIx',
-      data: { 'video_filename' => 'RxDrzAIuF9mFw7Xx9NSM-6pqpuUZFp1zCXLykfTIx-98dba07c0113cc717d9fc5e5809bc998' } }
+      initiator: 's3',
+      initiator_id: nil,
+      target: 'video',
+      target_id: 'RxDrzAIuF9mFw7Xx9NSM-6pqpuUZFp1zCXLykfTIx-98dba07c0113cc717d9fc5e5809bc998',
+      data: { 'sender_id' => 'RxDrzAIuF9mFw7Xx9NSM',
+              'receiver_id' => '6pqpuUZFp1zCXLykfTIx',
+              'video_filename' => 'RxDrzAIuF9mFw7Xx9NSM-6pqpuUZFp1zCXLykfTIx-98dba07c0113cc717d9fc5e5809bc998' } }
   end
+
   describe 'GET #index' do
     it 'returns http success' do
       get :index
@@ -31,9 +35,9 @@ RSpec.describe Api::V1::EventsController, type: :controller do
     context 'S3 event' do
       let(:params) { s3_event }
 
-      it 'returns http created' do
+      it 'returns http ok' do
         post :create, params
-        expect(response).to have_http_status(:created)
+        expect(response).to have_http_status(:ok)
       end
 
       specify do
@@ -46,14 +50,63 @@ RSpec.describe Api::V1::EventsController, type: :controller do
         post :create, params
         expect(Event.last).to have_attributes(attributes)
       end
+
+      context 'with X-Aws-Sqsd-Msgid header' do
+        before { request.headers['X-Aws-Sqsd-Msgid'] = message_id }
+
+        it 'creates event with valid attributes' do
+          post :create, params
+          expect(Event.last).to have_attributes(attributes.merge(message_id: message_id))
+        end
+      end
+    end
+
+    context 'S3 test event' do
+      let(:params) { json_fixture('s3_test_event') }
+
+      it 'returns http ok' do
+        post :create, params
+        expect(response).to have_http_status(:ok)
+      end
+
+      specify do
+        expect do
+          post :create, params
+        end.to_not change { Event.count }
+      end
+    end
+
+    context 'generic test event' do
+      let(:params) { { name: 'test' } }
+
+      it 'returns http ok' do
+        post :create, params
+        expect(response).to have_http_status(:ok)
+      end
+
+      specify do
+        expect do
+          post :create, params
+        end.to_not change { Event.count }
+      end
     end
 
     context 'generic event' do
-      let(:params) { attributes }
+      let(:params) do
+        { name: 'video:notification:received',
+          triggered_at: DateTime.now.utc.to_json,
+          triggered_by: 'zazo:api',
+          initiator: 'admin',
+          initiator_id: nil,
+          target: 'video',
+          target_id: 'IUed5vP9n4qzW6jY8wSu-smRug5xj8J469qX5XvGk-220943fef3c03f4aa415beaf9f05c9c2',
+          data: { 'sender_id' => 'IUed5vP9n4qzW6jY8wSu', 'receiver_id' => 'smRug5xj8J469qX5XvGk', 'video_filename' => 'IUed5vP9n4qzW6jY8wSu-smRug5xj8J469qX5XvGk-220943fef3c03f4aa415beaf9f05c9c2', 'video_id' => '1430762196568' },
+          raw_params: { 'sender_id' => 'IUed5vP9n4qzW6jY8wSu', 'id' => '1' } }
+      end
 
-      it 'returns http created' do
+      it 'returns http ok' do
         post :create, params
-        expect(response).to have_http_status(:created)
+        expect(response).to have_http_status(:ok)
       end
 
       specify do
@@ -64,22 +117,21 @@ RSpec.describe Api::V1::EventsController, type: :controller do
 
       it 'creates event with valid attributes' do
         post :create, params
-        expect(Event.last).to have_attributes(
-          name: 'video:sent',
-          triggered_by: 'aws:s3',
-          triggered_at: '2015-04-22T18:01:20.663Z'.to_datetime,
-          initiator: 'user',
-          initiator_id: 'RxDrzAIuF9mFw7Xx9NSM',
-          target: 'user',
-          target_id: '6pqpuUZFp1zCXLykfTIx',
-          data: { 'video_filename' => 'RxDrzAIuF9mFw7Xx9NSM-6pqpuUZFp1zCXLykfTIx-98dba07c0113cc717d9fc5e5809bc998' },
-          raw_params: attributes.stringify_keys
-        )
+        expect(Event.last).to have_attributes(params)
+      end
+
+      context 'with X-Aws-Sqsd-Msgid header' do
+        before { request.headers['X-Aws-Sqsd-Msgid'] = message_id }
+
+        it 'creates event with valid attributes' do
+          post :create, params
+          expect(Event.last).to have_attributes(params.merge(message_id: message_id))
+        end
       end
     end
 
     context 'with invalid params' do
-      let(:params) { { name: 'test' } }
+      let(:params) { { name: 'bad_event' } }
 
       it 'returns http unprocessable_entity' do
         post :create, params

@@ -1,11 +1,14 @@
 defaults: &settings
-  version: 0.1.0
+  version: 0.2.0
   app_name: Zazo SQS Worker
 
 development:
   <<: *settings
 
 test:
+  <<: *settings
+
+staging:
   <<: *settings
 
 production:

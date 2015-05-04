@@ -1,0 +1,8 @@
+{
+  "Service": "Amazon S3",
+  "Event": "s3:TestEvent",
+  "Time": "2015-05-01T11:39:27.465Z",
+  "Bucket": "staging-videos.zazo.com",
+  "RequestId": "3B8B8296272DC8B1",
+  "HostId": "xyig7EgTwEZ6Q1ADafx2jF76XvAJE8Eid8ikERLFG1l78hgJt+olUm4HGdc/tgm0"
+}

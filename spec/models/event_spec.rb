@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Event, type: :model do
+  let(:message_id) { Digest::UUID.uuid_v4 }
+
   describe 'columns' do
     it { is_expected.to have_db_column(:name).of_type(:string) }
     it { is_expected.to have_db_column(:triggered_at).of_type(:datetime) }
@@ -11,6 +13,7 @@ RSpec.describe Event, type: :model do
     it { is_expected.to have_db_column(:target_id).of_type(:string) }
     it { is_expected.to have_db_column(:data).of_type(:json) }
     it { is_expected.to have_db_column(:raw_params).of_type(:json) }
+    it { is_expected.to have_db_column(:message_id).of_type(:uuid) }
   end
 
   describe 'validations' do
@@ -18,7 +21,6 @@ RSpec.describe Event, type: :model do
     it { is_expected.to validate_presence_of(:triggered_at) }
     it { is_expected.to validate_presence_of(:triggered_by) }
     it { is_expected.to validate_presence_of(:initiator) }
-    it { is_expected.to validate_presence_of(:initiator_id) }
 
     it { is_expected.to validate_inclusion_of(:triggered_by).in_array(%w(aws:s3 zazo:api zazo:ios zazo:android)) }
   end
@@ -47,29 +49,31 @@ RSpec.describe Event, type: :model do
     end
 
     context 'with valid data' do
-      let(:s3_event) { json_fixture('event')['Records'] }
+      let(:s3_event) { json_fixture('s3_event')['Records'] }
       specify do
-        expect(subject.first).to have_attributes(name: 'video:sent',
+        expect(subject.first).to have_attributes(name: 'video:s3:uploaded',
                                                  triggered_by: 'aws:s3',
                                                  triggered_at: '2015-04-22T18:01:20.663Z'.to_datetime,
-                                                 initiator: 'user',
-                                                 initiator_id: 'RxDrzAIuF9mFw7Xx9NSM',
-                                                 target: 'user',
-                                                 target_id: '6pqpuUZFp1zCXLykfTIx',
-                                                 data: { 'video_filename' => 'RxDrzAIuF9mFw7Xx9NSM-6pqpuUZFp1zCXLykfTIx-98dba07c0113cc717d9fc5e5809bc998' },
+                                                 initiator: 's3',
+                                                 initiator_id: nil,
+                                                 target: 'video',
+                                                 target_id: 'RxDrzAIuF9mFw7Xx9NSM-6pqpuUZFp1zCXLykfTIx-98dba07c0113cc717d9fc5e5809bc998',
+                                                 data: { 'sender_id' => 'RxDrzAIuF9mFw7Xx9NSM',
+                                                         'receiver_id' => '6pqpuUZFp1zCXLykfTIx',
+                                                         'video_filename' => 'RxDrzAIuF9mFw7Xx9NSM-6pqpuUZFp1zCXLykfTIx-98dba07c0113cc717d9fc5e5809bc998' },
                                                  raw_params: s3_event.first)
       end
     end
   end
 
   describe '.create_from_params' do
-    let(:s3_event) { json_fixture('event')['Records'] }
-    subject { described_class.create_from_params(params) }
+    let(:s3_event) { json_fixture('s3_event')['Records'] }
+    subject { described_class.create_from_params(params, message_id) }
 
     context 'for S3 event' do
       let(:params) { s3_event }
       specify do
-        expect(described_class).to receive(:create_from_s3_event).with(params)
+        expect(described_class).to receive(:create_from_s3_event).with(params, message_id)
         subject
       end
     end
@@ -84,8 +88,7 @@ RSpec.describe Event, type: :model do
       end
 
       specify do
-        raw_params = JSON.parse(params.to_json)
-        is_expected.to have_attributes(params.merge(raw_params: raw_params))
+        is_expected.to have_attributes(params.merge(raw_params: nil, message_id: message_id))
       end
       it { is_expected.to be_valid }
     end
@@ -99,6 +102,20 @@ RSpec.describe Event, type: :model do
       end
 
       it { is_expected.to_not be_valid }
+    end
+
+    context 'for duplicated message' do
+      let(:params) do
+        { name: 'video:received',
+          triggered_at: Time.now,
+          triggered_by: 'zazo:api',
+          initiator: 'user',
+          initiator_id: '6pqpuUZFp1zCXLykfTIx' }
+      end
+      before { create(:event, message_id: message_id) }
+      specify do
+        expect { subject }.to_not change { described_class.count }
+      end
     end
   end
 end
