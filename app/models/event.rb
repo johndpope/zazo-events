@@ -1,7 +1,7 @@
 class Event < ActiveRecord::Base
   SOURCES = %w(aws:s3 zazo:api zazo:ios zazo:android).freeze
 
-  validates :name, :triggered_at, :triggered_by, :initiator, :initiator_id,
+  validates :name, :triggered_at, :triggered_by, :initiator,
             presence: true
 
   validates :triggered_by, inclusion: { in: SOURCES }
@@ -20,13 +20,12 @@ class Event < ActiveRecord::Base
     event.name = record.eventName.include?('ObjectCreated') && 'video:s3:uploaded' || record.eventName
     event.triggered_by = record.eventSource
     event.triggered_at = record.eventTime.to_datetime
-    event.initiator = 'user'
+    event.initiator = 's3'
     video_filename = record.s3.object[:key]
     sender_id, receiver_id, _hash = video_filename.split('-')
     event.data = { sender_id: sender_id,
                    receiver_id: receiver_id,
                    video_filename: video_filename }
-    event.initiator_id = sender_id
     event.target = 'video'
     event.target_id = video_filename
     event.raw_params = raw_record

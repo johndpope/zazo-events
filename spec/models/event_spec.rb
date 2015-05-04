@@ -21,7 +21,6 @@ RSpec.describe Event, type: :model do
     it { is_expected.to validate_presence_of(:triggered_at) }
     it { is_expected.to validate_presence_of(:triggered_by) }
     it { is_expected.to validate_presence_of(:initiator) }
-    it { is_expected.to validate_presence_of(:initiator_id) }
 
     it { is_expected.to validate_inclusion_of(:triggered_by).in_array(%w(aws:s3 zazo:api zazo:ios zazo:android)) }
   end
@@ -55,8 +54,8 @@ RSpec.describe Event, type: :model do
         expect(subject.first).to have_attributes(name: 'video:s3:uploaded',
                                                  triggered_by: 'aws:s3',
                                                  triggered_at: '2015-04-22T18:01:20.663Z'.to_datetime,
-                                                 initiator: 'user',
-                                                 initiator_id: 'RxDrzAIuF9mFw7Xx9NSM',
+                                                 initiator: 's3',
+                                                 initiator_id: nil,
                                                  target: 'video',
                                                  target_id: 'RxDrzAIuF9mFw7Xx9NSM-6pqpuUZFp1zCXLykfTIx-98dba07c0113cc717d9fc5e5809bc998',
                                                  data: { 'sender_id' => 'RxDrzAIuF9mFw7Xx9NSM',
