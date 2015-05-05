@@ -8,6 +8,12 @@ class Event < ActiveRecord::Base
 
   default_scope -> { order(:triggered_at) }
 
+  scope :since, ->(time) { where('triggered_at >= ?', time) }
+  scope :today, -> { since(Date.today) }
+  scope :top_namespace, ->(namespace) { where('name[1] = ?', namespace) }
+  scope :by_initiator, ->(initiator, initiator_id) { where(initiator: initiator, initiator_id: initiator_id) }
+  scope :by_target, ->(target, target_id) { where(target: target, target_id: target_id) }
+
   def self.create_from_s3_event(records, message_id = nil)
     Array.wrap(records).map do |record|
       create_from_s3_record(record, message_id)
