@@ -30,6 +30,7 @@ class Api::V1::EventsController < ApplicationController
     else
       params.permit(:name, :triggered_at, :triggered_by, :initiator,
                     :initiator_id, :target, :target_id,
+                    name: [],
                     data: params[:data].try(:keys),
                     raw_params: params[:raw_params].try(:keys))
     end
