@@ -77,7 +77,7 @@ RSpec.describe Api::V1::EventsController, type: :controller do
     end
 
     context 'generic test event' do
-      let(:params) { { name: 'test' } }
+      let(:params) { { name: %w(zazo test) } }
 
       it 'returns http ok' do
         post :create, params
@@ -88,6 +88,21 @@ RSpec.describe Api::V1::EventsController, type: :controller do
         expect do
           post :create, params
         end.to_not change { Event.count }
+      end
+
+      context 'when name is string' do
+        let(:params) { { name: 'test' } }
+
+        it 'returns http ok' do
+          post :create, params
+          expect(response).to have_http_status(:ok)
+        end
+
+        specify do
+          expect do
+            post :create, params
+          end.to_not change { Event.count }
+        end
       end
     end
 

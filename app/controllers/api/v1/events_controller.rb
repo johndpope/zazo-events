@@ -38,6 +38,11 @@ class Api::V1::EventsController < ApplicationController
 
   def skip_test_message
     test_regexp = /test/i
-    head :ok if params['Event'].try(:match, test_regexp) || params['name'].try(:match, test_regexp)
+    if params[:name].respond_to?(:grep)
+      return head :ok unless params[:name].grep(test_regexp).empty?
+    end
+    if params['Event'].try(:match, test_regexp) || params['name'].try(:match, test_regexp)
+      head :ok
+    end
   end
 end
