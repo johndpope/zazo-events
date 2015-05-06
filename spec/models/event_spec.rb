@@ -4,7 +4,7 @@ RSpec.describe Event, type: :model do
   let(:message_id) { Digest::UUID.uuid_v4 }
 
   describe 'columns' do
-    it { is_expected.to have_db_column(:name).of_type(:string) }
+    it { is_expected.to have_db_column(:name).of_type(:string).with_options(array: true) }
     it { is_expected.to have_db_column(:triggered_at).of_type(:datetime) }
     it { is_expected.to have_db_column(:triggered_by).of_type(:string) }
     it { is_expected.to have_db_column(:initiator).of_type(:string) }
@@ -51,7 +51,7 @@ RSpec.describe Event, type: :model do
     context 'with valid data' do
       let(:s3_event) { json_fixture('s3_event')['Records'] }
       specify do
-        expect(subject.first).to have_attributes(name: 'video:s3:uploaded',
+        expect(subject.first).to have_attributes(name: %w(video s3 uploaded),
                                                  triggered_by: 'aws:s3',
                                                  triggered_at: '2015-04-22T18:01:20.663Z'.to_datetime,
                                                  initiator: 's3',
@@ -80,7 +80,7 @@ RSpec.describe Event, type: :model do
 
     context 'for valid params' do
       let(:params) do
-        { name: 'video:received',
+        { name: %w(video notification received),
           triggered_at: Time.now,
           triggered_by: 'zazo:api',
           initiator: 'user',
@@ -91,11 +91,28 @@ RSpec.describe Event, type: :model do
         is_expected.to have_attributes(params.merge(raw_params: nil, message_id: message_id))
       end
       it { is_expected.to be_valid }
+
+      context 'when name is string' do
+        let(:params) do
+          { name: 'video:notification:received',
+            triggered_at: Time.now,
+            triggered_by: 'zazo:api',
+            initiator: 'user',
+            initiator_id: '6pqpuUZFp1zCXLykfTIx' }
+        end
+
+        specify do
+          is_expected.to have_attributes(params.merge(raw_params: nil,
+                                                      message_id: message_id,
+                                                      name: %w(video notification received)))
+        end
+        it { is_expected.to be_valid }
+      end
     end
 
     context 'for invalid params' do
       let(:params) do
-        { name: 'video:received',
+        { name: %w(video notification received),
           triggered_by: 'zazo:api',
           initiator: 'user',
           initiator_id: '6pqpuUZFp1zCXLykfTIx' }
@@ -106,7 +123,7 @@ RSpec.describe Event, type: :model do
 
     context 'for duplicated message' do
       let(:params) do
-        { name: 'video:received',
+        { name: %w(video notification received),
           triggered_at: Time.now,
           triggered_by: 'zazo:api',
           initiator: 'user',

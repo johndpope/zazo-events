@@ -4,7 +4,7 @@ RSpec.describe Api::V1::EventsController, type: :controller do
   let(:message_id) { Digest::UUID.uuid_v4 }
   let(:s3_event) { json_fixture('s3_event') }
   let(:attributes) do
-    { name: 'video:s3:uploaded',
+    { name: %w(video s3 uploaded),
       triggered_by: 'aws:s3',
       triggered_at: '2015-04-22T18:01:20.663Z',
       initiator: 's3',
@@ -77,7 +77,7 @@ RSpec.describe Api::V1::EventsController, type: :controller do
     end
 
     context 'generic test event' do
-      let(:params) { { name: 'test' } }
+      let(:params) { { name: %w(zazo test) } }
 
       it 'returns http ok' do
         post :create, params
@@ -89,11 +89,26 @@ RSpec.describe Api::V1::EventsController, type: :controller do
           post :create, params
         end.to_not change { Event.count }
       end
+
+      context 'when name is string' do
+        let(:params) { { name: 'test' } }
+
+        it 'returns http ok' do
+          post :create, params
+          expect(response).to have_http_status(:ok)
+        end
+
+        specify do
+          expect do
+            post :create, params
+          end.to_not change { Event.count }
+        end
+      end
     end
 
     context 'generic event' do
       let(:params) do
-        { name: 'video:notification:received',
+        { name: %w(video notification received),
           triggered_at: DateTime.now.utc.to_json,
           triggered_by: 'zazo:api',
           initiator: 'admin',
@@ -126,6 +141,13 @@ RSpec.describe Api::V1::EventsController, type: :controller do
         it 'creates event with valid attributes' do
           post :create, params
           expect(Event.last).to have_attributes(params.merge(message_id: message_id))
+        end
+      end
+
+      context 'when name is string' do
+        it 'creates event with valid attributes' do
+          post :create, params.merge(name: 'video:notification:received')
+          expect(Event.last).to have_attributes(params)
         end
       end
     end

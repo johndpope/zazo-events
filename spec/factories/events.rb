@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :event do
-    name 'video:sent'
+    name %w(video s3 uploaded)
     triggered_at '2015-04-22T18:01:20.663Z'
     triggered_by 'aws:s3'
     initiator 'user'
