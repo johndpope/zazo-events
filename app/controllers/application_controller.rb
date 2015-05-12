@@ -8,4 +8,8 @@ class ApplicationController < ActionController::API
   def not_found
     head :not_found
   end
+
+  def render_error(error)
+    render json: { error: error }, status: :unprocessable_entity
+  end
 end
