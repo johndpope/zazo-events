@@ -6,13 +6,12 @@ class Event < ActiveRecord::Base
 
   validates :triggered_by, inclusion: { in: SOURCES }
 
-  default_scope -> { order(:triggered_at) }
-
   scope :since, ->(time) { where('triggered_at >= ?', time) }
   scope :today, -> { since(Date.today) }
   scope :top_namespace, ->(namespace) { where('name[1] = ?', namespace) }
   scope :by_initiator, ->(initiator, initiator_id) { where(initiator: initiator, initiator_id: initiator_id) }
   scope :by_target, ->(target, target_id) { where(target: target, target_id: target_id) }
+  scope :by_name, ->(name) { where('name = ARRAY[?]::varchar[]', name) }
 
   def self.create_from_s3_event(records, message_id = nil)
     Array.wrap(records).map do |record|

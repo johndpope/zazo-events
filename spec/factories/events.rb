@@ -1,12 +1,12 @@
 FactoryGirl.define do
   factory :event do
     name %w(video s3 uploaded)
-    triggered_at '2015-04-22T18:01:20.663Z'
+    triggered_at { DateTime.now }
     triggered_by 'aws:s3'
     initiator 'user'
     initiator_id 'RxDrzAIuF9mFw7Xx9NSM'
-    target 'user'
-    target_id '6pqpuUZFp1zCXLykfTIx'
+    target 'video'
+    target_id 'RxDrzAIuF9mFw7Xx9NSM-6pqpuUZFp1zCXLykfTIx-98dba07c0113cc717d9fc5e5809bc998'
     message_id { Digest::UUID.uuid_v4 }
   end
 end
