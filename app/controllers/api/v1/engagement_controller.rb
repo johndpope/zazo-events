@@ -2,8 +2,7 @@ class Api::V1::EngagementController < ApplicationController
   before_action :validate_group_by
 
   def messages_sent
-    @events = Event.by_name(%w(video s3 uploaded)).send(:"group_by_#{@group_by}", :triggered_at).count
-    render json: @events
+    render json: Event.by_name(%w(video s3 uploaded)).send(:"group_by_#{@group_by}", :triggered_at).count
   end
 
   private
