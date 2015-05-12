@@ -26,7 +26,7 @@ RSpec.describe Api::V1::EventsController, type: :controller do
       let!(:event) { create(:event) }
       it 'returns array of events' do
         get :index
-        expect(JSON.parse(response.body)).to eq([JSON.parse(event.to_json)])
+        expect(json_response).to eq([JSON.parse(event.to_json)])
       end
     end
   end
@@ -174,7 +174,7 @@ RSpec.describe Api::V1::EventsController, type: :controller do
 
       it 'renders event' do
         get :show, params
-        expect(JSON.parse(response.body)).to eq(JSON.parse(event.to_json))
+        expect(json_response).to eq(JSON.parse(event.to_json))
       end
     end
 
