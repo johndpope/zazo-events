@@ -17,6 +17,7 @@ gem 'rollbar'
 gem 'newrelic_rpm'
 gem 'rails-api'
 gem 'hashie'
+gem 'groupdate'
 
 group :development do
   gem 'better_errors'
