@@ -1,11 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe Metric::MessagesSent, type: :model do
+  let(:instance) { described_class.new(group_by: group_by) }
+
   describe '#generate' do
-    subject { described_class.new(options).generate }
+    subject { instance.generate }
 
     context 'by day' do
-      let(:options) { { group_by: :day } }
+      let(:group_by) { :day }
 
       before do
         create(:event, triggered_at: '2015-05-10 00:01:00 UTC')
@@ -24,7 +26,7 @@ RSpec.describe Metric::MessagesSent, type: :model do
     end
 
     context 'by week' do
-      let(:options) { { group_by: :week } }
+      let(:group_by) { :week }
 
       before do
         create(:event, triggered_at: '2015-04-27 01:00:00 UTC')
@@ -45,7 +47,7 @@ RSpec.describe Metric::MessagesSent, type: :model do
     end
 
     context 'by month' do
-      let(:options) { { group_by: :month } }
+      let(:group_by) { :month }
 
       before do
         create(:event, triggered_at: '2015-03-01 01:00:00 UTC')
