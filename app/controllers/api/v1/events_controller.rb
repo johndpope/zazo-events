@@ -2,7 +2,7 @@ class Api::V1::EventsController < ApplicationController
   before_action :skip_test_message, only: :create
 
   def index
-    render json: Event.all
+    render json: Event.order(:triggered_at)
   end
 
   def create
