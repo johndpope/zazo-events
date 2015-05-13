@@ -5,6 +5,7 @@ Rails.application.routes.draw do
       resources :status, only: [:index] do
         get :heartbeat, on: :collection
       end
+      resources :metrics, only: [:show]
       get 'engagement/messages_sent'
     end
   end
