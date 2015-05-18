@@ -90,10 +90,9 @@ RSpec.describe Metric::ActiveUsers, type: :model do
       end
 
       specify do
-        pending 'TODO: implement'
-        is_expected.to eq(3.days.ago => 2,
-                          2.days.ago => 3,
-                          1.days.ago => 4)
+        is_expected.to eq(3.days.ago.midnight => 2,
+                          2.days.ago.midnight => 3,
+                          1.days.ago.midnight => 4)
       end
     end
   end
