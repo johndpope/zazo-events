@@ -25,7 +25,7 @@ class Metric::ActiveUsers < Metric::Base
   def zip(first, second)
     result = {}
     first.zip(second) do |(time_frame, count_1), (_, count_2)|
-      result[time_frame] = count_1 + count_2
+      result[time_frame] = count_1.to_i + count_2.to_i
     end
     result
   end
