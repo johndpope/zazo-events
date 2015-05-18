@@ -3,7 +3,7 @@ module Metric
   end
 
   def self.build(name)
-    klass = name.to_s.classify
+    klass = name.to_s.camelize
     begin
       const_get(klass)
     rescue NameError

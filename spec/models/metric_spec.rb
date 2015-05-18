@@ -15,5 +15,10 @@ RSpec.describe Metric, type: :model do
       let(:metric) { :messages_sent }
       it { is_expected.to eq(Metric::MessagesSent) }
     end
+
+    context 'active_users' do
+      let(:metric) { :active_users }
+      it { is_expected.to eq(Metric::ActiveUsers) }
+    end
   end
 end
