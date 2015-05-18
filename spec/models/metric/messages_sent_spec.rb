@@ -10,18 +10,21 @@ RSpec.describe Metric::MessagesSent, type: :model do
       let(:group_by) { :day }
 
       before do
-        create(:event, triggered_at: '2015-05-10 00:01:00 UTC')
-        create(:event, triggered_at: '2015-05-10 00:02:00 UTC')
-        create(:event, triggered_at: '2015-05-10 00:03:00 UTC')
-        create(:event, triggered_at: '2015-05-11 00:01:00 UTC')
-        create(:event, triggered_at: '2015-05-11 00:02:00 UTC')
-        create(:event, triggered_at: '2015-05-12 00:03:00 UTC')
+        Timecop.travel(3.days.ago) do
+          create_list(:event, 3)
+        end
+        Timecop.travel(2.days.ago) do
+          create_list(:event, 2)
+        end
+        Timecop.travel(1.days.ago) do
+          create(:event)
+        end
       end
 
       specify do
-        is_expected.to eq('2015-05-10 00:00:00 UTC'.to_time => 3,
-                          '2015-05-11 00:00:00 UTC'.to_time => 2,
-                          '2015-05-12 00:00:00 UTC'.to_time => 1)
+        is_expected.to eq(3.days.ago.midnight => 3,
+                          2.days.ago.midnight => 2,
+                          1.days.ago.midnight => 1)
       end
     end
 
@@ -29,20 +32,21 @@ RSpec.describe Metric::MessagesSent, type: :model do
       let(:group_by) { :week }
 
       before do
-        create(:event, triggered_at: '2015-04-27 01:00:00 UTC')
-        create(:event, triggered_at: '2015-04-28 02:00:00 UTC')
-        create(:event, triggered_at: '2015-04-29 03:00:00 UTC')
-        create(:event, triggered_at: '2015-05-05 01:00:00 UTC')
-        create(:event, triggered_at: '2015-05-06 02:00:00 UTC')
-        create(:event, triggered_at: '2015-05-07 03:00:00 UTC')
-        create(:event, triggered_at: '2015-05-10 04:01:00 UTC')
-        create(:event, triggered_at: '2015-05-11 05:02:00 UTC')
-        create(:event, triggered_at: '2015-05-12 06:03:00 UTC')
+        Timecop.travel(3.weeks.ago) do
+          create_list(:event, 3)
+        end
+        Timecop.travel(2.weeks.ago) do
+          create_list(:event, 2)
+        end
+        Timecop.travel(1.weeks.ago) do
+          create(:event)
+        end
       end
+
       specify do
-        is_expected.to eq('2015-04-26 00:00:00 UTC'.to_time => 3,
-                          '2015-05-03 00:00:00 UTC'.to_time => 3,
-                          '2015-05-10 00:00:00 UTC'.to_time => 3)
+        is_expected.to eq(3.weeks.ago.beginning_of_week => 3,
+                          2.weeks.ago.beginning_of_week => 2,
+                          1.weeks.ago.beginning_of_week => 1)
       end
     end
 
@@ -50,20 +54,21 @@ RSpec.describe Metric::MessagesSent, type: :model do
       let(:group_by) { :month }
 
       before do
-        create(:event, triggered_at: '2015-03-01 01:00:00 UTC')
-        create(:event, triggered_at: '2015-03-10 02:00:00 UTC')
-        create(:event, triggered_at: '2015-03-23 03:00:00 UTC')
-        create(:event, triggered_at: '2015-04-05 01:00:00 UTC')
-        create(:event, triggered_at: '2015-04-16 02:00:00 UTC')
-        create(:event, triggered_at: '2015-05-07 03:00:00 UTC')
-        create(:event, triggered_at: '2015-05-10 04:01:00 UTC')
-        create(:event, triggered_at: '2015-05-11 05:02:00 UTC')
-        create(:event, triggered_at: '2015-05-12 06:03:00 UTC')
+        Timecop.travel(3.months.ago) do
+          create_list(:event, 3)
+        end
+        Timecop.travel(2.months.ago) do
+          create_list(:event, 2)
+        end
+        Timecop.travel(1.months.ago) do
+          create(:event)
+        end
       end
+
       specify do
-        is_expected.to eq('2015-03-01 00:00:00 UTC'.to_time => 3,
-                          '2015-04-01 00:00:00 UTC'.to_time => 2,
-                          '2015-05-01 00:00:00 UTC'.to_time => 4)
+        is_expected.to eq(3.months.ago.beginning_of_month => 3,
+                          2.months.ago.beginning_of_month => 2,
+                          1.months.ago.beginning_of_month => 1)
       end
     end
   end
