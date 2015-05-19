@@ -11,88 +11,123 @@ RSpec.describe Metric::ActiveUsers, type: :model do
     context 'by day' do
       let(:group_by) { :day }
 
-      before do
-        Timecop.travel(3.days.ago) do
-          sender_id = gen_user_id
-          receiver_id = gen_user_id
-          video_id = gen_video_id
-          send_video(event_data(sender_id, receiver_id, video_id))
+      context 'dataset 1' do
+        before do
+          Timecop.travel(3.days.ago) do
+            sender_id = gen_user_id
+            receiver_id = gen_user_id
+            video_id = gen_video_id
+            send_video(event_data(sender_id, receiver_id, video_id))
 
-          sender_id = gen_user_id
-          receiver_id = gen_user_id
-          video_id = gen_video_id
-          receive_video(event_data(sender_id, receiver_id, video_id))
+            sender_id = gen_user_id
+            receiver_id = gen_user_id
+            video_id = gen_video_id
+            receive_video(event_data(sender_id, receiver_id, video_id))
 
-          sender_id = gen_user_id
-          receiver_id = gen_user_id
-          video_id = gen_video_id
-          receive_video(event_data(sender_id, receiver_id, video_id))
-          download_video(event_data(sender_id, receiver_id, video_id))
+            sender_id = gen_user_id
+            receiver_id = gen_user_id
+            video_id = gen_video_id
+            receive_video(event_data(sender_id, receiver_id, video_id))
+            download_video(event_data(sender_id, receiver_id, video_id))
 
-          sender_id = gen_user_id
-          receiver_id = gen_user_id
-          video_id = gen_video_id
-          receive_video(event_data(sender_id, receiver_id, video_id))
-          download_video(event_data(sender_id, receiver_id, video_id))
-          view_video(event_data(sender_id, receiver_id, video_id))
+            sender_id = gen_user_id
+            receiver_id = gen_user_id
+            video_id = gen_video_id
+            receive_video(event_data(sender_id, receiver_id, video_id))
+            download_video(event_data(sender_id, receiver_id, video_id))
+            view_video(event_data(sender_id, receiver_id, video_id))
+          end
+          Timecop.travel(2.days.ago) do
+            sender_id = gen_user_id
+            receiver_id = gen_user_id
+            video_id = gen_video_id
+            send_video(event_data(sender_id, receiver_id, video_id))
+
+            sender_id = gen_user_id
+            receiver_id = gen_user_id
+            video_id = gen_video_id
+            send_video(event_data(sender_id, receiver_id, video_id))
+            receive_video(event_data(sender_id, receiver_id, video_id))
+
+            sender_id = gen_user_id
+            receiver_id = gen_user_id
+            video_id = gen_video_id
+            receive_video(event_data(sender_id, receiver_id, video_id))
+            download_video(event_data(sender_id, receiver_id, video_id))
+
+            sender_id = gen_user_id
+            receiver_id = gen_user_id
+            video_id = gen_video_id
+            receive_video(event_data(sender_id, receiver_id, video_id))
+            download_video(event_data(sender_id, receiver_id, video_id))
+            view_video(event_data(sender_id, receiver_id, video_id))
+          end
+          Timecop.travel(1.days.ago) do
+            sender_id = gen_user_id
+            receiver_id = gen_user_id
+            video_id = gen_video_id
+            send_video(event_data(sender_id, receiver_id, video_id))
+
+            sender_id = gen_user_id
+            receiver_id = gen_user_id
+            video_id = gen_video_id
+            send_video(event_data(sender_id, receiver_id, video_id))
+            receive_video(event_data(sender_id, receiver_id, video_id))
+
+            sender_id = gen_user_id
+            receiver_id = gen_user_id
+            video_id = gen_video_id
+            receive_video(event_data(sender_id, receiver_id, video_id))
+            download_video(event_data(sender_id, receiver_id, video_id))
+            view_video(event_data(sender_id, receiver_id, video_id))
+
+            sender_id = gen_user_id
+            receiver_id = gen_user_id
+            video_id = gen_video_id
+            receive_video(event_data(sender_id, receiver_id, video_id))
+            download_video(event_data(sender_id, receiver_id, video_id))
+            view_video(event_data(sender_id, receiver_id, video_id))
+          end
         end
-        Timecop.travel(2.days.ago) do
-          sender_id = gen_user_id
-          receiver_id = gen_user_id
-          video_id = gen_video_id
-          send_video(event_data(sender_id, receiver_id, video_id))
 
-          sender_id = gen_user_id
-          receiver_id = gen_user_id
-          video_id = gen_video_id
-          send_video(event_data(sender_id, receiver_id, video_id))
-          receive_video(event_data(sender_id, receiver_id, video_id))
-
-          sender_id = gen_user_id
-          receiver_id = gen_user_id
-          video_id = gen_video_id
-          receive_video(event_data(sender_id, receiver_id, video_id))
-          download_video(event_data(sender_id, receiver_id, video_id))
-
-          sender_id = gen_user_id
-          receiver_id = gen_user_id
-          video_id = gen_video_id
-          receive_video(event_data(sender_id, receiver_id, video_id))
-          download_video(event_data(sender_id, receiver_id, video_id))
-          view_video(event_data(sender_id, receiver_id, video_id))
-        end
-        Timecop.travel(1.days.ago) do
-          sender_id = gen_user_id
-          receiver_id = gen_user_id
-          video_id = gen_video_id
-          send_video(event_data(sender_id, receiver_id, video_id))
-
-          sender_id = gen_user_id
-          receiver_id = gen_user_id
-          video_id = gen_video_id
-          send_video(event_data(sender_id, receiver_id, video_id))
-          receive_video(event_data(sender_id, receiver_id, video_id))
-
-          sender_id = gen_user_id
-          receiver_id = gen_user_id
-          video_id = gen_video_id
-          receive_video(event_data(sender_id, receiver_id, video_id))
-          download_video(event_data(sender_id, receiver_id, video_id))
-          view_video(event_data(sender_id, receiver_id, video_id))
-
-          sender_id = gen_user_id
-          receiver_id = gen_user_id
-          video_id = gen_video_id
-          receive_video(event_data(sender_id, receiver_id, video_id))
-          download_video(event_data(sender_id, receiver_id, video_id))
-          view_video(event_data(sender_id, receiver_id, video_id))
+        specify do
+          is_expected.to eq(3.days.ago.midnight => 2,
+                            2.days.ago.midnight => 3,
+                            1.days.ago.midnight => 4)
         end
       end
 
-      specify do
-        is_expected.to eq(3.days.ago.midnight => 2,
-                          2.days.ago.midnight => 3,
-                          1.days.ago.midnight => 4)
+      context 'dataset 2' do
+        before do
+          user_1 = gen_user_id
+          user_2 = gen_user_id
+          user_3 = gen_user_id
+          Timecop.travel(3.days.ago) do
+            video_id = gen_video_id
+            send_video(event_data(user_1, user_2, video_id))
+            send_video(event_data(user_2, user_3, video_id))
+            receiver_video_flow(event_data(user_2, user_3, video_id))
+          end
+          Timecop.travel(2.days.ago) do
+            video_id = gen_video_id
+            send_video(event_data(user_1, user_2, video_id))
+            receiver_video_flow(event_data(user_2, user_3, video_id))
+          end
+          Timecop.travel(1.day.ago) do
+            video_id = gen_video_id
+            data_1 = event_data(user_1, user_2, video_id)
+            send_video(data_1)
+            receiver_video_flow(data_1)
+            data_2 = event_data(user_2, user_3, video_id)
+            receive_video(data_2)
+            download_video(data_2)
+          end
+        end
+        specify do
+          is_expected.to eq(3.days.ago.midnight => 3,
+                            2.days.ago.midnight => 2,
+                            1.days.ago.midnight => 2)
+        end
       end
     end
 

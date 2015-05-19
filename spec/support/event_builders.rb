@@ -57,4 +57,10 @@ module EventBuilders
       e.data = data
     end
   end
+
+  def receiver_video_flow(data)
+    receive_video(data)
+    download_video(data)
+    view_video(data)
+  end
 end

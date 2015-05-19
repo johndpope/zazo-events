@@ -10,7 +10,7 @@ class Metric::ActiveUsers < Metric::Base
   end
 
   def video_viewed
-    @video_viewed ||= Event.by_name(%w(video kvstore viewed)).group("data->>'sender_id'").send(:"group_by_#{@group_by}", :triggered_at).count
+    @video_viewed ||= Event.by_name(%w(video kvstore viewed)).group("data->>'receiver_id'").send(:"group_by_#{@group_by}", :triggered_at).count
   end
 
   def reduce(data)
