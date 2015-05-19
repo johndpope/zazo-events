@@ -25,7 +25,7 @@ class Metric::ActiveUsers < Metric::Base
 
   def zip(first, second)
     first.reduce({}) do |memo, (time_frame, user_ids)|
-      memo[time_frame] = (user_ids + second[time_frame]).size
+      memo[time_frame] = (user_ids + second[time_frame] || []).size
       memo
     end
   end
