@@ -18,6 +18,7 @@ RSpec.describe Metric::ActiveUsers, type: :model do
             receiver_id = gen_user_id
             video_id = gen_video_id
             send_video(event_data(sender_id, receiver_id, video_id))
+            send_video(event_data(sender_id, receiver_id, video_id))
 
             sender_id = gen_user_id
             receiver_id = gen_user_id
@@ -33,6 +34,9 @@ RSpec.describe Metric::ActiveUsers, type: :model do
             sender_id = gen_user_id
             receiver_id = gen_user_id
             video_id = gen_video_id
+            receive_video(event_data(sender_id, receiver_id, video_id))
+            download_video(event_data(sender_id, receiver_id, video_id))
+            view_video(event_data(sender_id, receiver_id, video_id))
             receive_video(event_data(sender_id, receiver_id, video_id))
             download_video(event_data(sender_id, receiver_id, video_id))
             view_video(event_data(sender_id, receiver_id, video_id))
@@ -112,15 +116,18 @@ RSpec.describe Metric::ActiveUsers, type: :model do
             video_id = gen_video_id
             send_video(event_data(user_1, user_2, video_id))
             receiver_video_flow(event_data(user_2, user_3, video_id))
+            video_id = gen_video_id
+            send_video(event_data(user_1, user_3, video_id))
+            receiver_video_flow(event_data(user_1, user_3, video_id))
           end
           Timecop.travel(1.day.ago) do
             video_id = gen_video_id
-            data_1 = event_data(user_1, user_2, video_id)
-            send_video(data_1)
-            receiver_video_flow(data_1)
-            data_2 = event_data(user_2, user_3, video_id)
-            receive_video(data_2)
-            download_video(data_2)
+            send_video(event_data(user_1, user_2, video_id))
+            receiver_video_flow(event_data(user_1, user_2, video_id))
+            video_id = gen_video_id
+            send_video(event_data(user_2, user_3, video_id))
+            receive_video(event_data(user_2, user_3, video_id))
+            download_video(event_data(user_2, user_3, video_id))
           end
         end
         specify do

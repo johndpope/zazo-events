@@ -15,18 +15,18 @@ class Metric::ActiveUsers < Metric::Base
 
   def reduce(data)
     data.reduce({}) do |memo, (key, value)|
-      _, time_frame = key
-      memo[time_frame] ||= 0
-      memo[time_frame] += value
+      next memo if value.zero?
+      user_id, time_frame = key
+      memo[time_frame] ||= Set.new
+      memo[time_frame] << user_id
       memo
     end
   end
 
   def zip(first, second)
-    result = {}
-    first.zip(second) do |(time_frame, count_1), (_, count_2)|
-      result[time_frame] = count_1.to_i + count_2.to_i
+    first.reduce({}) do |memo, (time_frame, user_ids)|
+      memo[time_frame] = (user_ids + second[time_frame]).size
+      memo
     end
-    result
   end
 end
