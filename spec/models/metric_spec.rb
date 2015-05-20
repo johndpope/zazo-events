@@ -24,6 +24,11 @@ RSpec.describe Metric, type: :model do
 
   describe '.all' do
     subject { described_class.all }
-    it { is_expected.to eq([Metric::ActiveUsers, Metric::MessagesSent]) }
+    let(:all_metrics) do
+      [Metric::ActiveUsers,
+       Metric::MessagesSent,
+       Metric::UsageByActiveUsers]
+    end
+    it { is_expected.to eq(all_metrics) }
   end
 end
