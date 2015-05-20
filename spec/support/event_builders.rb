@@ -75,4 +75,9 @@ module EventBuilders
     download_video(data)
     view_video(data)
   end
+
+  def video_flow(data)
+    send_video(data)
+    receiver_video_flow(data)
+  end
 end

@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Metric, type: :model do
-  describe '.build' do
-    subject { described_class.build(metric) }
+  describe '.find' do
+    subject { described_class.find(metric) }
 
     context 'unknown' do
       let(:metric) { :unknown }
@@ -20,5 +20,15 @@ RSpec.describe Metric, type: :model do
       let(:metric) { :active_users }
       it { is_expected.to eq(Metric::ActiveUsers) }
     end
+  end
+
+  describe '.all' do
+    subject { described_class.all }
+    let(:all_metrics) do
+      [Metric::ActiveUsers,
+       Metric::MessagesSent,
+       Metric::UsageByActiveUsers]
+    end
+    it { is_expected.to eq(all_metrics) }
   end
 end

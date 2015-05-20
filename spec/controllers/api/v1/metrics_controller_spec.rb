@@ -24,7 +24,7 @@ RSpec.describe Api::V1::MetricsController, type: :controller do
       let(:metric) { :messages_sent }
 
       specify do
-        expect(Metric).to receive(:build).with('messages_sent').and_call_original
+        expect(Metric).to receive(:find).with('messages_sent').and_call_original
         subject
       end
 
@@ -53,6 +53,29 @@ RSpec.describe Api::V1::MetricsController, type: :controller do
         specify do
           subject
           expect(response).to have_http_status(:unprocessable_entity)
+        end
+      end
+    end
+  end
+
+  describe 'GET #index' do
+    subject { get :index }
+
+    specify do
+      subject
+      expect(response).to have_http_status(:ok)
+    end
+
+    context 'response' do
+      specify do
+        subject
+        expect(json_response).to be_a(Array)
+      end
+
+      context 'size' do
+        specify do
+          subject
+          expect(json_response.size).to be > 0
         end
       end
     end
