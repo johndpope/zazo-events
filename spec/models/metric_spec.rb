@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Metric, type: :model do
-  describe '.build' do
-    subject { described_class.build(metric) }
+  describe '.find' do
+    subject { described_class.find(metric) }
 
     context 'unknown' do
       let(:metric) { :unknown }

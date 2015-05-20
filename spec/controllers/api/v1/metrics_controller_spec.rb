@@ -24,7 +24,7 @@ RSpec.describe Api::V1::MetricsController, type: :controller do
       let(:metric) { :messages_sent }
 
       specify do
-        expect(Metric).to receive(:build).with('messages_sent').and_call_original
+        expect(Metric).to receive(:find).with('messages_sent').and_call_original
         subject
       end
 
