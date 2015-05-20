@@ -57,4 +57,18 @@ RSpec.describe Api::V1::MetricsController, type: :controller do
       end
     end
   end
+
+  describe 'GET #index' do
+    subject { get :index }
+
+    specify do
+      subject
+      expect(response).to have_http_status(:ok)
+    end
+
+    specify do
+      subject
+      expect(json_response).to eq(['active_users', 'messages_sent'])
+    end
+  end
 end
