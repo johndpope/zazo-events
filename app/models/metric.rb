@@ -12,7 +12,6 @@ module Metric
   end
 
   def self.all
-    Rails.application.eager_load!
     Metric::Base.descendants.sort_by(&:name)
   end
 end
