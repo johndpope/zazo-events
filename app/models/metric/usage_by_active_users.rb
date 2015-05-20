@@ -1,7 +1,8 @@
 class Metric::UsageByActiveUsers < Metric::Base
   def generate
     total_messages.reduce({}) do |memo, (time_frame, messages_count)|
-      users_count = users_sent_message_reduced[time_frame].size
+      users_count = users_sent_message_reduced[time_frame].try(:size) || 0
+      next memo if users_count.zero?
       memo[time_frame] = messages_count.to_f / users_count.to_f
       memo
     end
