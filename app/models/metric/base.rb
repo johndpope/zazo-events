@@ -1,8 +1,8 @@
 class Metric::Base
-  attr_reader :group_by
-
+  attr_reader :options
+  
   def initialize(options = {})
-    @group_by = options.fetch(:group_by, :day).to_sym
+    @options = options
   end
 
   def generate

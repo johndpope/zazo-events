@@ -12,6 +12,6 @@ module Metric
   end
 
   def self.all
-    Metric::Base.descendants.sort_by(&:name)
+    Metric::Base.descendants.select { |klass| klass.name.starts_with?("#{name}::") }.sort_by(&:name)
   end
 end

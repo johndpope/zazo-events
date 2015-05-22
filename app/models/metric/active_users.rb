@@ -1,4 +1,6 @@
 class Metric::ActiveUsers < Metric::Base
+  include Metric::GroupableByTimeFrame
+
   def generate
     zip(reduce(video_uploaded), reduce(video_viewed))
   end
@@ -6,11 +8,11 @@ class Metric::ActiveUsers < Metric::Base
   private
 
   def video_uploaded
-    @video_uploaded ||= Event.by_name(%w(video s3 uploaded)).group("data->>'sender_id'").send(:"group_by_#{@group_by}", :triggered_at).count
+    @video_uploaded ||= Event.by_name(%w(video s3 uploaded)).group("data->>'sender_id'").send(:"group_by_#{group_by}", :triggered_at).count
   end
 
   def video_viewed
-    @video_viewed ||= Event.by_name(%w(video kvstore viewed)).group("data->>'receiver_id'").send(:"group_by_#{@group_by}", :triggered_at).count
+    @video_viewed ||= Event.by_name(%w(video kvstore viewed)).group("data->>'receiver_id'").send(:"group_by_#{group_by}", :triggered_at).count
   end
 
   def reduce(data)
