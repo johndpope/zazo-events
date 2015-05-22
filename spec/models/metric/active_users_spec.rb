@@ -1,8 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Metric::ActiveUsers, type: :model do
-  include EventBuilders
-
+RSpec.describe Metric::ActiveUsers, type: :model, metric: true do
   let(:instance) { described_class.new(group_by: group_by) }
 
   describe '#generate' do

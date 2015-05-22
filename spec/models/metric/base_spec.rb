@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Metric::Base, type: :model do
+RSpec.describe Metric::Base, type: :model, metric: true do
   describe '#group_by' do
     let(:options) { { group_by: :day } }
     let(:instance) { described_class.new(options) }
