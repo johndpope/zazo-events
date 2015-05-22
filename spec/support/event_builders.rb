@@ -7,7 +7,7 @@ module EventBuilders
     (Time.now.to_f * 1000).to_i.to_s
   end
 
-  def event_data(sender_id, receiver_id, video_id)
+  def video_data(sender_id, receiver_id, video_id)
     digest = Digest::MD5.new.update(sender_id + receiver_id + video_id)
     { sender_id: sender_id,
       receiver_id: receiver_id,

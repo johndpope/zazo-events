@@ -21,22 +21,22 @@ RSpec.describe Metric::UsageByActiveUsers, type: :model do
 
       before do
         Timecop.travel(3.days.ago) do
-          video_flow(event_data(user_1, user_2, video_1))
-          video_flow(event_data(user_1, user_2, video_2))
-          video_flow(event_data(user_2, user_3, video_3))
+          video_flow(video_data(user_1, user_2, video_1))
+          video_flow(video_data(user_1, user_2, video_2))
+          video_flow(video_data(user_2, user_3, video_3))
         end
         Timecop.travel(2.days.ago) do
-          video_flow(event_data(user_1, user_2, video_1))
-          video_flow(event_data(user_2, user_3, video_2))
-          video_flow(event_data(user_2, user_3, video_4))
-          video_flow(event_data(user_3, user_4, video_3))
+          video_flow(video_data(user_1, user_2, video_1))
+          video_flow(video_data(user_2, user_3, video_2))
+          video_flow(video_data(user_2, user_3, video_4))
+          video_flow(video_data(user_3, user_4, video_3))
         end
         Timecop.travel(1.days.ago) do
-          video_flow(event_data(user_1, user_2, video_1))
-          video_flow(event_data(user_2, user_3, video_2))
-          video_flow(event_data(user_2, user_3, video_3))
-          video_flow(event_data(user_3, user_4, video_4))
-          video_flow(event_data(user_3, user_4, video_5))
+          video_flow(video_data(user_1, user_2, video_1))
+          video_flow(video_data(user_2, user_3, video_2))
+          video_flow(video_data(user_2, user_3, video_3))
+          video_flow(video_data(user_3, user_4, video_4))
+          video_flow(video_data(user_3, user_4, video_5))
         end
       end
 
