@@ -27,8 +27,7 @@ RSpec.describe Metric, type: :model do
     let(:all_metrics) do
       [Metric::ActiveUsers,
        Metric::MessagesSent,
-       Metric::UsageByActiveUsers,
-       Metric::UserActivity]
+       Metric::UsageByActiveUsers]
     end
     it { is_expected.to eq(all_metrics) }
   end
