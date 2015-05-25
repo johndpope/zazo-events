@@ -1,24 +1,23 @@
 require 'rails_helper'
 
 RSpec.describe Metric::UserActivity, type: :model, metric: true do
-  let(:instance) { described_class.new(options) }
+  let(:instance) { described_class.new(attributes) }
+
+  describe 'validations' do
+    it { is_expected.to validate_presence_of(:user_id) }
+  end
 
   describe '#user_id' do
     subject { instance.user_id }
 
-    context 'options is the empty hash' do
-      let(:options) { {} }
-      it { expect { subject }.to raise_error('user_id is not set') }
-    end
-
     context 'RxDrzAIuF9mFw7Xx9NSM' do
-      let(:options) { { user_id: 'RxDrzAIuF9mFw7Xx9NSM' } }
+      let(:attributes) { { user_id: 'RxDrzAIuF9mFw7Xx9NSM' } }
       it { is_expected.to eq('RxDrzAIuF9mFw7Xx9NSM') }
     end
   end
 
   describe '#generate' do
-    let(:options) { { user_id: user_id } }
+    let(:attributes) { { user_id: user_id } }
     subject { instance.generate }
 
     context 'dataset 1' do
