@@ -1,8 +1,14 @@
 class Metric::Base
-  attr_reader :options
+  extend ActiveModel::Callbacks
+  include ActiveModel::Validations
+  attr_reader :attributes
 
-  def initialize(options = {})
-    @options = options
+  define_model_callbacks :initialize
+
+  def initialize(attributes = {})
+    run_callbacks :initialize do
+      @attributes = attributes.stringify_keys
+    end
   end
 
   def generate
