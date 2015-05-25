@@ -47,7 +47,7 @@ RSpec.describe Api::V1::MetricsController, type: :controller do
 
         specify do
           subject
-          expect(json_response).to eq('error' => "invalid group_by value: :foo, valid fields are #{Groupdate::FIELDS}")
+          expect(json_response).to eq('errors' => { 'group_by' => ["is not included in #{Groupdate::FIELDS}"] })
         end
 
         specify do
@@ -69,6 +69,20 @@ RSpec.describe Api::V1::MetricsController, type: :controller do
       specify do
         expect(Metric::UserActivity).to receive(:new).with('user_id' => 'RxDrzAIuF9mFw7Xx9NSM').and_call_original
         subject
+      end
+
+      context 'user_id not set' do
+        let(:params) { base_params }
+
+        specify do
+          subject
+          expect(response).to have_http_status(:unprocessable_entity)
+        end
+
+        specify do
+          subject
+          expect(json_response).to eq('errors' => { 'user_id' => ["can't be blank"] })
+        end
       end
     end
   end

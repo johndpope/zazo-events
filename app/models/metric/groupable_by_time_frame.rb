@@ -4,7 +4,9 @@ module Metric::GroupableByTimeFrame
   attr_accessor :group_by
 
   included do
-    validates :group_by, presence: true, inclusion: { in: Groupdate::FIELDS }
+    validates :group_by, presence: true,
+                         inclusion: { in: Groupdate::FIELDS,
+                                      message: "is not included in #{Groupdate::FIELDS}" }
     after_initialize :set_group_by
   end
 

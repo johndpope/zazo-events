@@ -1,8 +1,11 @@
 class Api::V1::MetricsController < ApplicationController
-  before_action :validate_group_by
-
   def show
-    render json: Metric.find(params[:id]).new(metric_parameters).generate
+    @metric = Metric.find(params[:id]).new(metric_parameters)
+    if @metric.valid?
+      render json: @metric.generate
+    else
+      render_errors @metric.errors
+    end
   rescue Metric::UnknownMetric => error
     render json: { error: error.message }, status: :not_found
   end
