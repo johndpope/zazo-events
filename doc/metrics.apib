@@ -1,0 +1,64 @@
+FORMAT: 1A
+
+# Metrics [/api/v1/metrics]
+
+## Index [GET]
+
++ Response 200 (application/json; charset=utf-8)
+
+    + Body
+
+        [
+          {
+            "name": "active_users",
+            "type": "grouppable_by_timeframe"
+          },
+          {
+            "name": "messages_sent",
+            "type": "grouppable_by_timeframe"
+          },
+          {
+            "name": "usage_by_active_users",
+            "type": "grouppable_by_timeframe"
+          },
+          {
+            "name": "user_activity",
+            "type": "metric"
+          }
+        ]
+
+# Show [GET /api/v1/metrics/{id}]
+
++ Parmaters
+
+    + id: messages_sent (string) - Metric name
+    + group_by: day, week, month (string, optional) - Time frame for groupping
+        + Default: day
+
++ Response 200 (application/json; charset=utf-8)
+
+    + Body
+
+        {
+          "2015-04-22 00:00:00 UTC": 1,
+          "2015-04-23 00:00:00 UTC": 0,
+          "2015-04-24 00:00:00 UTC": 0,
+          "2015-04-25 00:00:00 UTC": 0,
+          "2015-04-26 00:00:00 UTC": 0,
+          "2015-04-27 00:00:00 UTC": 0,
+          "2015-04-28 00:00:00 UTC": 0,
+          "2015-04-29 00:00:00 UTC": 0,
+          "2015-04-30 00:00:00 UTC": 0,
+          "2015-05-01 00:00:00 UTC": 0,
+          "2015-05-02 00:00:00 UTC": 0,
+          "2015-05-03 00:00:00 UTC": 0,
+          "2015-05-04 00:00:00 UTC": 0,
+          "2015-05-05 00:00:00 UTC": 0,
+          "2015-05-06 00:00:00 UTC": 0,
+          "2015-05-07 00:00:00 UTC": 0,
+          "2015-05-08 00:00:00 UTC": 0,
+          "2015-05-09 00:00:00 UTC": 3,
+          "2015-05-10 00:00:00 UTC": 4,
+          "2015-05-11 00:00:00 UTC": 5,
+          "2015-05-12 00:00:00 UTC": 5
+        }
