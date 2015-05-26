@@ -10,6 +10,12 @@ module Metric::GroupableByTimeFrame
     after_initialize :set_group_by
   end
 
+  module ClassMethods
+    def type
+      :grouppable_by_timeframe
+    end
+  end
+
   protected
 
   def set_group_by

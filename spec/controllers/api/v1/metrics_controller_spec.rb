@@ -95,6 +95,13 @@ RSpec.describe Api::V1::MetricsController, type: :controller do
       expect(response).to have_http_status(:ok)
     end
 
+    specify do
+      subject
+      expect(json_response.first).to eq('name' => 'Metric::ActiveUsers',
+                                        'metric_name' => 'active_users',
+                                        'type' => 'grouppable_by_timeframe')
+    end
+
     context 'response' do
       specify do
         subject

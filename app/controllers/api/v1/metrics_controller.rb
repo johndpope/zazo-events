@@ -11,7 +11,7 @@ class Api::V1::MetricsController < ApplicationController
   end
 
   def index
-    render json: Metric.all.map { |klass| klass.name.demodulize.underscore }
+    render json: Metric.all
   end
 
   private
