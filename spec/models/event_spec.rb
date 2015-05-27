@@ -138,7 +138,7 @@ RSpec.describe Event, type: :model, event_builders: true do
 
   describe '.by_tokens' do
     let(:token) { user_id }
-    subject { described_class.by_tokens(token) }
+    subject { described_class.by_tokens(token).order(:triggered_at) }
 
     context 'dataset 1' do
       let(:user_1) { gen_hash }
@@ -169,7 +169,7 @@ RSpec.describe Event, type: :model, event_builders: true do
         e.save && @user_2_activity << e
         e = build(:event, :connection_established,
                   initiator_id: "1_2_#{gen_hash}")
-        e.initiator = 'user'
+        e.initiator = 'connection'
         e.save
         invitation = build(:event, :user_invitation_sent,
                            initiator_id: user_1,
