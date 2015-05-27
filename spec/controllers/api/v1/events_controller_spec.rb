@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Api::V1::EventsController, type: :controller do
+RSpec.describe Api::V1::EventsController, type: :controller, event_builders: true do
   let(:message_id) { Digest::UUID.uuid_v4 }
   let(:s3_event) { json_fixture('s3_event') }
   let(:attributes) do
@@ -27,6 +27,16 @@ RSpec.describe Api::V1::EventsController, type: :controller do
       it 'returns array of events' do
         get :index
         expect(json_response).to eq([JSON.parse(event.to_json)])
+      end
+    end
+
+    context 'by_tokens is set' do
+      let(:user_id) { gen_hash }
+      subject { get :index, by_tokens: user_id }
+
+      specify do
+        expect(Event).to receive(:by_tokens).with(user_id)
+        subject
       end
     end
   end
