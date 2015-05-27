@@ -4,8 +4,7 @@ class Metric::UserActivity < Metric::Base
   validates :user_id, presence: true
 
   def generate
-    Event.where('initiator_id = :user_id OR target_id = :user_id OR data::text LIKE :user_id_pattern',
-                user_id: user_id, user_id_pattern: "%#{user_id}%").order(:triggered_at)
+    Event.by_tokens(user_id)
   end
 
   protected

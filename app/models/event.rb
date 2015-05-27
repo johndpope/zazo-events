@@ -13,6 +13,13 @@ class Event < ActiveRecord::Base
   scope :by_target, ->(target, target_id) { where(target: target, target_id: target_id) }
   scope :by_name, ->(name) { where('name = ARRAY[?]::varchar[]', name) }
 
+  def self.by_tokens(tokens)
+    tokens = Array(tokens)
+    tokens_pattern = "%(#{tokens.join('|')})%"
+    where('initiator_id IN (:tokens) OR target_id IN (:tokens) OR data::text SIMILAR TO :tokens_pattern',
+              tokens: tokens, tokens_pattern: tokens_pattern)
+  end
+
   def self.create_from_s3_event(records, message_id = nil)
     Array.wrap(records).map do |record|
       create_from_s3_record(record, message_id)
