@@ -1,5 +1,5 @@
 module EventBuilders
-  def gen_user_id
+  def gen_hash
     Faker::Internet.password(20)
   end
 
@@ -90,5 +90,5 @@ module EventBuilders
 end
 
 RSpec.configure do |config|
-  config.include EventBuilders, metric: true
+  config.include EventBuilders, event_builders: true
 end

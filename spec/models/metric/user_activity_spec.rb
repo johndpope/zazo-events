@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Metric::UserActivity, type: :model, metric: true do
+RSpec.describe Metric::UserActivity, type: :model, event_builders: true do
   let(:instance) { described_class.new(attributes) }
 
   describe 'validations' do
@@ -21,10 +21,10 @@ RSpec.describe Metric::UserActivity, type: :model, metric: true do
     subject { instance.generate }
 
     context 'dataset 1' do
-      let(:user_1) { gen_user_id }
-      let(:user_2) { gen_user_id }
-      let(:user_3) { gen_user_id }
-      let(:user_4) { gen_user_id }
+      let(:user_1) { gen_hash }
+      let(:user_2) { gen_hash }
+      let(:user_3) { gen_hash }
+      let(:user_4) { gen_hash }
       let(:video_1) { gen_video_id }
       let(:video_2) { gen_video_id }
 

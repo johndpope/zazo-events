@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Metric::Base, type: :model, metric: true do
+RSpec.describe Metric::Base, type: :model, event_builders: true do
   let(:instance) { described_class.new(foo: 'bar') }
 
   describe '#attributes' do
