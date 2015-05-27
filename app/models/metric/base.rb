@@ -10,11 +10,11 @@ class Metric::Base
   end
 
   def self.type
-    :metric
+    :basic
   end
 
   def self.to_hash
-    { name: name, metric_name: metric_name, type: type }
+    { name: metric_name, type: type }
   end
 
   def initialize(attributes = {})

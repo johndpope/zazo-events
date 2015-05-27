@@ -15,11 +15,11 @@ RSpec.describe Metric::Base, type: :model, event_builders: true do
 
   describe '.to_hash' do
     subject { described_class.to_hash }
-    it { is_expected.to eq(name: described_class.name, metric_name: 'base', type: :metric) }
+    it { is_expected.to eq(name: 'base', type: :basic) }
   end
 
   describe '.to_json' do
     subject { described_class.to_json }
-    it { is_expected.to eq({ name: described_class.name, metric_name: 'base', type: :metric }.to_json) }
+    it { is_expected.to eq({ name: 'base', type: :basic }.to_json) }
   end
 end
