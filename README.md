@@ -7,7 +7,8 @@ The service for:
 * storing events data from SQS queue triggered by S3 and Zazo API.
 * API for statistics metrics calculated from stored events.
 
-Stack:
+Stack
+------
 
 * Rails 4.2
 * PostgreSQL 9.4.1 (Amazon RDS)
@@ -15,3 +16,10 @@ Stack:
 * Rollbar
 * wercker
 * NewRelic RPM
+
+Documentation
+-------------
+
+* [Events API](https://github.com/noplanb/zazo_sqs_worker/blob/feature/user-activity/doc/events.apib)
+
+* [Metrics API](https://github.com/noplanb/zazo_sqs_worker/blob/feature/user-activity/doc/metrics.apib)
