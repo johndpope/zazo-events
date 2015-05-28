@@ -20,6 +20,5 @@ Stack
 Documentation
 -------------
 
-* [Events API](https://github.com/noplanb/zazo_sqs_worker/blob/feature/user-activity/doc/events.apib)
-
-* [Metrics API](https://github.com/noplanb/zazo_sqs_worker/blob/feature/user-activity/doc/metrics.apib)
+* [Events API](https://github.com/noplanb/zazo_sqs_worker/blob/dev/doc/events.apib)
+* [Metrics API](https://github.com/noplanb/zazo_sqs_worker/blob/dev/doc/metrics.apib)
