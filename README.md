@@ -20,5 +20,5 @@ Stack
 Documentation
 -------------
 
-* [Events API](./blob/dev/doc/events.apib)
+* [Events API](./doc/events.apib)
 * [Metrics API](./doc/metrics.apib)
