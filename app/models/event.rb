@@ -12,6 +12,17 @@ class Event < ActiveRecord::Base
   scope :by_initiator, ->(initiator, initiator_id) { where(initiator: initiator, initiator_id: initiator_id) }
   scope :by_target, ->(target, target_id) { where(target: target, target_id: target_id) }
   scope :by_name, ->(name) { where('name = ARRAY[?]::varchar[]', name) }
+  scope :with_sender, -> (user_id){ where("data->>'sender_id' = ?", user_id) }
+  scope :with_receiver, -> (user_id){ where("data->>'receiver_id' = ?", user_id) }
+
+  paginates_per 100
+
+  def self.filter_by(term)
+    term = Array(term)
+    term_pattern = "%(#{term.join('|')})%"
+    where('initiator_id IN (:term) OR target_id IN (:term) OR data::text SIMILAR TO :term_pattern',
+              term: term, term_pattern: term_pattern)
+  end
 
   def self.create_from_s3_event(records, message_id = nil)
     Array.wrap(records).map do |record|

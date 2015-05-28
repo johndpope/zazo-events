@@ -128,6 +128,9 @@ GEM
     jruby-jars (1.7.19)
     jruby-parser (0.5.4)
     json (1.8.2)
+    kaminari (0.16.3)
+      actionpack (>= 3.0.0)
+      activesupport (>= 3.0.0)
     launchy (2.4.3)
       addressable (~> 2.3)
     listen (2.10.0)
@@ -333,6 +336,7 @@ DEPENDENCIES
   guard-rubocop
   hashie
   jbuilder (~> 2.0)
+  kaminari
   launchy
   newrelic_rpm
   pg

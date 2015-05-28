@@ -1,0 +1,190 @@
+FORMAT: 1A
+
+# Metrics [/api/v1/metrics]
+
+## Index [GET /api/v1/metrics]
+
++ Response 200 (application/json; charset=utf-8)
+
+    + Body
+
+        [
+          {
+            "name": "active_users",
+            "type": "aggregated_by_timeframe"
+          },
+          {
+            "name": "aggregate_messaging_info",
+            "type": "aggregated"
+          },
+          {
+            "name": "messages_sent",
+            "type": "aggregated_by_timeframe"
+          },
+          {
+            "name": "usage_by_active_users",
+            "type": "aggregated_by_timeframe"
+          },
+          {
+            "name": "user_activity",
+            "type": "aggregated"
+          }
+        ]
+
+## Show metric [GET /api/v1/metrics/{id}]
+
++ Parameters
+
+    + id: messages_sent (string) - ID of metric
+
+### Messages Sent [GET /api/v1/metrics/messages_sent]
+
++ Parameters
+
+    + group_by: (enum[string], optional) - Time frame for groupping
+        + Default: day
+        + Members:
+            + day - group by day
+            + week - group by week
+            + month - group by month
+
++ Response 200 (application/json; charset=utf-8)
+
+    + Body
+
+        {
+          "2015-05-04 00:00:00 UTC": 42,
+          "2015-05-05 00:00:00 UTC": 1094,
+          "2015-05-06 00:00:00 UTC": 820,
+          "2015-05-07 00:00:00 UTC": 845,
+          "2015-05-08 00:00:00 UTC": 828,
+          "2015-05-09 00:00:00 UTC": 924,
+          "2015-05-10 00:00:00 UTC": 713,
+          "2015-05-11 00:00:00 UTC": 317,
+          "2015-05-12 00:00:00 UTC": 551,
+          "2015-05-13 00:00:00 UTC": 574,
+          "2015-05-14 00:00:00 UTC": 490,
+          "2015-05-15 00:00:00 UTC": 705,
+          "2015-05-16 00:00:00 UTC": 460,
+          "2015-05-17 00:00:00 UTC": 208,
+          "2015-05-18 00:00:00 UTC": 296,
+          "2015-05-19 00:00:00 UTC": 376,
+          "2015-05-20 00:00:00 UTC": 235,
+          "2015-05-21 00:00:00 UTC": 591,
+          "2015-05-22 00:00:00 UTC": 423,
+          "2015-05-23 00:00:00 UTC": 445,
+          "2015-05-24 00:00:00 UTC": 226,
+          "2015-05-25 00:00:00 UTC": 243,
+          "2015-05-26 00:00:00 UTC": 216,
+          "2015-05-27 00:00:00 UTC": 344,
+          "2015-05-28 00:00:00 UTC": 328
+        }
+
+## Active Users [GET /api/v1/metrics/active_users]
+
++ Parameters
+
+    + group_by: (enum[string], optional) - Time frame for groupping
+        + Default: day
+        + Members:
+            + day - group by day
+            + week - group by week
+            + month - group by month
+
++ Response 200 (application/json; charset=utf-8)
+
+    + Body
+
+        {
+          "2015-05-06 00:00:00 UTC": 122,
+          "2015-05-25 00:00:00 UTC": 64,
+          "2015-05-05 00:00:00 UTC": 152,
+          "2015-05-07 00:00:00 UTC": 134,
+          "2015-05-08 00:00:00 UTC": 152,
+          "2015-05-09 00:00:00 UTC": 154,
+          "2015-05-10 00:00:00 UTC": 126,
+          "2015-05-11 00:00:00 UTC": 105,
+          "2015-05-14 00:00:00 UTC": 102,
+          "2015-05-15 00:00:00 UTC": 114,
+          "2015-05-16 00:00:00 UTC": 90,
+          "2015-05-20 00:00:00 UTC": 70,
+          "2015-05-21 00:00:00 UTC": 93,
+          "2015-05-22 00:00:00 UTC": 84,
+          "2015-05-24 00:00:00 UTC": 57,
+          "2015-05-27 00:00:00 UTC": 71,
+          "2015-05-12 00:00:00 UTC": 120,
+          "2015-05-13 00:00:00 UTC": 103,
+          "2015-05-19 00:00:00 UTC": 60,
+          "2015-05-26 00:00:00 UTC": 61,
+          "2015-05-28 00:00:00 UTC": 66,
+          "2015-05-17 00:00:00 UTC": 77,
+          "2015-05-18 00:00:00 UTC": 72,
+          "2015-05-23 00:00:00 UTC": 69,
+          "2015-05-04 00:00:00 UTC": 14
+        }
+
+### Usage by Active Users [GET /api/v1/metrics/usage_by_active_users]
+
++ Parameters
+
+    + group_by: (enum[string], optional) - Time frame for groupping
+        + Default: day
+        + Members:
+            + day - group by day
+            + week - group by week
+            + month - group by month
+
++ Response 200 (application/json; charset=utf-8)
+
+    + Body
+
+        {
+          "2015-05-04 00:00:00 UTC": 3.0,
+          "2015-05-05 00:00:00 UTC": 7.197368421052632,
+          "2015-05-06 00:00:00 UTC": 7.0085470085470085,
+          "2015-05-07 00:00:00 UTC": 7.222222222222222,
+          "2015-05-08 00:00:00 UTC": 6.46875,
+          "2015-05-09 00:00:00 UTC": 7.162790697674419,
+          "2015-05-10 00:00:00 UTC": 7.505263157894737,
+          "2015-05-11 00:00:00 UTC": 4.731343283582089,
+          "2015-05-12 00:00:00 UTC": 6.191011235955056,
+          "2015-05-13 00:00:00 UTC": 7.08641975308642,
+          "2015-05-14 00:00:00 UTC": 6.447368421052632,
+          "2015-05-15 00:00:00 UTC": 8.19767441860465,
+          "2015-05-16 00:00:00 UTC": 6.216216216216216,
+          "2015-05-17 00:00:00 UTC": 3.8518518518518516,
+          "2015-05-18 00:00:00 UTC": 4.933333333333334,
+          "2015-05-19 00:00:00 UTC": 8.173913043478262,
+          "2015-05-20 00:00:00 UTC": 4.519230769230769,
+          "2015-05-21 00:00:00 UTC": 8.32394366197183,
+          "2015-05-22 00:00:00 UTC": 6.507692307692308,
+          "2015-05-23 00:00:00 UTC": 8.557692307692308,
+          "2015-05-24 00:00:00 UTC": 5.136363636363637,
+          "2015-05-25 00:00:00 UTC": 5.170212765957447,
+          "2015-05-26 00:00:00 UTC": 4.909090909090909,
+          "2015-05-27 00:00:00 UTC": 5.830508474576271,
+          "2015-05-28 00:00:00 UTC": 6.452830188679245
+        }
+
+### Aggregate Messaging Info [GET /api/v1/metrics/aggregate_messaging_info]
+
++ Parameters
+
+    + user_id: fxVPRkGICwnrAwym52gK (string) - ID of user
+
++ Response 200 (application/json; charset=utf-8)
+
+    + Body
+
+        {
+          "outgoing": {
+            "total_sent": 41,
+            "total_received": 40,
+            "undelivered_percent": 2.4390243902439024
+          },
+          "incoming": {
+            "total_sent": 70,
+            "total_received": 48,
+            "undelivered_percent": 31.428571428571427
+          }
+        }
