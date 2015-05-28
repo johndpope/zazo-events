@@ -35,6 +35,6 @@ RSpec.describe Metric::GroupableByTimeFrame, type: :model do
 
   describe '.type' do
     subject { TestGroupableByTimeFrame.type }
-    it { is_expected.to eq(:grouppable_by_timeframe) }
+    it { is_expected.to eq(:aggregated_by_timeframe) }
   end
 end

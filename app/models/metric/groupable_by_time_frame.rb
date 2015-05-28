@@ -12,7 +12,7 @@ module Metric::GroupableByTimeFrame
 
   module ClassMethods
     def type
-      :grouppable_by_timeframe
+      :aggregated_by_timeframe
     end
   end
 
