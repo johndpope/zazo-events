@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Metric::Base, type: :model, event_builders: true do
   let(:instance) { described_class.new(foo: 'bar') }
+  let(:hash) { { name: 'base', type: :aggregated } }
 
   describe '#attributes' do
     subject { instance.attributes }
@@ -15,11 +16,11 @@ RSpec.describe Metric::Base, type: :model, event_builders: true do
 
   describe '.to_hash' do
     subject { described_class.to_hash }
-    it { is_expected.to eq(name: 'base', type: :basic) }
+    it { is_expected.to eq(hash) }
   end
 
   describe '.to_json' do
     subject { described_class.to_json }
-    it { is_expected.to eq({ name: 'base', type: :basic }.to_json) }
+    it { is_expected.to eq(hash.to_json) }
   end
 end

@@ -10,7 +10,7 @@ class Metric::Base
   end
 
   def self.type
-    :basic
+    :aggregated
   end
 
   def self.to_hash
