@@ -20,5 +20,5 @@ Stack
 Documentation
 -------------
 
-* [Events API](https://github.com/noplanb/zazo_sqs_worker/blob/dev/doc/events.apib)
-* [Metrics API](https://github.com/noplanb/zazo_sqs_worker/blob/dev/doc/metrics.apib)
+* [Events API](./blob/dev/doc/events.apib)
+* [Metrics API](./doc/metrics.apib)
