@@ -39,6 +39,14 @@ RSpec.describe Api::V1::EventsController, type: :controller, event_builders: tru
         subject
       end
     end
+
+    context 'pagination' do
+      subject { get :index, page: 2 }
+      specify do
+        expect(Event).to receive(:page).with('2')
+        subject
+      end
+    end
   end
 
   describe 'POST #create' do

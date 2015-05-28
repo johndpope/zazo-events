@@ -2,7 +2,7 @@ class Api::V1::EventsController < ApplicationController
   before_action :skip_test_message, only: :create
 
   def index
-    @events = Event.all
+    @events = Event.page(params[:page])
     @events = @events.by_tokens(params[:by_tokens]) if params[:by_tokens]
     @events = @events.order(:triggered_at) if @events.present?
     render json: @events

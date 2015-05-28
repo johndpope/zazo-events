@@ -13,6 +13,8 @@ class Event < ActiveRecord::Base
   scope :by_target, ->(target, target_id) { where(target: target, target_id: target_id) }
   scope :by_name, ->(name) { where('name = ARRAY[?]::varchar[]', name) }
 
+  paginates_per 100
+  
   def self.by_tokens(tokens)
     tokens = Array(tokens)
     tokens_pattern = "%(#{tokens.join('|')})%"
