@@ -3,7 +3,7 @@ class Api::V1::EventsController < ApplicationController
 
   def index
     @events = Event.page(params[:page])
-    @events = @events.by_tokens(params[:by_tokens]) if params[:by_tokens]
+    @events = @events.filter_by(params[:filter_by]) if params[:filter_by]
     if @events.present?
       @events = @events.order(:triggered_at)
       @events = @events.reverse_order if params[:reverse]

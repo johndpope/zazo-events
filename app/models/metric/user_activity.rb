@@ -4,7 +4,7 @@ class Metric::UserActivity < Metric::Base
   validates :user_id, presence: true
 
   def generate
-    Event.by_tokens(user_id).order(:triggered_at)
+    Event.filter_by(user_id).order(:triggered_at)
   end
 
   protected

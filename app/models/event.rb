@@ -17,11 +17,11 @@ class Event < ActiveRecord::Base
 
   paginates_per 100
 
-  def self.by_tokens(tokens)
-    tokens = Array(tokens)
-    tokens_pattern = "%(#{tokens.join('|')})%"
-    where('initiator_id IN (:tokens) OR target_id IN (:tokens) OR data::text SIMILAR TO :tokens_pattern',
-              tokens: tokens, tokens_pattern: tokens_pattern)
+  def self.filter_by(term)
+    term = Array(term)
+    term_pattern = "%(#{term.join('|')})%"
+    where('initiator_id IN (:term) OR target_id IN (:term) OR data::text SIMILAR TO :term_pattern',
+              term: term, term_pattern: term_pattern)
   end
 
   def self.create_from_s3_event(records, message_id = nil)

@@ -32,12 +32,12 @@ RSpec.describe Api::V1::EventsController, type: :controller, event_builders: tru
       end
     end
 
-    context 'by_tokens is set' do
+    context 'filter_by is set' do
       let(:user_id) { gen_hash }
-      subject { get :index, by_tokens: user_id }
+      subject { get :index, filter_by: user_id }
 
       specify do
-        expect(Event).to receive(:by_tokens).with(user_id)
+        expect(Event).to receive(:filter_by).with(user_id)
         subject
       end
     end

@@ -136,9 +136,9 @@ RSpec.describe Event, type: :model, event_builders: true do
     end
   end
 
-  describe '.by_tokens' do
-    let(:token) { user_id }
-    subject { described_class.by_tokens(token).order(:triggered_at) }
+  describe '.filter_by' do
+    let(:term) { user_id }
+    subject { described_class.filter_by(term).order(:triggered_at) }
 
     context 'dataset 1' do
       let(:user_1) { gen_hash }
@@ -192,12 +192,12 @@ RSpec.describe Event, type: :model, event_builders: true do
       end
 
       context 'user_1' do
-        let(:token) { user_1 }
+        let(:term) { user_1 }
         it { is_expected.to eq(@user_1_activity) }
       end
 
       context 'user_2' do
-        let(:token) { user_2 }
+        let(:term) { user_2 }
         it { is_expected.to eq(@user_2_activity) }
       end
     end
