@@ -4,6 +4,17 @@ FORMAT: 1A
 
 ## Index [GET]
 
++ Parameters
+
+  + page: 1 (number, optional) - Set page for fetch (100 events per page).
+        + Default: 1
+
+  + filter_by: RxDrzAIuF9mFw7Xx9NSM (string, optional) - Filter events by term.
+      Used `initiator_id`, `target_id` or `SIMILAR TO '%term%'` in `data` column.
+
+  + reverse: (boolean, optional) - Order in reverse. Default is by `triggered_at ASC`.
+        + Default: false
+
 + Request (application/json)
 
 + Response 200 (application/json; charset=utf-8)
@@ -89,7 +100,9 @@ FORMAT: 1A
           }
         ]
 
-## Create from S3 event [POST]
+## Create [POST /api/v1/events]
+
+### from S3 event
 
 + Request (application/json)
 
@@ -236,7 +249,7 @@ FORMAT: 1A
           }
         ]
 
-## Create from API event [POST]
+### from API event
 
 + Request (application/json)
 
@@ -273,3 +286,78 @@ FORMAT: 1A
         }
 
 + Response 200
+
+# Show [GET /api/v1/events/{id}]
+
++ Parameters
+
+    + id: 1 (number) - ID of event
+
++ Request (application/json)
+
++ Response 200 (application/json; charset=utf-8)
+
+    + Headers
+
+            X-Content-Type-Options: nosniff
+            X-Frame-Options: SAMEORIGIN
+            X-XSS-Protection: 1; mode=block
+            X-Request-Id: 23940b13-e3e1-4bf4-bbbb-f351496afd03
+            X-Runtime: 5.603830
+            Cache-Control: max-age=0, private, must-revalidate
+            Etag: W/"1c93682bb10030762ed644116942d693"
+
+    + Body
+
+        {
+          "id": 1,
+          "name": [
+            "video",
+            "sent"
+          ],
+          "triggered_at": "2015-04-25T00:33:42.332Z",
+          "triggered_by": "aws:s3",
+          "initiator": "user",
+          "initiator_id": "8JY9TcxpuPGRVNMtRV6z",
+          "target": "user",
+          "target_id": "HM45WMMT4qu5fOD2kOTY",
+          "data": {
+            "video_filename": "8JY9TcxpuPGRVNMtRV6z-HM45WMMT4qu5fOD2kOTY-148b05c63bdd3619a644701690e059c0"
+          },
+          "raw_params": {
+            "eventVersion": "2.0",
+            "eventSource": "aws:s3",
+            "awsRegion": "us-west-1",
+            "eventTime": "2015-04-25T00:33:42.332Z",
+            "eventName": "ObjectCreated:Put",
+            "userIdentity": {
+              "principalId": "AWS:AIDAIUFT72XFHDTJOMRJW"
+            },
+            "requestParameters": {
+              "sourceIPAddress": "24.2.75.168"
+            },
+            "responseElements": {
+              "x-amz-request-id": "C55ED7CBC3E9E2E9",
+              "x-amz-id-2": "LTmyAkMe+PTf+3mSoCYOv+H+XP11wEvZ6QlVAcrphGBT0fxFcwur7PYaFaOnLtd6"
+            },
+            "s3": {
+              "s3SchemaVersion": "1.0",
+              "configurationId": "zazo-videos-to-sqs",
+              "bucket": {
+                "name": "videos.zazo.com",
+                "ownerIdentity": {
+                  "principalId": "A2MSYRMSE88G92"
+                },
+                "arn": "arn:aws:s3:::videos.zazo.com"
+              },
+              "object": {
+                "key": "8JY9TcxpuPGRVNMtRV6z-HM45WMMT4qu5fOD2kOTY-148b05c63bdd3619a644701690e059c0",
+                "size": 5025,
+                "eTag": "bd829632c91525c02d9724049c6b3d3a"
+              }
+            }
+          },
+          "created_at": "2015-04-26T13:07:05.550Z",
+          "updated_at": "2015-04-26T13:07:05.550Z",
+          "message_id": null
+        }
