@@ -7,7 +7,7 @@ class Metric::AggregateMessagingInfo < Metric::Base
      %i(outgoing incoming).reduce({}) do |result, scope_name|
        scope = Event.send(scope_name, user_id)
        total_sent = reduce(scope.by_name(%w(video s3 uploaded)))
-       total_received = reduce(scope.by_name(%w(video kvstore received)))
+       total_received = reduce(scope.by_name(%w(video kvstore downloaded)))
        result[scope_name] ||= {}
        result[scope_name][:total_sent] = total_sent
        result[scope_name][:total_received] = total_received

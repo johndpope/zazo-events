@@ -65,10 +65,10 @@ RSpec.describe Metric::AggregateMessagingInfo, type: :model, event_builders: tru
         specify do
           is_expected.to eq(
             outgoing: {
-              total_sent: 4, total_received: 3, undelivered_percent: 100.0 / 4
+              total_sent: 4, total_received: 2, undelivered_percent: 200.0 / 4
             },
             incoming: {
-              total_sent: 5, total_received: 4, undelivered_percent: 100.0 / 5
+              total_sent: 5, total_received: 3, undelivered_percent: 200.0 / 5
             })
         end
       end
@@ -79,10 +79,10 @@ RSpec.describe Metric::AggregateMessagingInfo, type: :model, event_builders: tru
         specify do
           is_expected.to eq(
             outgoing: {
-              total_sent: 5, total_received: 4, undelivered_percent: 100.0 / 5
+              total_sent: 5, total_received: 3, undelivered_percent: 200.0 / 5
             },
             incoming: {
-              total_sent: 4, total_received: 3, undelivered_percent: 100.0 / 4
+              total_sent: 4, total_received: 2, undelivered_percent: 200.0 / 4
             })
         end
       end
