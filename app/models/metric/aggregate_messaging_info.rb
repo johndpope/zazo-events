@@ -1,11 +1,13 @@
 class Metric::AggregateMessagingInfo < Metric::Base
+  SCOPE_MAPPING = { outgoing: :with_sender, incoming: :with_receiver }
+
   attr_accessor :user_id
   after_initialize :set_user_id
   validates :user_id, presence: true
 
   def generate
      %i(outgoing incoming).reduce({}) do |result, scope_name|
-       scope = Event.send(scope_name, user_id)
+       scope = Event.send(SCOPE_MAPPING[scope_name], user_id)
        total_sent = reduce(scope.by_name(%w(video s3 uploaded)))
        total_received = reduce(scope.by_name(%w(video kvstore downloaded)))
        result[scope_name] ||= {}
