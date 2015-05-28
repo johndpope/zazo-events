@@ -17,16 +17,18 @@ RSpec.describe Api::V1::EventsController, type: :controller, event_builders: tru
   end
 
   describe 'GET #index' do
+    let!(:event1) { create(:event, triggered_at: 1.minute.ago) }
+    let!(:event2) { create(:event) }
+
     it 'returns http success' do
       get :index
       expect(response).to have_http_status(:success)
     end
 
     context 'when event exists' do
-      let!(:event) { create(:event) }
       it 'returns array of events' do
         get :index
-        expect(json_response).to eq([JSON.parse(event.to_json)])
+        expect(json_response).to eq(JSON.parse([event1, event2].to_json))
       end
     end
 
@@ -41,10 +43,26 @@ RSpec.describe Api::V1::EventsController, type: :controller, event_builders: tru
     end
 
     context 'pagination' do
-      subject { get :index, page: 2 }
-      specify do
-        expect(Event).to receive(:page).with('2')
+      context 'for second page' do
+        subject { get :index, page: 2 }
+        specify do
+          expect(Event).to receive(:page).with('2')
+          subject
+        end
+
+        it 'returns empty array' do
+          subject
+          expect(json_response).to eq([])
+        end
+      end
+    end
+
+    context 'reverse' do
+      subject { get :index, reverse: true }
+
+      it 'returns array of events' do
         subject
+        expect(json_response).to eq(JSON.parse([event2, event1].to_json))
       end
     end
   end

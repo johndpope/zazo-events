@@ -4,7 +4,10 @@ class Api::V1::EventsController < ApplicationController
   def index
     @events = Event.page(params[:page])
     @events = @events.by_tokens(params[:by_tokens]) if params[:by_tokens]
-    @events = @events.order(:triggered_at) if @events.present?
+    if @events.present?
+      @events = @events.order(:triggered_at)
+      @events = @events.reverse_order if params[:reverse]
+    end
     render json: @events
   end
 
