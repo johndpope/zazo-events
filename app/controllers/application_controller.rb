@@ -9,12 +9,7 @@ class ApplicationController < ActionController::API
     head :not_found
   end
 
-  def render_error(error)
-    render json: { error: error }, status: :unprocessable_entity
-  end
-
-  def validate_group_by
-    @group_by = params[:group_by].try(:to_sym) || :day
-    @group_by.in?(Groupdate::FIELDS) || render_error("invalid group_by value: #{@group_by.inspect}, valid fields are #{Groupdate::FIELDS}")
+  def render_errors(errors)
+    render json: { errors: errors }, status: :unprocessable_entity
   end
 end

@@ -1,8 +1,26 @@
 class Metric::Base
-  attr_reader :group_by
+  extend ActiveModel::Callbacks
+  include ActiveModel::Validations
+  attr_reader :attributes
 
-  def initialize(options = {})
-    @group_by = options.fetch(:group_by, :day).to_sym
+  define_model_callbacks :initialize
+
+  def self.metric_name
+    name.demodulize.underscore
+  end
+
+  def self.type
+    :aggregated
+  end
+
+  def self.to_hash
+    { name: metric_name, type: type }
+  end
+
+  def initialize(attributes = {})
+    run_callbacks :initialize do
+      @attributes = attributes.stringify_keys
+    end
   end
 
   def generate

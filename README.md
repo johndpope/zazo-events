@@ -3,13 +3,23 @@ Zazo SQS worker
 
 [![wercker status](https://app.wercker.com/status/f7ba9ca361242d452a563b4fd3b049f6/m "wercker status")](https://app.wercker.com/project/bykey/f7ba9ca361242d452a563b4fd3b049f6)
 
-The service used to collect and store statistics data from SQS events triggered by S3.
+The service for:
+* storing events data from SQS queue triggered by S3 and Zazo API.
+* API for statistics metrics calculated from stored events.
 
-Stack:
+Stack
+------
 
 * Rails 4.2
-* MySQL (Amazon RDS)
+* PostgreSQL 9.4.1 (Amazon RDS)
 * AWS SDK
 * Rollbar
 * wercker
 * NewRelic RPM
+
+Documentation
+-------------
+
+* [Events API](https://github.com/noplanb/zazo_sqs_worker/blob/feature/user-activity/doc/events.apib)
+
+* [Metrics API](https://github.com/noplanb/zazo_sqs_worker/blob/feature/user-activity/doc/metrics.apib)

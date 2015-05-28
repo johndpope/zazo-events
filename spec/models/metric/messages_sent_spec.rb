@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Metric::MessagesSent, type: :model do
+RSpec.describe Metric::MessagesSent, type: :model, event_builders: true do
   let(:instance) { described_class.new(group_by: group_by) }
 
   describe '#generate' do

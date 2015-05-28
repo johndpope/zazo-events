@@ -1,4 +1,6 @@
 class Metric::UsageByActiveUsers < Metric::Base
+  include Metric::GroupableByTimeFrame
+
   def generate
     total_messages.reduce({}) do |memo, (time_frame, messages_count)|
       users_count = users_sent_message_reduced[time_frame].try(:size) || 0
