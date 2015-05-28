@@ -26,6 +26,7 @@ RSpec.describe Metric, type: :model do
     subject { described_class.all }
     let(:all_metrics) do
       [Metric::ActiveUsers,
+       Metric::AggregateMessagingInfo,
        Metric::MessagesSent,
        Metric::UsageByActiveUsers,
        Metric::UserActivity]

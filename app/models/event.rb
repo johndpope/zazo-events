@@ -12,9 +12,11 @@ class Event < ActiveRecord::Base
   scope :by_initiator, ->(initiator, initiator_id) { where(initiator: initiator, initiator_id: initiator_id) }
   scope :by_target, ->(target, target_id) { where(target: target, target_id: target_id) }
   scope :by_name, ->(name) { where('name = ARRAY[?]::varchar[]', name) }
+  scope :outgoing, -> (user_id){ where("data->>'sender_id' = ?", user_id) }
+  scope :incoming, -> (user_id){ where("data->>'receiver_id' = ?", user_id) }
 
   paginates_per 100
-  
+
   def self.by_tokens(tokens)
     tokens = Array(tokens)
     tokens_pattern = "%(#{tokens.join('|')})%"
