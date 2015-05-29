@@ -1,6 +1,7 @@
 class Message
   attr_reader :event
 
+  # +event+ must be video:s3:uploaded from S3
   def initialize(event)
     @event = event
   end
@@ -30,14 +31,15 @@ class Message
       receiver_id: data.receiver_id,
       filename: filename,
       date: date,
-      size: size }
+      size: size,
+      status: status }
   end
 
   def status
-    last_event.name.last.to_sym
+    events.last.name.last.to_sym
   end
 
-  def last_event
-    Event.with_video_filename(filename).order(:triggered_at).last
+  def events
+    Event.with_video_filename(filename).order(:triggered_at)
   end
 end

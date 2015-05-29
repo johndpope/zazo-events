@@ -48,7 +48,8 @@ RSpec.describe Message, type: :model do
                         receiver_id: '6pqpuUZFp1zCXLykfTIx',
                         filename: 'RxDrzAIuF9mFw7Xx9NSM-6pqpuUZFp1zCXLykfTIx-98dba07c0113cc717d9fc5e5809bc998',
                         date: '2015-04-22T18:01:20.663Z'.to_datetime,
-                        size: 94_555)
+                        size: 94_555,
+                        status: :uploaded)
     end
   end
 
@@ -59,7 +60,8 @@ RSpec.describe Message, type: :model do
                           receiver_id: '6pqpuUZFp1zCXLykfTIx',
                           filename: 'RxDrzAIuF9mFw7Xx9NSM-6pqpuUZFp1zCXLykfTIx-98dba07c0113cc717d9fc5e5809bc998',
                           date: '2015-04-22T18:01:20.663Z',
-                          size: 94_555 }.to_json)
+                          size: 94_555,
+                          status: :uploaded}.to_json)
     end
   end
 
