@@ -62,4 +62,43 @@ RSpec.describe Message, type: :model do
                           size: 94_555 }.to_json)
     end
   end
+
+  describe '#status' do
+    subject { instance.status }
+
+    context 'uploaded' do
+      before do
+        instance
+      end
+
+      it { is_expected.to eq(:uploaded) }
+    end
+
+    context 'received' do
+      before do
+        receive_video instance.data
+      end
+
+      it { is_expected.to eq(:received) }
+    end
+
+    context 'downloaded' do
+      before do
+        receive_video instance.data
+        download_video instance.data
+      end
+
+      it { is_expected.to eq(:downloaded) }
+    end
+
+    context 'viewed' do
+      before do
+        receive_video instance.data
+        download_video instance.data
+        view_video instance.data
+      end
+
+      it { is_expected.to eq(:viewed) }
+    end
+  end
 end

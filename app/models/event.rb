@@ -16,6 +16,7 @@ class Event < ActiveRecord::Base
   scope :name_overlap, ->(part) { where('name && ARRAY[?]::varchar[]', part) }
   scope :with_sender, -> (user_id){ where("data->>'sender_id' = ?", user_id) }
   scope :with_receiver, -> (user_id){ where("data->>'receiver_id' = ?", user_id) }
+  scope :with_video_filename, -> (video_filename){ where("data->>'video_filename' = ?", video_filename) }
 
   paginates_per 100
 

@@ -32,4 +32,12 @@ class Message
       date: date,
       size: size }
   end
+
+  def status
+    last_event.name.last.to_sym
+  end
+
+  def last_event
+    Event.with_video_filename(filename).order(:triggered_at).last
+  end
 end
