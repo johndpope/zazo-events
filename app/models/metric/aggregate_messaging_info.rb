@@ -1,30 +1,37 @@
 class Metric::AggregateMessagingInfo < Metric::Base
-  SCOPE_MAPPING = { outgoing: :with_sender, incoming: :with_receiver }
-
-  attr_accessor :user_id
-  after_initialize :set_user_id
+  attr_accessor :user_id, :friend_id
+  after_initialize :set_attributes
   validates :user_id, presence: true
 
   def generate
-     %i(outgoing incoming).reduce({}) do |result, scope_name|
-       scope = Event.send(SCOPE_MAPPING[scope_name], user_id)
+     %i(outgoing incoming).reduce({}) do |result, direction|
+       scope = find_scope(direction)
        total_sent = reduce(scope.by_name(%w(video s3 uploaded)))
        total_received = reduce(scope.by_name(%w(video kvstore downloaded)))
-       result[scope_name] ||= {}
-       result[scope_name][:total_sent] = total_sent
-       result[scope_name][:total_received] = total_received
-       result[scope_name][:undelivered_percent] = total_sent.nonzero? && (total_sent - total_received) * 100.0 / total_sent
+       result[direction] ||= {}
+       result[direction][:total_sent] = total_sent
+       result[direction][:total_received] = total_received
+       result[direction][:undelivered_percent] = total_sent.nonzero? && (total_sent - total_received) * 100.0 / total_sent
        result
      end
   end
 
   protected
 
+  def find_scope(direction)
+    scopes = [:with_sender, :with_receiver]
+    scopes.reverse! if direction == :incoming
+    scope = Event.send("#{scopes.first}", user_id)
+    scope = scope.send("#{scopes.last}", friend_id) if friend_id.present?
+    scope
+  end
+
   def reduce(scope)
     scope.distinct("data->>'video_filename'").count
   end
 
-  def set_user_id
+  def set_attributes
     @user_id = attributes['user_id']
+    @friend_id = attributes['friend_id']
   end
 end
