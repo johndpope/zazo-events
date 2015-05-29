@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Metric::AggregateMessagingInfo, type: :model, event_builders: true do
+RSpec.describe Metric::AggregateMessagingInfo, type: :model do
   let(:instance) { described_class.new(attributes) }
   let(:user_1) { gen_hash }
   let(:user_2) { gen_hash }

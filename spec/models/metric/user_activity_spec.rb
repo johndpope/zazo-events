@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Metric::UserActivity, type: :model, event_builders: true do
+RSpec.describe Metric::UserActivity, type: :model do
   let(:instance) { described_class.new(attributes) }
 
   describe 'validations' do

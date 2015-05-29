@@ -90,5 +90,5 @@ module EventBuilders
 end
 
 RSpec.configure do |config|
-  config.include EventBuilders, event_builders: true
+  config.include EventBuilders
 end
