@@ -7,7 +7,7 @@ class Metric::AggregateMessagingInfo < Metric::Base
      %i(outgoing incoming).reduce({}) do |result, direction|
        scope = find_scope(direction)
        total_sent = reduce(scope.by_name(%w(video s3 uploaded)))
-       total_received = reduce(scope.by_name(%w(video kvstore downloaded)))
+       total_received = reduce(scope.name_overlap(%w(downloaded viewed)))
        result[direction] ||= {}
        result[direction][:total_sent] = total_sent
        result[direction][:total_received] = total_received
@@ -27,7 +27,7 @@ class Metric::AggregateMessagingInfo < Metric::Base
   end
 
   def reduce(scope)
-    scope.distinct("data->>'video_filename'").count
+    scope.group("data->>'video_filename'").count.select { |k, v| v.nonzero? }.keys.uniq.size
   end
 
   def set_attributes

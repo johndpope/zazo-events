@@ -10,12 +10,14 @@ RSpec.describe Metric::AggregateMessagingInfo, type: :model do
   let(:video_122) { video_data(user_1, user_2, gen_video_id) }
   let(:video_123) { video_data(user_1, user_2, gen_video_id) }
   let(:video_124) { video_data(user_1, user_2, gen_video_id) }
+  let(:video_125) { video_data(user_1, user_2, gen_video_id) }
 
   let(:video_211) { video_data(user_2, user_1, gen_video_id) }
   let(:video_212) { video_data(user_2, user_1, gen_video_id) }
   let(:video_213) { video_data(user_2, user_1, gen_video_id) }
   let(:video_214) { video_data(user_2, user_1, gen_video_id) }
   let(:video_215) { video_data(user_2, user_1, gen_video_id) }
+  let(:video_216) { video_data(user_2, user_1, gen_video_id) }
 
   let(:video_131) { video_data(user_1, user_3, gen_video_id) }
   let(:video_132) { video_data(user_1, user_3, gen_video_id) }
@@ -59,6 +61,11 @@ RSpec.describe Metric::AggregateMessagingInfo, type: :model do
       download_video video_123
 
       send_video video_124
+      receive_video video_124
+      kvstore_download_video video_124
+      notification_view_video video_124
+
+      send_video video_125
 
       # 2 -> 1
       video_flow video_211
@@ -69,9 +76,13 @@ RSpec.describe Metric::AggregateMessagingInfo, type: :model do
 
       send_video video_214
       receive_video video_214
-      download_video video_214
+      notification_download_video video_214
 
       send_video video_215
+      receive_video video_215
+      download_video video_215
+
+      send_video video_216
 
       # 1 -> 3
       video_flow video_131
@@ -93,10 +104,10 @@ RSpec.describe Metric::AggregateMessagingInfo, type: :model do
         specify do
           is_expected.to eq(
             outgoing: {
-              total_sent: 8, total_received: 4, undelivered_percent: 50.0
+              total_sent: 9, total_received: 5, undelivered_percent: 400.0 / 9
             },
             incoming: {
-              total_sent: 5, total_received: 3, undelivered_percent: 200.0 / 5
+              total_sent: 6, total_received: 4, undelivered_percent: 100.0 / 3
             })
         end
       end
@@ -107,10 +118,10 @@ RSpec.describe Metric::AggregateMessagingInfo, type: :model do
         specify do
           is_expected.to eq(
             outgoing: {
-              total_sent: 5, total_received: 3, undelivered_percent: 200.0 / 5
+              total_sent: 6, total_received: 4, undelivered_percent: 100.0 / 3
             },
             incoming: {
-              total_sent: 4, total_received: 2, undelivered_percent: 100.0 / 2
+              total_sent: 5, total_received: 3, undelivered_percent: 200.0 / 5
             })
         end
       end
@@ -122,10 +133,10 @@ RSpec.describe Metric::AggregateMessagingInfo, type: :model do
       specify do
         is_expected.to eq(
           outgoing: {
-            total_sent: 4, total_received: 2, undelivered_percent: 50.0
+            total_sent: 5, total_received: 3, undelivered_percent: 200.0 / 5
           },
           incoming: {
-            total_sent: 5, total_received: 3, undelivered_percent: 200.0 / 5
+            total_sent: 6, total_received: 4, undelivered_percent: 100.0 / 3
           })
       end
     end
