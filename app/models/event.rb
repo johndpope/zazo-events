@@ -12,6 +12,8 @@ class Event < ActiveRecord::Base
   scope :by_initiator, ->(initiator, initiator_id) { where(initiator: initiator, initiator_id: initiator_id) }
   scope :by_target, ->(target, target_id) { where(target: target, target_id: target_id) }
   scope :by_name, ->(name) { where('name = ARRAY[?]::varchar[]', name) }
+  scope :name_contains, ->(part) { where('name @> ARRAY[?]::varchar[]', part) }
+  scope :name_overlap, ->(part) { where('name && ARRAY[?]::varchar[]', part) }
   scope :with_sender, -> (user_id){ where("data->>'sender_id' = ?", user_id) }
   scope :with_receiver, -> (user_id){ where("data->>'receiver_id' = ?", user_id) }
 

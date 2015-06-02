@@ -17,6 +17,6 @@ class Api::V1::MetricsController < ApplicationController
   private
 
   def metric_parameters
-    params.permit(:group_by, :user_id)
+    params.except(:controller, :action, :id)
   end
 end

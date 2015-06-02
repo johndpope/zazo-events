@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Metric::Base, type: :model, event_builders: true do
+RSpec.describe Metric::Base, type: :model do
   let(:instance) { described_class.new(foo: 'bar') }
   let(:hash) { { name: 'base', type: :aggregated } }
 

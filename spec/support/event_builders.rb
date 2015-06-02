@@ -23,61 +23,82 @@ module EventBuilders
     create :event, :video_s3_uploaded, data: data
   end
 
-  def receive_video(data)
-    result = []
+  def kvstore_receive_video(data)
     e = build :event, :video_kvstore_received,
               initiator_id: data[:sender_id],
               target_id: data[:video_filename],
               data: data
     e.initiator = 'user'
     e.target = 'video'
-    e.save && result << e
+    e.save
+    e
+  end
+
+  def notification_receive_video(data)
     e = build :event, :video_notification_received,
               initiator_id: data[:sender_id],
               target_id: data[:video_filename],
               data: data
     e.initiator = 'user'
     e.target = 'video'
-    e.save && result << e
-    result
+    e.save
+    e
   end
 
-  def download_video(data)
-    result = []
+  def receive_video(data)
+    [kvstore_receive_video(data), notification_receive_video(data)]
+  end
+
+  def kvstore_download_video(data)
     e = build :event, :video_kvstore_downloaded,
               initiator_id: data[:sender_id],
               target_id: data[:video_filename],
               data: data
     e.initiator = 'user'
     e.target = 'video'
-    e.save && result << e
+    e.save
+    e
+  end
+
+  def notification_download_video(data)
     e = build :event, :video_notification_downloaded,
               initiator_id: data[:sender_id],
               target_id: data[:video_filename],
               data: data
     e.initiator = 'user'
     e.target = 'video'
-    e.save && result << e
-    result
+    e.save
+    e
   end
 
-  def view_video(data)
-    result = []
+  def download_video(data)
+    [kvstore_download_video(data), notification_download_video(data)]
+  end
+
+  def kvstore_view_video(data)
     e = build :event, :video_kvstore_viewed,
               initiator_id: data[:sender_id],
               target_id: data[:video_filename],
               data: data
     e.initiator = 'user'
     e.target = 'video'
-    e.save && result << e
+    e.save
+    e
+  end
+
+  def notification_view_video(data)
     e = build :event, :video_notification_viewed,
               initiator_id: data[:sender_id],
               target_id: data[:video_filename],
               data: data
     e.initiator = 'user'
     e.target = 'video'
-    e.save && result << e
-    result
+    e.save
+    e
+  end
+
+  def view_video(data)
+    [kvstore_view_video(data), notification_view_video(data)]
   end
 
   def receiver_video_flow(data)
@@ -90,5 +111,5 @@ module EventBuilders
 end
 
 RSpec.configure do |config|
-  config.include EventBuilders, event_builders: true
+  config.include EventBuilders
 end

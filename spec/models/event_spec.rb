@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Event, type: :model, event_builders: true do
+RSpec.describe Event, type: :model do
   let(:message_id) { Digest::UUID.uuid_v4 }
 
   describe 'columns' do
