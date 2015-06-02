@@ -27,7 +27,7 @@ class Metric::AggregateMessagingInfo < Metric::Base
   end
 
   def reduce(scope)
-    scope.group("data->>'video_filename'").count.select { |k, v| v.nonzero? }.keys.uniq.size
+    scope.distinct("data->>'video_filename'").count("data->>'video_filename'")
   end
 
   def set_attributes
