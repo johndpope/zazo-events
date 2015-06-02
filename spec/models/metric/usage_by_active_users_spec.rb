@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Metric::UsageByActiveUsers, type: :model, event_builders: true do
+RSpec.describe Metric::UsageByActiveUsers, type: :model do
   describe '#generate' do
     let(:instance) { described_class.new(group_by: group_by) }
     subject { instance.generate }

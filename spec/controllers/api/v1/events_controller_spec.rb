@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Api::V1::EventsController, type: :controller, event_builders: true do
+RSpec.describe Api::V1::EventsController, type: :controller do
   let(:message_id) { Digest::UUID.uuid_v4 }
   let(:s3_event) { json_fixture('s3_event') }
   let(:attributes) do
