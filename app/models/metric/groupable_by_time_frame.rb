@@ -21,4 +21,13 @@ module Metric::GroupableByTimeFrame
   def set_group_by
     @group_by = attributes.fetch('group_by', :day).try(:to_sym)
   end
+
+  def reduce_by_users(data)
+    data.each_with_object({}) do |(key, value), memo|
+      next if value.zero?
+      time_frame, user_id = key
+      memo[time_frame] ||= Set.new
+      memo[time_frame] << user_id
+    end
+  end
 end

@@ -2,11 +2,10 @@ class Metric::UsageByActiveUsers < Metric::Base
   include Metric::GroupableByTimeFrame
 
   def generate
-    total_messages.reduce({}) do |memo, (time_frame, messages_count)|
+    total_messages.each_with_object({}) do |(time_frame, messages_count), memo|
       users_count = users_sent_message_reduced[time_frame].try(:size) || 0
-      next memo if users_count.zero?
+      next if users_count.zero?
       memo[time_frame] = messages_count.to_f / users_count.to_f
-      memo
     end
   end
 
@@ -17,7 +16,7 @@ class Metric::UsageByActiveUsers < Metric::Base
   end
 
   def users_sent_message
-    @users_sent_message ||= messages_sent_scope.group("data->>'sender_id'").count
+    @users_sent_message ||= messages_sent_scope.group("data->>'sender_id'").count("data->>'sender_id'")
   end
 
   def users_sent_message_reduced
@@ -26,15 +25,5 @@ class Metric::UsageByActiveUsers < Metric::Base
 
   def messages_sent_scope
     Event.by_name(%w(video s3 uploaded)).send(:"group_by_#{group_by}", :triggered_at)
-  end
-
-  def reduce_by_users(data)
-    data.reduce({}) do |memo, (key, value)|
-      next memo if value.zero?
-      time_frame, user_id = key
-      memo[time_frame] ||= Set.new
-      memo[time_frame] << user_id
-      memo
-    end
   end
 end
