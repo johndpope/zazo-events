@@ -8,7 +8,7 @@ class Metric::MessagesCountByPeriod < Metric::Base
   # todo: since date validation
 
   def generate
-    scope = Event.send :with_sender, user_id
+    scope = Event.with_sender, user_id
     reduce(scope.by_name(%w(video s3 uploaded))).sort.to_h
   end
 
