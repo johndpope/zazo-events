@@ -170,7 +170,9 @@ FORMAT: 1A
 
 + Parameters
 
-    + user_id: fxVPRkGICwnrAwym52gK (string) - ID of user
+    + user_id: fxVPRkGICwnrAwym52gK (string) - ID of user.
+    + friend_id: 7qdanSEmctZ2jPnYA0a1 (string, optional) - ID of friend.
+        If set, returns data for messages from user to friend (outgoing) and in reverse (incoming).
 
 + Response 200 (application/json; charset=utf-8)
 
@@ -187,4 +189,28 @@ FORMAT: 1A
             "total_received": 48,
             "undelivered_percent": 31.428571428571427
           }
+        }
+
+### Sent Messages Count By Period [GET /api/v1/metrics/messages_count_by_period]
+
++ Parameters
+
+    + user_id: fxVPRkGICwnrAwym52gK (string) - ID of user.
+    + group_by: (enum[string], optional) - Time frame for groupping
+        + Default: day
+        + Members:
+            + day - group by day
+            + week - group by week
+            + month - group by month
+    + since: 2015-05-25 00:00:00 (string, optional) - Start datetime
+
++ Response 200 (application/json; charset=utf-8)
+
+    + Body
+
+        {
+          "2015-05-21 00:00:00 UTC": 13,
+          "2015-05-24 00:00:00 UTC": 2,
+          "2015-05-26 00:00:00 UTC": 1,
+          "2015-05-27 00:00:00 UTC": 2
         }
