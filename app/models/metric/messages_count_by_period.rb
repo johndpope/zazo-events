@@ -16,7 +16,7 @@ class Metric::MessagesCountByPeriod < Metric::Base
 
   def reduce(scope)
     scope = scope.since since if since.present?
-    scope.group("DATE_TRUNC('#{group_by}', triggered_at)")
+    scope.send(:"group_by_#{group_by}", :triggered_at)
       .distinct("data->>'video_filename'")
       .count("data->>'video_filename'")
   end
