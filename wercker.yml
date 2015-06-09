@@ -41,7 +41,7 @@ build:
         webhook_url: $slack_url
 deploy:
   steps:
-    - dsuket/elastic-beanstalk-deploy:
+    - asux/elastic-beanstalk-deploy:
         key: $AWS_ACCESS_KEY_ID
         secret: $AWS_SECRET_ACCESS_KEY
         app_name: $EB_APP
