@@ -2,27 +2,38 @@ class Metric::MessagesCountByPeriod < Metric::Base
   include Metric::GroupableByTimeFrame
   after_initialize :set_attributes
 
-  attr_accessor :user_id, :group_by, :since
-
-  validates :user_id, presence: true
-  # TODO: since date validation
+  attr_accessor :users_ids, :group_by, :since
+  validates :users_ids, presence: true
 
   def generate
-    scope = Event.with_sender user_id
-    reduce(scope.by_name(%w(video s3 uploaded))).sort.to_h
+    results(%w(video s3 uploaded)).each_with_object({}) do |value, memo|
+      memo[value['sender']] ||= {}
+      puts value['period']
+      memo[value['sender']]["#{value['period']} UTC"] = value['count'].to_i
+    end
   end
 
-  protected
+protected
 
-  def reduce(scope)
-    scope = scope.since since if since.present?
-    scope.send(:"group_by_#{group_by}", :triggered_at)
-      .distinct("data->>'video_filename'")
-      .count("data->>'video_filename'")
+  def results(events)
+    sql = <<-SQL
+      SELECT
+        data->>'sender_id' as sender,
+        DATE_TRUNC('day', triggered_at) as period,
+        COUNT(DISTINCT data->>'video_filename')
+      FROM events
+      WHERE data->>'sender_id' IN (?)
+      AND name = ARRAY[?]::varchar[]
+      GROUP BY period, sender
+      ORDER BY sender, period
+    SQL
+    sql = Event.send :sanitize_sql_array,
+                     [sql, users_ids, events]
+    Event.connection.select_all(sql)
   end
 
   def set_attributes
-    @user_id   = attributes['user_id']
+    @users_ids = attributes['users_ids']
     @since     = attributes['since']
   end
 end
