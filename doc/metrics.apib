@@ -41,7 +41,7 @@ FORMAT: 1A
 
 + Parameters
 
-    + group_by: (enum[string], optional) - Time frame for groupping
+    + group_by: (enum[string], optional) - Time frame for grouping
         + Default: day
         + Members:
             + day - group by day
@@ -84,7 +84,7 @@ FORMAT: 1A
 
 + Parameters
 
-    + group_by: (enum[string], optional) - Time frame for groupping
+    + group_by: (enum[string], optional) - Time frame for grouping
         + Default: day
         + Members:
             + day - group by day
@@ -127,7 +127,7 @@ FORMAT: 1A
 
 + Parameters
 
-    + group_by: (enum[string], optional) - Time frame for groupping
+    + group_by: (enum[string], optional) - Time frame for grouping
         + Default: day
         + Members:
             + day - group by day
@@ -195,8 +195,8 @@ FORMAT: 1A
 
 + Parameters
 
-    + user_id: fxVPRkGICwnrAwym52gK (string) - ID of user.
-    + group_by: (enum[string], optional) - Time frame for groupping
+    + users_ids: [fxVPRkGICwnrAwym52gK] (array of strings) - IDs of users.
+    + group_by: (enum[string], optional) - Time frame for grouping
         + Default: day
         + Members:
             + day - group by day
@@ -209,8 +209,10 @@ FORMAT: 1A
     + Body
 
         {
-          "2015-05-21 00:00:00 UTC": 13,
-          "2015-05-24 00:00:00 UTC": 2,
-          "2015-05-26 00:00:00 UTC": 1,
-          "2015-05-27 00:00:00 UTC": 2
+          "fxVPRkGICwnrAwym52gK": {
+            "2015-05-21 00:00:00 UTC": 13,
+            "2015-05-24 00:00:00 UTC": 2,
+            "2015-05-26 00:00:00 UTC": 1,
+            "2015-05-27 00:00:00 UTC": 2
+          }
         }

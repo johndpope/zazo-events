@@ -19,15 +19,15 @@ RSpec.describe Metric::MessagesCountByPeriod, type: :model do
 
 
   describe 'validations' do
-    it { is_expected.to validate_presence_of(:user_id) }
+    it { is_expected.to validate_presence_of(:users_ids) }
   end
 
-  describe '#user_id' do
-    subject { instance.user_id }
+  describe '#users_ids' do
+    subject { instance.users_ids }
 
-    context 'RxDrzAIuF9mFw7Xx9NSM' do
-      let(:attributes) { { user_id: 'RxDrzAIuF9mFw7Xx9NSM' } }
-      it { is_expected.to eq('RxDrzAIuF9mFw7Xx9NSM') }
+    context '[RxDrzAIuF9mFw7Xx9NSM]' do
+      let(:attributes) { { users_ids: ['RxDrzAIuF9mFw7Xx9NSM'] } }
+      it { is_expected.to eq(['RxDrzAIuF9mFw7Xx9NSM']) }
     end
   end
 
@@ -49,17 +49,17 @@ RSpec.describe Metric::MessagesCountByPeriod, type: :model do
     end
 
     context 'by day' do
-      let(:attributes) { { user_id: user } }
+      let(:attributes) { { users_ids: [user] } }
 
       specify do
         result = {
-            4.days.ago.midnight => 1,
-            3.days.ago.midnight => 2,
-            2.days.ago.midnight => 2,
-            1.days.ago.midnight => 2,
-            Date.today.midnight => 1
+            4.days.ago.midnight.to_s => 1,
+            3.days.ago.midnight.to_s => 2,
+            2.days.ago.midnight.to_s => 2,
+            1.days.ago.midnight.to_s => 2,
+            Date.today.midnight.to_s => 1
         }
-        is_expected.to eq(result)
+        is_expected.to eq(user => result)
       end
     end
   end
