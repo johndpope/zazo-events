@@ -18,7 +18,7 @@ protected
     sql = <<-SQL
       SELECT
         data->>'sender_id' as sender,
-        DATE_TRUNC('day', triggered_at) as period,
+        DATE_TRUNC(?, triggered_at) as period,
         COUNT(DISTINCT data->>'video_filename')
       FROM events
       WHERE data->>'sender_id' IN (?)
@@ -27,7 +27,7 @@ protected
       ORDER BY sender, period
     SQL
     sql = Event.send :sanitize_sql_array,
-                     [sql, users_ids, events]
+                     [sql, group_by, users_ids, events]
     Event.connection.select_all sql
   end
 
