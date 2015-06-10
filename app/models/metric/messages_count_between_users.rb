@@ -9,7 +9,7 @@ class Metric::MessagesCountBetweenUsers < Metric::Base
     results(%w(downloaded viewed)).to_hash
   end
 
-protected
+  protected
 
   def results(events)
     sql = <<-SQL

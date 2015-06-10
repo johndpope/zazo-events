@@ -17,7 +17,6 @@ RSpec.describe Metric::MessagesCountByPeriod, type: :model do
   let(:video_133) { video_data(user, friend_2, gen_video_id) }
   let(:video_134) { video_data(user, friend_2, gen_video_id) }
 
-
   describe 'validations' do
     it { is_expected.to validate_presence_of(:users_ids) }
   end
@@ -53,11 +52,11 @@ RSpec.describe Metric::MessagesCountByPeriod, type: :model do
 
       specify do
         result = {
-            4.days.ago.midnight.to_s => 1,
-            3.days.ago.midnight.to_s => 2,
-            2.days.ago.midnight.to_s => 2,
-            1.days.ago.midnight.to_s => 2,
-            Date.today.midnight.to_s => 1
+          4.days.ago.midnight.to_s => 1,
+          3.days.ago.midnight.to_s => 2,
+          2.days.ago.midnight.to_s => 2,
+          1.days.ago.midnight.to_s => 2,
+          Date.today.midnight.to_s => 1
         }
         is_expected.to eq(user => result)
       end

@@ -12,7 +12,7 @@ class Metric::MessagesCountByPeriod < Metric::Base
     end
   end
 
-protected
+  protected
 
   def results(events)
     sql = <<-SQL
