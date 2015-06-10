@@ -1,5 +1,5 @@
 defaults: &settings
-  version: 1.6.0
+  version: 1.6.2
   app_name: Zazo SQS Worker
 
 development:
