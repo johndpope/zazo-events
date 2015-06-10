@@ -75,10 +75,10 @@ RSpec.describe Metric::MessagesCountBetweenUsers, type: :model do
 
     specify do
       result = [
-          { 'sender' => friend_2, 'receiver' => user, 'count' => 2.to_s },
-          { 'sender' => friend_1, 'receiver' => user, 'count' => 2.to_s },
-          { 'sender' => user, 'receiver' => friend_2, 'count' => 4.to_s },
-          { 'sender' => user, 'receiver' => friend_1, 'count' => 4.to_s }
+          { 'sender' => friend_2, 'receiver' => user, 'count' => '2' },
+          { 'sender' => friend_1, 'receiver' => user, 'count' => '2' },
+          { 'sender' => user, 'receiver' => friend_2, 'count' => '4' },
+          { 'sender' => user, 'receiver' => friend_1, 'count' => '4' }
       ]
       is_expected.to include(*result)
     end
