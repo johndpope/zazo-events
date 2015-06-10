@@ -41,7 +41,7 @@ RSpec.describe Metric::MessagesCountBetweenUsers, type: :model do
     subject { instance.friends_ids }
 
     context '[fxVPRkGICwnrAwym52gK, RxDrzAIuF9mFw7Xx9NSM]' do
-      let(:attributes) { { friends_ids: %w{fxVPRkGICwnrAwym52gK RxDrzAIuF9mFw7Xx9NSM} } }
+      let(:attributes) { { friends_ids: %w(fxVPRkGICwnrAwym52gK RxDrzAIuF9mFw7Xx9NSM) } }
       it { is_expected.to eq(['fxVPRkGICwnrAwym52gK', 'RxDrzAIuF9mFw7Xx9NSM']) }
     end
   end
@@ -75,10 +75,10 @@ RSpec.describe Metric::MessagesCountBetweenUsers, type: :model do
 
     specify do
       result = [
-          { 'sender' => friend_2, 'receiver' => user, 'count' => '2' },
-          { 'sender' => friend_1, 'receiver' => user, 'count' => '2' },
-          { 'sender' => user, 'receiver' => friend_2, 'count' => '4' },
-          { 'sender' => user, 'receiver' => friend_1, 'count' => '4' }
+        { 'sender' => friend_2, 'receiver' => user, 'count' => '2' },
+        { 'sender' => friend_1, 'receiver' => user, 'count' => '2' },
+        { 'sender' => user, 'receiver' => friend_2, 'count' => '4' },
+        { 'sender' => user, 'receiver' => friend_1, 'count' => '4' }
       ]
       is_expected.to include(*result)
     end

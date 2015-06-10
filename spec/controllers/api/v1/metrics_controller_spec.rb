@@ -51,6 +51,13 @@ RSpec.describe Api::V1::MetricsController, type: :controller do
         end
 
         specify do
+          expect(Rollbar).to receive(:warning).with('Attempt to get invalid metric',
+                                                    errors: { group_by: ["is not included in #{Groupdate::FIELDS}"] })
+                                                    .and_call_original
+          subject
+        end
+
+        specify do
           subject
           expect(response).to have_http_status(:unprocessable_entity)
         end
