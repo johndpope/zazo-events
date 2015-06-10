@@ -32,7 +32,9 @@ class Metric::MessagesCountByPeriod < Metric::Base
   end
 
   def set_attributes
-    @users_ids = attributes['users_ids']
+    @users_ids = Array(attributes['user_id'])
+    @users_ids += Array(attributes['users_ids'])
+    @users_ids.compact!
     @since     = attributes['since']
   end
 end
