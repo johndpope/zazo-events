@@ -8,7 +8,6 @@ class Metric::MessagesCountByPeriod < Metric::Base
   def generate
     results(%w(video s3 uploaded)).each_with_object({}) do |value, memo|
       memo[value['sender']] ||= {}
-      puts value['period']
       memo[value['sender']]["#{value['period']} UTC"] = value['count'].to_i
     end
   end
@@ -29,7 +28,7 @@ protected
     SQL
     sql = Event.send :sanitize_sql_array,
                      [sql, users_ids, events]
-    Event.connection.select_all(sql)
+    Event.connection.select_all sql
   end
 
   def set_attributes
