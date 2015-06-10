@@ -6,7 +6,7 @@ class Metric::MessagesCountBetweenUsers < Metric::Base
   validates :user_id, :friends_ids, presence: true
 
   def generate
-    results %w(downloaded viewed)
+    results(%w(downloaded viewed)).to_hash
   end
 
 protected
