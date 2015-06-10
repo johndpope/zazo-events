@@ -4,6 +4,7 @@ class Api::V1::MetricsController < ApplicationController
     if @metric.valid?
       render json: @metric.generate
     else
+      Rollbar.warning('Attempt to get invalid metric', errors: @metric.errors.messages)
       render_errors @metric.errors
     end
   rescue Metric::UnknownMetric => error
