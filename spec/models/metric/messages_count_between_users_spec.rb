@@ -23,11 +23,6 @@ RSpec.describe Metric::MessagesCountBetweenUsers, type: :model do
   let(:video_311) { video_data(friend_2, user, gen_video_id) }
   let(:video_312) { video_data(friend_2, user, gen_video_id) }
 
-  describe 'validations' do
-    it { is_expected.to validate_presence_of(:user_id) }
-    it { is_expected.to validate_presence_of(:friends_ids) }
-  end
-
   describe '#user_id' do
     subject { instance.user_id }
 
@@ -75,10 +70,10 @@ RSpec.describe Metric::MessagesCountBetweenUsers, type: :model do
 
     specify do
       result = [
-        { 'sender' => friend_2, 'receiver' => user, 'count' => '2' },
-        { 'sender' => friend_1, 'receiver' => user, 'count' => '2' },
-        { 'sender' => user, 'receiver' => friend_2, 'count' => '4' },
-        { 'sender' => user, 'receiver' => friend_1, 'count' => '4' }
+        { 'sender' => friend_2, 'receiver' => user, 'count' => 2 },
+        { 'sender' => friend_1, 'receiver' => user, 'count' => 2 },
+        { 'sender' => user, 'receiver' => friend_2, 'count' => 4 },
+        { 'sender' => user, 'receiver' => friend_1, 'count' => 4 }
       ]
       is_expected.to include(*result)
     end
