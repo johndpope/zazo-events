@@ -8,6 +8,43 @@ RSpec.describe Message, type: :model do
   let(:receiver_id) { s3_event.data['receiver_id'] }
   let(:instance) { described_class.new(filename) }
 
+  describe 'initialize' do
+    context 'by filename' do
+      let(:instance) { described_class.new(filename) }
+
+      context '#filename' do
+        subject { instance.filename }
+        it { is_expected.to eq(filename) }
+      end
+
+      context '#s3_event' do
+        subject { instance.s3_event }
+        it { is_expected.to eq(s3_event) }
+      end
+    end
+    context 'by s3 event' do
+      let(:instance) { described_class.new(s3_event) }
+
+      context '#filename' do
+        subject { instance.filename }
+        it { is_expected.to eq(filename) }
+      end
+
+      context '#s3_event' do
+        subject { instance.s3_event }
+        subject { instance.s3_event }
+        it { is_expected.to eq(s3_event) }
+      end
+    end
+    context 'by not s3 event' do
+      subject { described_class.new(build(:event, :video_kvstore_received)) }
+
+      specify do
+        expect { subject }.to raise_error(TypeError, 'value must be either filename or video:s3:uploaded event')
+      end
+    end
+  end
+
   context '#events' do
     subject { instance.events }
 

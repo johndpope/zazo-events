@@ -7,14 +7,23 @@ class Message
                 .with_sender(sender_id)
                 .with_receiver(receiver_id)
                 .order(:triggered_at)
-                .pluck("data->>'video_filename'")
     filenames.map { |fn| new fn }
   end
 
-  # @param filename
+  # @param filename_or_event
   # @param events
-  def initialize(filename)
-    @filename = filename
+  def initialize(filename_or_event)
+    if !filename_or_event.is_a?(String) &&
+       filename_or_event.is_a?(Event) &&
+       filename_or_event.name != %w(video s3 uploaded)
+      fail TypeError, 'value must be either filename or video:s3:uploaded event'
+    end
+    if filename_or_event.is_a?(String)
+      @filename = filename_or_event
+    else
+      @s3_event = filename_or_event
+      @filename = @s3_event.data['video_filename']
+    end
   end
 
   def ==(message)
