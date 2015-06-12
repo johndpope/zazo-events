@@ -10,14 +10,34 @@ class Metric::MessagesCountBetweenUsers < Metric::Base
   protected
 
   def results
-    scope = Event.where(
-      query_where,
-      user_id, friends_ids,
-      friends_ids, user_id
-    )
+    if users_ids
+      query, params = reduce_by_packs
+      scope = Event.where query, *params
+    else
+      scope = Event.where(
+        query_where,
+        user_id, friends_ids,
+        friends_ids, user_id
+      )
+    end
     scope.name_overlap(%w(downloaded viewed))
       .group('receiver, sender')
       .select(query_select)
+  end
+
+  def reduce_by_packs
+    first  = users_ids.shift
+    query  = "(#{query_where})"
+    params = [
+      first[0], first[1],
+      first[1], first[0]
+    ]
+    users_ids.keys.each do |key|
+      query += 'OR' + "(#{query_where})"
+      params.push key, users_ids[key],
+                  users_ids[key], key
+    end
+    [query, params]
   end
 
   def query_where
