@@ -1,20 +1,46 @@
 require 'rails_helper'
 
 RSpec.describe Message, type: :model do
-  let(:s3_event) { json_fixture('s3_event')['Records'] }
-  let(:event) { Event.create_from_s3_event(s3_event).first }
-  let(:instance) { described_class.new(event) }
-  let(:sender_id) { event.data['sender_id'] }
-  let(:receiver_id) { event.data['receiver_id'] }
-  let(:filename) { event.data['video_filename'] }
+  let(:s3_event_raw) { json_fixture('s3_event')['Records'] }
+  let(:s3_event) { Event.create_from_s3_event(s3_event_raw).first }
+  let(:filename) { s3_event.data['video_filename'] }
+  let(:sender_id) { s3_event.data['sender_id'] }
+  let(:receiver_id) { s3_event.data['receiver_id'] }
+  let(:instance) { described_class.new(filename) }
 
-  context '#event' do
-    subject { instance.event }
-    it { is_expected.to eq(event) }
+  context '#events' do
+    subject { instance.events }
+
+    context 'only when S3 uploaded' do
+      it { is_expected.to eq([s3_event]) }
+    end
+
+    context 'all' do
+      let(:events) do
+        result = [s3_event]
+        result += receive_video(s3_event.data)
+        result += download_video(s3_event.data)
+        result += view_video(s3_event.data)
+        result
+      end
+      it { is_expected.to eq(events) }
+    end
+  end
+
+  context '#s3_event' do
+    subject { instance.s3_event }
+    it { is_expected.to eq(s3_event) }
+
+    context 'no s3 event found' do
+      let(:filename) { 'unknown' }
+      specify do
+        expect { subject }.to raise_error('no video:s3:uploaded event found')
+      end
+    end
   end
 
   context '#data' do
-    subject { instance.data }
+    subject { s3_event.data }
     specify do
       is_expected.to eq(
         'sender_id' => sender_id,
@@ -25,7 +51,7 @@ RSpec.describe Message, type: :model do
 
   context '#raw_params' do
     subject { instance.raw_params }
-    it { is_expected.to eq(s3_event.first) }
+    it { is_expected.to eq(Hashie::Mash.new(s3_event.raw_params)) }
   end
 
   context '#filename' do
@@ -35,7 +61,7 @@ RSpec.describe Message, type: :model do
 
   context '#date' do
     subject { instance.date }
-    it { is_expected.to eq(event.triggered_at) }
+    it { is_expected.to eq(s3_event.triggered_at) }
   end
 
   context '#size' do
@@ -65,7 +91,7 @@ RSpec.describe Message, type: :model do
                           date: '2015-04-22T18:01:20.663Z',
                           size: 94_555,
                           status: :uploaded,
-                          delivered: false}.to_json)
+                          delivered: false }.to_json)
     end
   end
 
@@ -82,7 +108,7 @@ RSpec.describe Message, type: :model do
 
     context 'received' do
       before do
-        receive_video instance.data
+        receive_video s3_event.data
       end
 
       it { is_expected.to eq(:received) }
@@ -90,8 +116,8 @@ RSpec.describe Message, type: :model do
 
     context 'downloaded' do
       before do
-        receive_video instance.data
-        download_video instance.data
+        receive_video s3_event.data
+        download_video s3_event.data
       end
 
       it { is_expected.to eq(:downloaded) }
@@ -99,9 +125,9 @@ RSpec.describe Message, type: :model do
 
     context 'viewed' do
       before do
-        receive_video instance.data
-        download_video instance.data
-        view_video instance.data
+        receive_video s3_event.data
+        download_video s3_event.data
+        view_video s3_event.data
       end
 
       it { is_expected.to eq(:viewed) }
@@ -117,7 +143,7 @@ RSpec.describe Message, type: :model do
 
     context 'received' do
       before do
-        receive_video instance.data
+        receive_video s3_event.data
       end
 
       it { is_expected.to be_falsey }
@@ -125,8 +151,8 @@ RSpec.describe Message, type: :model do
 
     context 'downloaded' do
       before do
-        receive_video instance.data
-        download_video instance.data
+        receive_video s3_event.data
+        download_video s3_event.data
       end
 
       it { is_expected.to be_truthy }
@@ -134,9 +160,9 @@ RSpec.describe Message, type: :model do
 
     context 'viewed' do
       before do
-        receive_video instance.data
-        download_video instance.data
-        view_video instance.data
+        receive_video s3_event.data
+        download_video s3_event.data
+        view_video s3_event.data
       end
 
       it { is_expected.to be_truthy }
@@ -152,7 +178,7 @@ RSpec.describe Message, type: :model do
 
     context 'received' do
       before do
-        receive_video instance.data
+        receive_video s3_event.data
       end
 
       it { is_expected.to be_truthy }
@@ -160,8 +186,8 @@ RSpec.describe Message, type: :model do
 
     context 'downloaded' do
       before do
-        receive_video instance.data
-        download_video instance.data
+        receive_video s3_event.data
+        download_video s3_event.data
       end
 
       it { is_expected.to be_falsey }
@@ -169,30 +195,33 @@ RSpec.describe Message, type: :model do
 
     context 'viewed' do
       before do
-        receive_video instance.data
-        download_video instance.data
-        view_video instance.data
+        receive_video s3_event.data
+        download_video s3_event.data
+        view_video s3_event.data
       end
 
       it { is_expected.to be_falsey }
     end
   end
 
-  describe '.all' do
-    before { event.save }
-    subject { described_class.all }
-    it { is_expected.to eq([instance]) }
-  end
+  describe '.by_direction' do
+    before { s3_event.save }
+    let(:by_direction) { described_class.by_direction(sender_id, receiver_id) }
+    let(:instance) { by_direction.first }
+    subject { by_direction }
 
-  describe '.by_connection' do
-    before { event.save }
-    subject { described_class.by_connection(sender_id, receiver_id) }
-    it { is_expected.to eq([instance]) }
-  end
+    it { is_expected.to be_a(Array) }
+    it { is_expected.to all(be_a(Message)) }
 
-  describe '.find' do
-    before { event.save }
-    subject { described_class.find(filename) }
-    it { is_expected.to eq(instance) }
+    context 'first' do
+      subject { instance }
+      context '#events' do
+        subject { instance.events }
+        it { is_expected.to all(be_an(Event)) }
+        it 'all with specified video_filename' do
+          is_expected.to all(satisfy { |e| e.data['video_filename'] == filename })
+        end
+      end
+    end
   end
 end

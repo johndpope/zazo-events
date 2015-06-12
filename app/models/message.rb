@@ -1,35 +1,35 @@
 class Message
   DELIVERED_STATUSES = %i(downloaded viewed).freeze
-  attr_reader :event
+  attr_reader :filename
 
-  def self.all_events
-    Event.by_name(%w(video s3 uploaded)).order(:triggered_at)
+  def self.by_direction(sender_id, receiver_id)
+    filenames = Event.by_name(%w(video s3 uploaded))
+                .with_sender(sender_id)
+                .with_receiver(receiver_id)
+                .order(:triggered_at)
+                .pluck("data->>'video_filename'")
+    filenames.map { |fn| new fn }
   end
 
-  def self.by_connection_events(sender_id, receiver_id)
-    all_events.with_sender(sender_id).with_receiver(receiver_id)
-  end
-
-  def self.all
-    all_events.map { |e| new(e) }
-  end
-
-  def self.by_connection(sender_id, receiver_id)
-    by_connection_events(sender_id, receiver_id).map { |e| new(e) }
-  end
-
-  def self.find(filename)
-    events = Event.by_name(%w(video s3 uploaded)).with_video_filename(filename)
-    !events.empty? && new(events.first)
-  end
-
-  # @param event [Event] - video:s3:uploaded from S3
-  def initialize(event)
-    @event = event
+  # @param filename
+  # @param events
+  def initialize(filename)
+    @filename = filename
   end
 
   def ==(message)
     message.is_a?(self.class) && filename == message.filename
+  end
+
+  def events
+    @events ||= Event.with_video_filename(filename).order(:triggered_at)
+  end
+
+  def s3_event
+    return @s3_event if @s3_event
+    @s3_event = events.select { |e| e.name == %w(video s3 uploaded) }.first
+    fail 'no video:s3:uploaded event found' if @s3_event.blank?
+    @s3_event
   end
 
   def to_hash
@@ -43,27 +43,19 @@ class Message
   end
 
   def data
-    @data ||= Hashie::Mash.new(event.data)
+    @data ||= Hashie::Mash.new(s3_event.data)
   end
 
   def raw_params
-    @raw_params ||= Hashie::Mash.new(event.raw_params)
-  end
-
-  def filename
-    data.video_filename
+    @raw_params ||= Hashie::Mash.new(s3_event.raw_params)
   end
 
   def date
-    event.triggered_at
+    s3_event.triggered_at
   end
 
   def size
     raw_params.s3.object['size']
-  end
-
-  def events
-    Event.with_video_filename(filename).order(:triggered_at)
   end
 
   def status
