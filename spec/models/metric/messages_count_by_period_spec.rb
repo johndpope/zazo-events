@@ -48,7 +48,7 @@ RSpec.describe Metric::MessagesCountByPeriod, type: :model do
     end
 
     context 'by day' do
-      let(:attributes) { { users_ids: [user] } }
+      let(:attributes) { { users_ids: [user], since: Date.today - 1.week } }
 
       specify do
         result = {
