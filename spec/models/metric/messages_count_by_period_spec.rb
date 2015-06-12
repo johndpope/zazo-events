@@ -28,22 +28,6 @@ RSpec.describe Metric::MessagesCountByPeriod, type: :model do
       let(:attributes) { { users_ids: ['RxDrzAIuF9mFw7Xx9NSM'] } }
       it { is_expected.to eq(['RxDrzAIuF9mFw7Xx9NSM']) }
     end
-
-    context 'DEPRECATED: user_id supplied', deprecated: true do
-      context 'RxDrzAIuF9mFw7Xx9NSM' do
-        let(:attributes) { { user_id: 'RxDrzAIuF9mFw7Xx9NSM' } }
-        it { is_expected.to eq(['RxDrzAIuF9mFw7Xx9NSM']) }
-      end
-    end
-  end
-
-  describe 'DEPRECATED: user_id supplied', deprecated: true do
-    subject { instance }
-
-    context 'RxDrzAIuF9mFw7Xx9NSM' do
-      let(:attributes) { { user_id: 'RxDrzAIuF9mFw7Xx9NSM' } }
-      it { is_expected.to be_valid }
-    end
   end
 
   describe '#generate' do
@@ -64,7 +48,7 @@ RSpec.describe Metric::MessagesCountByPeriod, type: :model do
     end
 
     context 'by day' do
-      let(:attributes) { { users_ids: [user] } }
+      let(:attributes) { { users_ids: [user], since: Date.today - 1.week } }
 
       specify do
         result = {

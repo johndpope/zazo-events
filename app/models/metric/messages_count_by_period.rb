@@ -22,19 +22,18 @@ class Metric::MessagesCountByPeriod < Metric::Base
         COUNT(DISTINCT data->>'video_filename')
       FROM events
       WHERE data->>'sender_id' IN (?)
+      AND triggered_at > ?
       AND name = ARRAY[?]::varchar[]
       GROUP BY period, sender
       ORDER BY sender, period
     SQL
     sql = Event.send :sanitize_sql_array,
-                     [sql, group_by, users_ids, events]
+                     [sql, group_by, users_ids, since, events]
     Event.connection.select_all sql
   end
 
   def set_attributes
-    @users_ids = Array(attributes['user_id'])
-    @users_ids += Array(attributes['users_ids'])
-    @users_ids.compact!
+    @users_ids = Array(attributes['users_ids'])
     @since     = attributes['since']
   end
 end
