@@ -5,8 +5,9 @@ Rails.application.routes.draw do
       resources :status, only: [:index] do
         get :heartbeat, on: :collection
       end
-      post 'metrics'     => 'metrics#index'
-      post 'metrics/:id' => 'metrics#show', as: 'metric'
+      resources :metrics, only: [:index] do
+        post ':id' => :show, on: :collection
+      end
     end
   end
 
