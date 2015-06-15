@@ -3,23 +3,32 @@ class Message
   attr_reader :filename
   alias_method :id, :filename
 
-  def self.all_events
-    Event.by_name(%w(video s3 uploaded)).order(:triggered_at)
+  def self.all_events(reverse = false)
+    events = Event.by_name(%w(video s3 uploaded))
+    if reverse
+      events.order('triggered_at DESC')
+    else
+      events.order('triggered_at ASC')
+    end
   end
 
-  def self.all
-    all_events.map { |e| Message.new(e) }
+  def self.all(reverse = false)
+    all_events(reverse).map { |e| Message.new(e) }
   end
 
-  def self.by_direction_events(sender_id, receiver_id)
-    Event.by_name(%w(video s3 uploaded))
-      .with_sender(sender_id)
-      .with_receiver(receiver_id)
-      .order(:triggered_at)
+  def self.by_direction_events(sender_id, receiver_id, reverse = false)
+    events = Event.by_name(%w(video s3 uploaded))
+             .with_sender(sender_id)
+             .with_receiver(receiver_id)
+    if reverse
+      events.order('triggered_at DESC')
+    else
+      events.order('triggered_at ASC')
+    end
   end
 
-  def self.by_direction(sender_id, receiver_id)
-    by_direction_events(sender_id, receiver_id).map { |e| Message.new(e) }
+  def self.by_direction(sender_id, receiver_id, reverse = false)
+    by_direction_events(sender_id, receiver_id, reverse).map { |e| Message.new(e) }
   end
 
   # @param filename_or_event

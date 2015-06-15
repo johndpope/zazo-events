@@ -9,7 +9,11 @@ RSpec.describe Api::V1::MessagesController, type: :controller do
   let(:filename) { event.data['video_filename'] }
 
   describe 'GET #index' do
-    subject { get :index }
+    let(:params) {}
+    subject { get :index, params }
+
+    let!(:message_1) { Message.new(send_video(video_data(sender_id, receiver_id, gen_video_id))) }
+    let!(:message_2) { Message.new(send_video(video_data(sender_id, receiver_id, gen_video_id))) }
 
     context 'without sender_id and receiver_id' do
       it 'returns http success' do
@@ -17,31 +21,49 @@ RSpec.describe Api::V1::MessagesController, type: :controller do
       end
 
       specify do
-        expect(Message).to receive(:all_events).and_call_original
+        expect(Message).to receive(:all_events).with(nil).and_call_original
         subject
       end
 
-      specify do
+      it 'returns list' do
         subject
-        expect(json_response).to include(JSON.parse(instance.to_json))
+        expect(json_response).to eq(JSON.parse([instance, message_1, message_2].to_json))
+      end
+
+      context 'reverse' do
+        let(:params) { { reverse: true } }
+
+        it 'returns list in reverse order' do
+          subject
+          expect(json_response).to eq(JSON.parse([message_2, message_1, instance].to_json))
+        end
       end
     end
 
     context 'with sender_id and receiver_id' do
-      subject { get :index, sender_id: sender_id, receiver_id: receiver_id }
+      let(:params) { { sender_id: sender_id, receiver_id: receiver_id } }
 
       it 'returns http success' do
         expect(response).to have_http_status(:success)
       end
 
       specify do
-        expect(Message).to receive(:by_direction_events).with(sender_id, receiver_id).and_call_original
+        expect(Message).to receive(:by_direction_events).with(sender_id, receiver_id, nil).and_call_original
         subject
       end
 
-      specify do
+      it 'returns list' do
         subject
-        expect(json_response).to include(JSON.parse(instance.to_json))
+        expect(json_response).to eq(JSON.parse([instance, message_1, message_2].to_json))
+      end
+
+      context 'reverse' do
+        let(:params) { { sender_id: sender_id, receiver_id: receiver_id, reverse: true } }
+
+        it 'returns list in reverse order' do
+          subject
+          expect(json_response).to eq(JSON.parse([message_2, message_1, instance].to_json))
+        end
       end
     end
   end

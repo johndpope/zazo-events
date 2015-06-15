@@ -248,13 +248,14 @@ RSpec.describe Message, type: :model do
   end
 
   describe '.by_direction' do
-    before { s3_event.save }
+    let!(:message_1) { described_class.new(send_video(video_data(sender_id, receiver_id, gen_video_id))) }
+    let!(:message_2) { described_class.new(send_video(video_data(sender_id, receiver_id, gen_video_id))) }
+
     let(:list) { described_class.by_direction(sender_id, receiver_id) }
     let(:instance) { list.first }
     subject { list }
 
-    it { is_expected.to be_a(Array) }
-    it { is_expected.to all(be_a(Message)) }
+    it { is_expected.to eq([instance, message_1, message_2]) }
 
     context 'first' do
       subject { instance }
@@ -266,16 +267,21 @@ RSpec.describe Message, type: :model do
         end
       end
     end
+
+    context 'reverse' do
+      subject { described_class.by_direction(sender_id, receiver_id, true) }
+      it { is_expected.to eq([message_2, message_1, instance]) }
+    end
   end
 
   describe '.all' do
-    before { s3_event.save }
+    let!(:message_1) { described_class.new(send_video(video_data(sender_id, receiver_id, gen_video_id))) }
+    let!(:message_2) { described_class.new(send_video(video_data(sender_id, receiver_id, gen_video_id))) }
     let(:list) { described_class.all }
     let(:instance) { list.first }
     subject { list }
 
-    it { is_expected.to be_a(Array) }
-    it { is_expected.to all(be_a(Message)) }
+    it { is_expected.to eq([instance, message_1, message_2]) }
 
     context 'first' do
       subject { instance }
@@ -286,6 +292,11 @@ RSpec.describe Message, type: :model do
           is_expected.to all(satisfy { |e| e.data['video_filename'] == filename })
         end
       end
+    end
+
+    context 'reverse' do
+      subject { described_class.all(true) }
+      it { is_expected.to eq([message_2, message_1, instance]) }
     end
   end
 end
