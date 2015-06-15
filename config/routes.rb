@@ -8,6 +8,7 @@ Rails.application.routes.draw do
       resources :metrics, only: [:index] do
         post ':id' => :show, on: :collection
       end
+      resources :messages, only: [:index, :show]
     end
   end
 

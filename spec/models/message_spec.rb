@@ -32,7 +32,6 @@ RSpec.describe Message, type: :model do
 
       context '#s3_event' do
         subject { instance.s3_event }
-        subject { instance.s3_event }
         it { is_expected.to eq(s3_event) }
       end
     end
@@ -91,6 +90,11 @@ RSpec.describe Message, type: :model do
     it { is_expected.to eq(Hashie::Mash.new(s3_event.raw_params)) }
   end
 
+  context '#id' do
+    subject { instance.id }
+    it { is_expected.to eq(filename) }
+  end
+
   context '#filename' do
     subject { instance.filename }
     it { is_expected.to eq(filename) }
@@ -109,7 +113,8 @@ RSpec.describe Message, type: :model do
   context 'to_hash' do
     subject { instance.to_hash }
     specify do
-      is_expected.to eq(sender_id: sender_id,
+      is_expected.to eq(id: filename,
+                        sender_id: sender_id,
                         receiver_id: receiver_id,
                         filename: filename,
                         date: '2015-04-22T18:01:20.663Z'.to_datetime,
@@ -122,7 +127,8 @@ RSpec.describe Message, type: :model do
   context 'to_json' do
     subject { instance.to_json }
     specify do
-      is_expected.to eq({ sender_id: sender_id,
+      is_expected.to eq({ id: filename,
+                          sender_id: sender_id,
                           receiver_id: receiver_id,
                           filename: filename,
                           date: '2015-04-22T18:01:20.663Z',
@@ -243,9 +249,30 @@ RSpec.describe Message, type: :model do
 
   describe '.by_direction' do
     before { s3_event.save }
-    let(:by_direction) { described_class.by_direction(sender_id, receiver_id) }
-    let(:instance) { by_direction.first }
-    subject { by_direction }
+    let(:list) { described_class.by_direction(sender_id, receiver_id) }
+    let(:instance) { list.first }
+    subject { list }
+
+    it { is_expected.to be_a(Array) }
+    it { is_expected.to all(be_a(Message)) }
+
+    context 'first' do
+      subject { instance }
+      context '#events' do
+        subject { instance.events }
+        it { is_expected.to all(be_an(Event)) }
+        it 'all with specified video_filename' do
+          is_expected.to all(satisfy { |e| e.data['video_filename'] == filename })
+        end
+      end
+    end
+  end
+
+  describe '.all' do
+    before { s3_event.save }
+    let(:list) { described_class.all }
+    let(:instance) { list.first }
+    subject { list }
 
     it { is_expected.to be_a(Array) }
     it { is_expected.to all(be_a(Message)) }
