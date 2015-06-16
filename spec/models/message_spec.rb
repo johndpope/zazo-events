@@ -3,10 +3,11 @@ require 'rails_helper'
 RSpec.describe Message, type: :model do
   let(:s3_event_raw) { json_fixture('s3_event')['Records'] }
   let(:s3_event) { Event.create_from_s3_event(s3_event_raw).first }
-  let(:filename) { s3_event.data['video_filename'] }
-  let(:sender_id) { s3_event.data['sender_id'] }
-  let(:receiver_id) { s3_event.data['receiver_id'] }
-  let(:instance) { described_class.new(filename) }
+  let(:filename) { s3_event.video_filename }
+  let(:sender_id) { s3_event.sender_id }
+  let(:receiver_id) { s3_event.receiver_id }
+  let(:message) { described_class.new(filename) }
+  let(:instance) { message }
 
   describe 'initialize' do
     context 'by filename' do
@@ -22,6 +23,7 @@ RSpec.describe Message, type: :model do
         it { is_expected.to eq(s3_event) }
       end
     end
+
     context 'by s3 event' do
       let(:instance) { described_class.new(s3_event) }
 
@@ -35,6 +37,7 @@ RSpec.describe Message, type: :model do
         it { is_expected.to eq(s3_event) }
       end
     end
+
     context 'by not s3 event' do
       subject { described_class.new(build(:event, :video_kvstore_received)) }
 
@@ -60,6 +63,15 @@ RSpec.describe Message, type: :model do
         result
       end
       it { is_expected.to eq(events) }
+    end
+
+    context 'with events given in initializer' do
+      let(:instance) { described_class.new(filename, []) }
+
+      specify do
+        expect(Event).to_not receive(:with_video_filename).with(filename)
+        subject
+      end
     end
   end
 
@@ -247,56 +259,49 @@ RSpec.describe Message, type: :model do
     end
   end
 
-  describe '.by_direction' do
-    let!(:message_1) { described_class.new(send_video(video_data(sender_id, receiver_id, gen_video_id))) }
-    let!(:message_2) { described_class.new(send_video(video_data(sender_id, receiver_id, gen_video_id))) }
-
-    let(:list) { described_class.by_direction(sender_id, receiver_id) }
-    let(:instance) { list.first }
-    subject { list }
-
-    it { is_expected.to eq([instance, message_1, message_2]) }
-
-    context 'first' do
-      subject { instance }
-      context '#events' do
-        subject { instance.events }
-        it { is_expected.to all(be_an(Event)) }
-        it 'all with specified video_filename' do
-          is_expected.to all(satisfy { |e| e.data['video_filename'] == filename })
-        end
-      end
-    end
-
-    context 'reverse' do
-      subject { described_class.by_direction(sender_id, receiver_id, true) }
-      it { is_expected.to eq([message_2, message_1, instance]) }
-    end
-  end
-
   describe '.all' do
     let!(:message_1) { described_class.new(send_video(video_data(sender_id, receiver_id, gen_video_id))) }
-    let!(:message_2) { described_class.new(send_video(video_data(sender_id, receiver_id, gen_video_id))) }
-    let(:list) { described_class.all }
+    let!(:message_2) { described_class.new(send_video(video_data(gen_hash, receiver_id, gen_video_id))) }
+    let!(:message_3) { described_class.new(send_video(video_data(sender_id, gen_hash, gen_video_id))) }
+    let(:options) { {} }
+    let(:list) { described_class.all(options) }
     let(:instance) { list.first }
     subject { list }
 
-    it { is_expected.to eq([instance, message_1, message_2]) }
+    it { is_expected.to eq([message, message_1, message_2, message_3]) }
 
     context 'first' do
       subject { instance }
+
       context '#events' do
         subject { instance.events }
+
         it { is_expected.to all(be_an(Event)) }
+
+        specify do
+          expect(Event).to_not receive(:with_video_filename).with(filename)
+          subject
+        end
+
         it 'all with specified video_filename' do
-          is_expected.to all(satisfy { |e| e.data['video_filename'] == filename })
+          is_expected.to all(satisfy { |e| e.video_filename == filename })
         end
       end
     end
 
     context 'reverse' do
-      subject { described_class.all(true) }
-      it { is_expected.to eq([message_2, message_1, instance]) }
+      let(:options) { { reverse: true } }
+      it { is_expected.to eq([message_3, message_2, message_1, message]) }
+    end
+
+    context 'when sender_id given' do
+      let(:options) { { sender_id: sender_id } }
+      it { is_expected.to eq([message, message_1, message_3]) }
+    end
+
+    context 'when receiver_id given' do
+      let(:options) { { receiver_id: receiver_id } }
+      it { is_expected.to eq([message, message_1, message_2]) }
     end
   end
 end

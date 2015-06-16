@@ -3,37 +3,33 @@ class Message
   attr_reader :filename
   alias_method :id, :filename
 
-  def self.all_events(reverse = false)
+  def self.all_s3_events(options = {})
     events = Event.by_name(%w(video s3 uploaded))
-    if reverse
-      events.order('triggered_at DESC')
-    else
-      events.order('triggered_at ASC')
+    events = events.with_sender(options.fetch(:sender_id)) if options.key?(:sender_id)
+    events = events.with_receiver(options.fetch(:receiver_id)) if options.key?(:receiver_id)
+    events = events.page(options.fetch(:page, 1))
+    events = events.per(options.fetch(:per, 100)) if options.key?(:per)
+    order = options.fetch(:reverse, false) ? 'DESC' : 'ASC'
+    events.order("triggered_at #{order}")
+  end
+
+  def self.all(options = {})
+    build_from_s3_events(all_s3_events(options))
+  end
+
+  def self.build_from_s3_events(s3_events)
+    events_cache = Event.with_video_filenames(s3_events.map(&:video_filename))
+                   .order(:triggered_at)
+                   .group_by(&:video_filename)
+    s3_events.map do |s3_event|
+      events = events_cache[s3_event.video_filename]
+      Message.new(s3_event, events)
     end
-  end
-
-  def self.all(reverse = false)
-    all_events(reverse).map { |e| Message.new(e) }
-  end
-
-  def self.by_direction_events(sender_id, receiver_id, reverse = false)
-    events = Event.by_name(%w(video s3 uploaded))
-             .with_sender(sender_id)
-             .with_receiver(receiver_id)
-    if reverse
-      events.order('triggered_at DESC')
-    else
-      events.order('triggered_at ASC')
-    end
-  end
-
-  def self.by_direction(sender_id, receiver_id, reverse = false)
-    by_direction_events(sender_id, receiver_id, reverse).map { |e| Message.new(e) }
   end
 
   # @param filename_or_event
   # @param events
-  def initialize(filename_or_event)
+  def initialize(filename_or_event, events = nil)
     if !filename_or_event.is_a?(String) &&
        filename_or_event.is_a?(Event) &&
        filename_or_event.name != %w(video s3 uploaded)
@@ -43,12 +39,17 @@ class Message
       @filename = filename_or_event
     else
       @s3_event = filename_or_event
-      @filename = @s3_event.data['video_filename']
+      @filename = @s3_event.video_filename
     end
+    @events ||= events
   end
 
   def ==(message)
-    message.is_a?(self.class) && filename == message.filename
+    super || filename == message.filename
+  end
+
+  def inspect
+    "#<#{self.class.name} #{filename}>"
   end
 
   def s3_event

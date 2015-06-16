@@ -4,18 +4,16 @@ FORMAT: 1A
 
 ## Index [GET]
 
-If both `sender_id` and `receiver_id` specified, will filter messages by given direction.
-
 + Parameters
-
-  + page: 1 (number, optional) - Set page for fetch (100 events per page).
-        + Default: 1
-
-  + sender_id: fxVPRkGICwnrAwym52gK (string, optional) - Specify sender for messages by direction.
-  + receiver_id: 7qdanSEmctZ2jPnYA0a1 (string, optional) - Specify receiver for messages by direction.
-
-  + reverse: (boolean, optional) - Order in reverse. Default is by `triggered_at ASC`.
+    + sender_id: fxVPRkGICwnrAwym52gK (string, optional) - Filter messages by sender
+    + receiver_id: 7qdanSEmctZ2jPnYA0a1 (string, optional) - Filter messages by receiver
+    + reverse: (boolean, optional) - Order in reverse. Default is by `triggered_at ASC`.
         + Default: false
+    + page: 1 (number, optional) - Set page for fetch (100 events per page).
+        + Default: 1
+    + per: 1 (number, optional) - Number of records per page
+        + Default: 100
+
 
 + Request (application/json)
 

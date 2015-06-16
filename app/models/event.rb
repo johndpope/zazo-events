@@ -17,6 +17,7 @@ class Event < ActiveRecord::Base
   scope :with_sender, -> (user_id){ where("data->>'sender_id' = ?", user_id) }
   scope :with_receiver, -> (user_id){ where("data->>'receiver_id' = ?", user_id) }
   scope :with_video_filename, -> (video_filename){ where("data->>'video_filename' = ?", video_filename) }
+  scope :with_video_filenames, -> (video_filenames){ where("data->>'video_filename' IN (?)", video_filenames) }
 
   paginates_per 100
 
@@ -65,5 +66,17 @@ class Event < ActiveRecord::Base
       new_params[:message_id] = message_id
       create(new_params)
     end
+  end
+
+  def video_filename
+    data['video_filename']
+  end
+
+  def sender_id
+    data['sender_id']
+  end
+
+  def receiver_id
+    data['receiver_id']
   end
 end

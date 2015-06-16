@@ -4,9 +4,9 @@ RSpec.describe Api::V1::MessagesController, type: :controller do
   let(:s3_event) { json_fixture('s3_event')['Records'] }
   let!(:event) { Event.create_from_s3_event(s3_event).first }
   let(:instance) { Message.new(event) }
-  let(:sender_id) { event.data['sender_id'] }
-  let(:receiver_id) { event.data['receiver_id'] }
-  let(:filename) { event.data['video_filename'] }
+  let(:sender_id) { event.sender_id }
+  let(:receiver_id) { event.receiver_id }
+  let(:filename) { event.video_filename }
 
   describe 'GET #index' do
     let(:params) {}
@@ -21,7 +21,7 @@ RSpec.describe Api::V1::MessagesController, type: :controller do
       end
 
       specify do
-        expect(Message).to receive(:all_events).with(nil).and_call_original
+        expect(Message).to receive(:all).with({}).and_call_original
         subject
       end
 
@@ -48,7 +48,7 @@ RSpec.describe Api::V1::MessagesController, type: :controller do
       end
 
       specify do
-        expect(Message).to receive(:by_direction_events).with(sender_id, receiver_id, nil).and_call_original
+        expect(Message).to receive(:all).with(params).and_call_original
         subject
       end
 
