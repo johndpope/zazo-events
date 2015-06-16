@@ -13,18 +13,17 @@ class Message
     events.order("triggered_at #{order}")
   end
 
-  def self.all(options = {})
-    build_from_s3_events(all_s3_events(options))
-  end
-
   def self.build_from_s3_events(s3_events)
     events_cache = Event.with_video_filenames(s3_events.map(&:video_filename))
                    .order(:triggered_at)
                    .group_by(&:video_filename)
     s3_events.map do |s3_event|
-      events = events_cache[s3_event.video_filename]
-      Message.new(s3_event, events)
+      Message.new(s3_event, events_cache[s3_event.video_filename])
     end
+  end
+
+  def self.all(options = {})
+    build_from_s3_events(all_s3_events(options))
   end
 
   # @param filename_or_event
