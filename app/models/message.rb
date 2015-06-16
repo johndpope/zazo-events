@@ -58,7 +58,7 @@ class Message
   def s3_event
     return @s3_event if @s3_event
     @s3_event = events.select { |e| e.name == %w(video s3 uploaded) }.first
-    fail 'no video:s3:uploaded event found' if @s3_event.blank?
+    fail ActiveRecord::RecordNotFound, 'no video:s3:uploaded event found' if @s3_event.blank?
     @s3_event
   end
 

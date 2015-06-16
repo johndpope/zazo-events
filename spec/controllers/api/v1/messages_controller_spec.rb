@@ -67,4 +67,23 @@ RSpec.describe Api::V1::MessagesController, type: :controller do
       end
     end
   end
+
+  describe 'GET #show' do
+    subject { get :show, id: message_id }
+    let(:message_id) { instance.id }
+
+    context 'message not found' do
+      let(:message_id) { 'unknown' }
+
+      it 'returns http not found' do
+        subject
+        expect(response).to have_http_status(:not_found)
+      end
+    end
+
+    specify do
+      subject
+      expect(json_response).to eq(JSON.parse(instance.to_json))
+    end
+  end
 end
