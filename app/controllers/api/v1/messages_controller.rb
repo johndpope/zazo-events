@@ -1,4 +1,6 @@
 class Api::V1::MessagesController < ApplicationController
+  before_action :set_message, only: [:show, :events]
+
   def index
     events = if params[:sender_id] && params[:receiver_id]
                Message.by_direction_events(params[:sender_id], params[:receiver_id], params[:reverse])
@@ -10,6 +12,16 @@ class Api::V1::MessagesController < ApplicationController
   end
 
   def show
-    render json: Message.new(params[:id])
+    render json: @message
+  end
+
+  def events
+    render json: @message.events
+  end
+
+  private
+
+  def set_message
+    @message = Message.new(params[:id])
   end
 end

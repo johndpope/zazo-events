@@ -51,15 +51,12 @@ class Message
     message.is_a?(self.class) && filename == message.filename
   end
 
-  def events
-    @events ||= Event.with_video_filename(filename).order(:triggered_at)
+  def s3_event
+    @s3_event ||= find_s3_event
   end
 
-  def s3_event
-    return @s3_event if @s3_event
-    @s3_event = events.select { |e| e.name == %w(video s3 uploaded) }.first
-    fail ActiveRecord::RecordNotFound, 'no video:s3:uploaded event found' if @s3_event.blank?
-    @s3_event
+  def events
+    @events ||= Event.with_video_filename(filename).order(:triggered_at)
   end
 
   def to_hash
@@ -99,5 +96,13 @@ class Message
 
   def undelivered?
     !delivered?
+  end
+
+  protected
+
+  def find_s3_event
+    s3_event = events.select { |e| e.name == %w(video s3 uploaded) }.first
+    fail ActiveRecord::RecordNotFound, 'no video:s3:uploaded event found' if s3_event.blank?
+    s3_event
   end
 end

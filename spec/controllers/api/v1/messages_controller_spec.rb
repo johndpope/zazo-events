@@ -86,4 +86,23 @@ RSpec.describe Api::V1::MessagesController, type: :controller do
       expect(json_response).to eq(JSON.parse(instance.to_json))
     end
   end
+
+  describe 'GET #events' do
+    subject { get :events, id: message_id }
+    let(:message_id) { instance.id }
+
+    context 'message not found' do
+      let(:message_id) { 'unknown' }
+
+      specify do
+        subject
+        expect(json_response).to eq([])
+      end
+    end
+
+    specify do
+      subject
+      expect(json_response).to eq(JSON.parse(instance.events.to_json))
+    end
+  end
 end
