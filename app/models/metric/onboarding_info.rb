@@ -1,5 +1,19 @@
 class Metric::OnboardingInfo < Metric::Base
+  STATES = %w(active invited registered verified)
+
   def generate
+    data = results
+    data.keys.each_with_object({}) do |key, memo|
+      STATES.each do |state|
+        memo[state] ||= {}
+        memo[state][key] = data[key][state] || 0
+      end
+    end
+  end
+
+  protected
+
+  def results
     results = by_states.each_with_object({}) do |value, memo|
       memo["#{value['period']} UTC"] ||= {}
       memo["#{value['period']} UTC"][value['name']] = value['count']
@@ -10,8 +24,6 @@ class Metric::OnboardingInfo < Metric::Base
     end
     results.sort.to_h
   end
-
-  protected
 
   def by_states
     sql = <<-SQL
