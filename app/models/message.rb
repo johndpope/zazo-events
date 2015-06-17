@@ -1,7 +1,7 @@
 class Message
   DELIVERED_STATUSES = %i(downloaded viewed).freeze
-  attr_reader :filename
-  alias_method :id, :filename
+  attr_reader :file_name
+  alias_method :id, :file_name
 
   def self.all_s3_events(options = {})
     events = Event.by_name(%w(video s3 uploaded))
@@ -26,29 +26,29 @@ class Message
     build_from_s3_events(all_s3_events(options))
   end
 
-  # @param filename_or_event
+  # @param file_name_or_event
   # @param events
-  def initialize(filename_or_event, events = nil)
-    if !filename_or_event.is_a?(String) &&
-       filename_or_event.is_a?(Event) &&
-       filename_or_event.name != %w(video s3 uploaded)
-      fail TypeError, 'value must be either filename or video:s3:uploaded event'
+  def initialize(file_name_or_event, events = nil)
+    if !file_name_or_event.is_a?(String) &&
+       file_name_or_event.is_a?(Event) &&
+       file_name_or_event.name != %w(video s3 uploaded)
+      fail TypeError, 'value must be either file_name or video:s3:uploaded event'
     end
-    if filename_or_event.is_a?(String)
-      @filename = filename_or_event
+    if file_name_or_event.is_a?(String)
+      @file_name = file_name_or_event
     else
-      @s3_event = filename_or_event
-      @filename = @s3_event.video_filename
+      @s3_event = file_name_or_event
+      @file_name = @s3_event.video_filename
     end
     @events ||= events
   end
 
   def ==(message)
-    super || filename == message.filename
+    super || file_name == message.file_name
   end
 
   def inspect
-    "#<#{self.class.name} #{filename}>"
+    "#<#{self.class.name} #{file_name}>"
   end
 
   def s3_event
@@ -56,16 +56,16 @@ class Message
   end
 
   def events
-    @events ||= Event.with_video_filename(filename).order(:triggered_at)
+    @events ||= Event.with_video_filename(file_name).order(:triggered_at)
   end
 
   def to_hash
     { id: id,
       sender_id: data.sender_id,
       receiver_id: data.receiver_id,
-      filename: filename,
-      date: date,
-      size: size,
+      uploaded_at: uploaded_at,
+      file_name: file_name,
+      file_size: file_size,
       status: status,
       delivered: delivered? }
   end
@@ -78,11 +78,11 @@ class Message
     @raw_params ||= Hashie::Mash.new(s3_event.raw_params)
   end
 
-  def date
+  def uploaded_at
     s3_event.triggered_at
   end
 
-  def size
+  def file_size
     raw_params.s3.object['size']
   end
 

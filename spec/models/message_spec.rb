@@ -3,19 +3,19 @@ require 'rails_helper'
 RSpec.describe Message, type: :model do
   let(:s3_event_raw) { json_fixture('s3_event')['Records'] }
   let(:s3_event) { Event.create_from_s3_event(s3_event_raw).first }
-  let(:filename) { s3_event.video_filename }
+  let(:file_name) { s3_event.video_filename }
   let(:sender_id) { s3_event.sender_id }
   let(:receiver_id) { s3_event.receiver_id }
-  let(:message) { described_class.new(filename) }
+  let(:message) { described_class.new(file_name) }
   let(:instance) { message }
 
   describe 'initialize' do
-    context 'by filename' do
-      let(:instance) { described_class.new(filename) }
+    context 'by file_name' do
+      let(:instance) { described_class.new(file_name) }
 
-      context '#filename' do
-        subject { instance.filename }
-        it { is_expected.to eq(filename) }
+      context '#file_name' do
+        subject { instance.file_name }
+        it { is_expected.to eq(file_name) }
       end
 
       context '#s3_event' do
@@ -27,9 +27,9 @@ RSpec.describe Message, type: :model do
     context 'by s3 event' do
       let(:instance) { described_class.new(s3_event) }
 
-      context '#filename' do
-        subject { instance.filename }
-        it { is_expected.to eq(filename) }
+      context '#file_name' do
+        subject { instance.file_name }
+        it { is_expected.to eq(file_name) }
       end
 
       context '#s3_event' do
@@ -42,7 +42,7 @@ RSpec.describe Message, type: :model do
       subject { described_class.new(build(:event, :video_kvstore_received)) }
 
       specify do
-        expect { subject }.to raise_error(TypeError, 'value must be either filename or video:s3:uploaded event')
+        expect { subject }.to raise_error(TypeError, 'value must be either file_name or video:s3:uploaded event')
       end
     end
   end
@@ -66,10 +66,10 @@ RSpec.describe Message, type: :model do
     end
 
     context 'with events given in initializer' do
-      let(:instance) { described_class.new(filename, []) }
+      let(:instance) { described_class.new(file_name, []) }
 
       specify do
-        expect(Event).to_not receive(:with_video_filename).with(filename)
+        expect(Event).to_not receive(:with_video_filename).with(file_name)
         subject
       end
     end
@@ -80,7 +80,7 @@ RSpec.describe Message, type: :model do
     it { is_expected.to eq(s3_event) }
 
     context 'no s3 event found' do
-      let(:filename) { 'unknown' }
+      let(:file_name) { 'unknown' }
       specify do
         expect { subject }.to raise_error('no video:s3:uploaded event found')
       end
@@ -93,7 +93,7 @@ RSpec.describe Message, type: :model do
       is_expected.to eq(
         'sender_id' => sender_id,
         'receiver_id' => receiver_id,
-        'video_filename' => filename)
+        'video_filename' => file_name)
     end
   end
 
@@ -104,33 +104,33 @@ RSpec.describe Message, type: :model do
 
   context '#id' do
     subject { instance.id }
-    it { is_expected.to eq(filename) }
+    it { is_expected.to eq(file_name) }
   end
 
-  context '#filename' do
-    subject { instance.filename }
-    it { is_expected.to eq(filename) }
+  context '#file_name' do
+    subject { instance.file_name }
+    it { is_expected.to eq(file_name) }
   end
 
-  context '#date' do
-    subject { instance.date }
+  context '#uploaded_at' do
+    subject { instance.uploaded_at }
     it { is_expected.to eq(s3_event.triggered_at) }
   end
 
-  context '#size' do
-    subject { instance.size }
+  context '#file_size' do
+    subject { instance.file_size }
     it { is_expected.to eq(94_555) }
   end
 
   context 'to_hash' do
     subject { instance.to_hash }
     specify do
-      is_expected.to eq(id: filename,
+      is_expected.to eq(id: file_name,
                         sender_id: sender_id,
                         receiver_id: receiver_id,
-                        filename: filename,
-                        date: '2015-04-22T18:01:20.663Z'.to_datetime,
-                        size: 94_555,
+                        uploaded_at: '2015-04-22T18:01:20.663Z'.to_datetime,
+                        file_name: file_name,
+                        file_size: 94_555,
                         status: :uploaded,
                         delivered: false)
     end
@@ -139,12 +139,12 @@ RSpec.describe Message, type: :model do
   context 'to_json' do
     subject { instance.to_json }
     specify do
-      is_expected.to eq({ id: filename,
+      is_expected.to eq({ id: file_name,
                           sender_id: sender_id,
                           receiver_id: receiver_id,
-                          filename: filename,
-                          date: '2015-04-22T18:01:20.663Z',
-                          size: 94_555,
+                          uploaded_at: '2015-04-22T18:01:20.663Z',
+                          file_name: file_name,
+                          file_size: 94_555,
                           status: :uploaded,
                           delivered: false }.to_json)
     end
@@ -279,12 +279,12 @@ RSpec.describe Message, type: :model do
         it { is_expected.to all(be_an(Event)) }
 
         specify do
-          expect(Event).to_not receive(:with_video_filename).with(filename)
+          expect(Event).to_not receive(:with_video_filename).with(file_name)
           subject
         end
 
         it 'all with specified video_filename' do
-          is_expected.to all(satisfy { |e| e.video_filename == filename })
+          is_expected.to all(satisfy { |e| e.video_filename == file_name })
         end
       end
     end
