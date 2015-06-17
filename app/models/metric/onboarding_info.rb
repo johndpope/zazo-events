@@ -1,12 +1,12 @@
 class Metric::OnboardingInfo < Metric::Base
   def generate
     results = by_states.each_with_object({}) do |value, memo|
-      memo[value['period']] ||= {}
-      memo[value['period']][value['name']] = value['count']
+      memo["#{value['period']} UTC"] ||= {}
+      memo["#{value['period']} UTC"][value['name']] = value['count']
     end
     by_active.each do |value|
-      results[value['period']] ||= {}
-      results[value['period']]['active'] = value['count']
+      results["#{value['period']} UTC"] ||= {}
+      results["#{value['period']} UTC"]['active'] = value['count']
     end
     results.sort.to_h
   end
