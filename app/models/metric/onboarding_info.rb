@@ -6,7 +6,7 @@ class Metric::OnboardingInfo < Metric::Base
     data.keys.each_with_object({}) do |key, memo|
       STATES.each do |state|
         memo[state] ||= {}
-        memo[state][key] = data[key][state] || 0
+        memo[state][key] = (data[key][state] || 0).to_i
       end
     end
   end
