@@ -19,7 +19,7 @@ class Message
                    .group_by(&:video_filename)
     s3_events.map do |s3_event|
       Message.new(s3_event, events_cache[s3_event.video_filename])
-    end
+    end.uniq(&:id)
   end
 
   def self.all(options = {})
@@ -44,7 +44,7 @@ class Message
   end
 
   def ==(message)
-    super || file_name == message.file_name
+    super || id == message.id
   end
 
   def inspect
