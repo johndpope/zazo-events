@@ -20,7 +20,13 @@ module EventBuilders
   end
 
   def send_video(data)
-    create :event, :video_s3_uploaded, data: data
+    e = build :event, :video_s3_uploaded, initiator_id: data[:sender_id],
+                                          target_id: data[:video_filename],
+                                          data: data
+    e.initiator = 'user'
+    e.target = 'video'
+    e.save
+    e
   end
 
   def kvstore_receive_video(data)

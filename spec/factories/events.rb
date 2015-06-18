@@ -24,6 +24,41 @@ FactoryGirl.define do
       name %w(video s3 uploaded)
       triggered_by 'aws:s3'
       initiator 's3'
+      raw_params do
+        {
+          'eventVersion' => '2.0',
+          'eventSource' => 'aws:s3',
+          'awsRegion' => 'us-west-1',
+          'eventTime' => '2015-04-22T18:01:20.663Z',
+          'eventName' => 'ObjectCreated:Put',
+          'userIdentity' => {
+            'principalId' => 'AWS:AIDAIUFT72XFHDTJOMRJW'
+          },
+          'requestParameters' => {
+            'sourceIPAddress' => '49.204.248.238'
+          },
+          'responseElements' => {
+            'x-amz-request-id' => 'EEC1C1CCB42A1720',
+            'x-amz-id-2' => '/6QHbf9n3yNRrAuCz6kRkeAHTIl7fxr3ZOrnpMw6xqdgTwEK1RVU7D4R68OsFgjH0fB1LaFKaSU='
+          },
+          's3' => {
+            's3SchemaVersion' => '1.0',
+            'configurationId' => 'zazo-videos-to-sqs',
+            'bucket' => {
+              'name' => 'videos.zazo.com',
+              'ownerIdentity' => {
+                'principalId' => 'A2MSYRMSE88G92'
+              },
+              'arn' => 'arn:aws:s3:::videos.zazo.com'
+            },
+            'object' => {
+              'key' => data['video_filename'],
+              'size' => 94_555,
+              'eTag' => 'd99d0f13a57d938a1e55b5030feb992e'
+            }
+          }
+        }
+      end
     end
 
     trait :video_kvstore_received do
