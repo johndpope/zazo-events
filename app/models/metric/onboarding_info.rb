@@ -1,6 +1,10 @@
 class Metric::OnboardingInfo < Metric::Base
   STATES = %w(active invited registered verified)
 
+  def self.type
+    :onboarding_info
+  end
+
   def generate
     data = results
     data.keys.each_with_object({}) do |key, memo|
