@@ -30,6 +30,7 @@ RSpec.describe Metric, type: :model do
        Metric::MessagesCountBetweenUsers,
        Metric::MessagesCountByPeriod,
        Metric::MessagesSent,
+       Metric::OnboardingInfo,
        Metric::UsageByActiveUsers,
        Metric::UserActivity]
     end
