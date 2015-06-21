@@ -1,46 +1,47 @@
 class Metric::InvitationFunnel < Metric::Base
   def generate
     {
-      active_sent_invitations: active_sent_invitations,
+      verified_sent_invitations: verified_sent_invitations,
       average_invitations_count: average_invitations_count
     }
   end
 
   protected
 
-  def active_sent_invitations
+  def verified_sent_invitations
     sql = <<-SQL
-      WITH active AS (
+      WITH invited AS (
         SELECT
-          DISTINCT data->>'sender_id' sender,
-          MIN(triggered_at) becoming_active
-        FROM events
-        WHERE name @> ARRAY['video', 's3', 'uploaded']::VARCHAR[]
-        GROUP BY sender
-      ), invited AS (
-        SELECT
-          initiator_id target,
+          initiator_id invitee,
           triggered_at
         FROM events
         WHERE name @> ARRAY['user', 'invited']::VARCHAR[]
-      ), inviters AS (
+      ), verified AS (
         SELECT
-          DISTINCT events.initiator_id inviter,
-          MIN(events.triggered_at) first_invitation
+          DISTINCT events.initiator_id initiator,
+          MIN(events.triggered_at) becoming_verified
         FROM events
-        INNER JOIN invited ON events.target_id = invited.target
-        WHERE
-          name @> ARRAY['user', 'invitation_sent']::VARCHAR[] AND
-          EXTRACT(EPOCH FROM events.triggered_at - invited.triggered_at) < 1
-        GROUP BY inviter
+          INNER JOIN invited ON events.initiator_id = invited.invitee
+        WHERE name @> ARRAY['user', 'verified']::VARCHAR[]
+        GROUP BY initiator_id
+      ), inviters AS (
+          SELECT
+            DISTINCT events.initiator_id inviter,
+            MIN(events.triggered_at) first_invitation
+          FROM events
+            INNER JOIN invited ON events.target_id = invited.invitee
+          WHERE
+            name @> ARRAY['user', 'invitation_sent']::VARCHAR[] AND
+            EXTRACT(EPOCH FROM events.triggered_at - invited.triggered_at) < 1
+          GROUP BY inviter
       ) SELECT
-          (SELECT COUNT(*) FROM active) total_active,
-          COUNT(*) active_sent_invitation,
-          AVG(EXTRACT(EPOCH FROM
-                inviters.first_invitation -
-                active.becoming_active) / 3600) avg_in_hours
-        FROM active
-        INNER JOIN inviters ON active.sender = inviters.inviter
+          (SELECT COUNT(*) FROM verified) total_verified,
+          COUNT(*) verified_sent_invitations,
+          ROUND(AVG(EXTRACT(EPOCH FROM
+            inviters.first_invitation -
+            verified.becoming_verified) / 3600)::numeric) avg_delay_in_hours
+        FROM verified
+          INNER JOIN inviters ON verified.initiator = inviters.inviter
     SQL
     Event.connection.select_all(sql)[0]
   end
@@ -85,10 +86,11 @@ class Metric::InvitationFunnel < Metric::Base
         GROUP BY week, initiator
       ) SELECT
           week week_after_verified,
-          SUM(invitations_count) / (SELECT COUNT(*) FROM count_by_weeks) avg_invitations_count
+          ROUND(SUM(invitations_count) / (SELECT COUNT(*) FROM count_by_weeks), 2) avg_invitations_count
         FROM count_by_weeks
         GROUP BY week
+        ORDER BY week
     SQL
-    Event.connection.select_all(sql)[0]
+    Event.connection.select_all(sql)
   end
 end
