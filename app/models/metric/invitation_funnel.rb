@@ -1,4 +1,8 @@
 class Metric::InvitationFunnel < Metric::Base
+  def self.type
+    :invitation_funnel
+  end
+
   def generate
     {
       verified_sent_invitations: verified_sent_invitations[0],
