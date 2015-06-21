@@ -1,15 +1,20 @@
 class Metric::InvitationFunnel < Metric::Base
   def generate
     {
-      verified_sent_invitations: verified_sent_invitations,
-      average_invitations_count: average_invitations_count
+      verified_sent_invitations: verified_sent_invitations[0],
+      average_invitations_count: average_invitations_count,
+      invited_that_register:     invited_that_register[0]
     }
   end
 
   protected
 
+  def query(sql)
+    Event.connection.select_all sql
+  end
+
   def verified_sent_invitations
-    sql = <<-SQL
+    query <<-SQL
       WITH invited AS (
         SELECT
           initiator_id invitee,
@@ -43,11 +48,10 @@ class Metric::InvitationFunnel < Metric::Base
         FROM verified
           INNER JOIN inviters ON verified.initiator = inviters.inviter
     SQL
-    Event.connection.select_all(sql)[0]
   end
 
   def average_invitations_count
-    sql = <<-SQL
+    query <<-SQL
       WITH invited AS (
         SELECT
           initiator_id invitee,
@@ -59,7 +63,7 @@ class Metric::InvitationFunnel < Metric::Base
           DISTINCT events.initiator_id initiator,
           MIN(events.triggered_at) becoming_verified
         FROM events
-        INNER JOIN invited ON events.initiator_id = invited.invitee
+          INNER JOIN invited ON events.initiator_id = invited.invitee
         WHERE name @> ARRAY['user', 'verified']::VARCHAR[]
         GROUP BY initiator_id
       ), inviters AS (
@@ -74,23 +78,52 @@ class Metric::InvitationFunnel < Metric::Base
           EXTRACT(EPOCH FROM events.triggered_at - invited.triggered_at) < 1
       ), group_by_weeks AS (
         SELECT
-          extract(days from (inviters.invite_sent - verified.becoming_verified) / 7) + 1 week,
+          EXTRACT(days FROM (inviters.invite_sent - verified.becoming_verified) / 7) + 1 week,
           verified.initiator
-        FROM verified INNER JOIN inviters ON verified.initiator = inviters.inviter
+        FROM verified
+          INNER JOIN inviters ON verified.initiator = inviters.inviter
       ), count_by_weeks AS (
         SELECT
           week,
           initiator,
           COUNT(initiator) invitations_count
-        FROM group_by_weeks INNER JOIN generate_series(1, 6) number ON number = group_by_weeks.week
+        FROM group_by_weeks
+          INNER JOIN generate_series(1, 6) number ON number = group_by_weeks.week
         GROUP BY week, initiator
       ) SELECT
           week week_after_verified,
-          ROUND(SUM(invitations_count) / (SELECT COUNT(*) FROM count_by_weeks), 2) avg_invitations_count
+          ROUND(SUM(invitations_count) /
+            (SELECT COUNT(*) FROM count_by_weeks), 2) avg_invitations_count
         FROM count_by_weeks
         GROUP BY week
         ORDER BY week
     SQL
-    Event.connection.select_all(sql)
+  end
+
+  def invited_that_register
+    query <<-SQL
+      WITH invited AS (
+        SELECT
+          initiator_id invitee,
+          triggered_at
+        FROM events
+        WHERE name @> ARRAY['user', 'invited']::VARCHAR[]
+      ), registered AS (
+        SELECT
+          DISTINCT events.initiator_id initiator,
+          MIN(events.triggered_at) becoming_registered
+        FROM events
+          INNER JOIN invited ON events.initiator_id = invited.invitee
+        WHERE name @> ARRAY['user', 'registered']::VARCHAR[]
+        GROUP BY initiator_id
+      ) SELECT
+          (SELECT COUNT(*) FROM invited) total_invited,
+          COUNT(*) invited_that_register,
+          ROUND(AVG(EXTRACT(EPOCH FROM
+            registered.becoming_registered -
+            invited.triggered_at) / 3600)::numeric) avg_delay_in_hours
+        FROM registered
+          INNER JOIN invited ON registered.initiator = invited.invitee
+    SQL
   end
 end
