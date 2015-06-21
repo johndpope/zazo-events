@@ -3,7 +3,8 @@ class Metric::InvitationFunnel < Metric::Base
     {
       verified_sent_invitations: verified_sent_invitations[0],
       average_invitations_count: average_invitations_count,
-      invited_that_register:     invited_that_register[0]
+      invited_to_registered:     invited_to_registered[0],
+      registered_to_verified:    registered_to_verified[0]
     }
   end
 
@@ -100,7 +101,7 @@ class Metric::InvitationFunnel < Metric::Base
     SQL
   end
 
-  def invited_that_register
+  def invited_to_registered
     query <<-SQL
       WITH invited AS (
         SELECT
@@ -124,6 +125,42 @@ class Metric::InvitationFunnel < Metric::Base
             invited.triggered_at) / 3600)::numeric) avg_delay_in_hours
         FROM registered
           INNER JOIN invited ON registered.initiator = invited.invitee
+    SQL
+  end
+
+  def registered_to_verified
+    query <<-SQL
+      WITH invited AS (
+        SELECT
+          initiator_id invitee,
+          triggered_at
+        FROM events
+        WHERE name @> ARRAY['user', 'invited']::VARCHAR[]
+      ), registered AS (
+        SELECT
+          DISTINCT
+          events.initiator_id initiator,
+          MIN(events.triggered_at) becoming_registered
+        FROM events
+          INNER JOIN invited ON events.initiator_id = invited.invitee
+        WHERE name @> ARRAY['user', 'registered']::VARCHAR[]
+        GROUP BY initiator_id
+      ), verified AS (
+        SELECT
+          initiator_id initiator,
+          becoming_registered,
+          MIN(events.triggered_at) becoming_verified
+        FROM events
+          INNER JOIN registered ON events.initiator_id = registered.initiator
+        WHERE name @> ARRAY['user', 'verified']::VARCHAR[]
+        GROUP BY initiator_id, becoming_registered
+      ) SELECT
+          (SELECT COUNT(*) FROM registered) total_registered,
+          (SELECT COUNT(*) FROM verified) registered_that_verify,
+          ROUND(AVG(EXTRACT(EPOCH FROM
+            becoming_verified -
+            becoming_registered) / 60)::numeric) avg_delay_in_minutes
+        FROM verified
     SQL
   end
 end
