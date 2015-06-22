@@ -18,6 +18,7 @@ class Event < ActiveRecord::Base
   scope :with_receiver, -> (user_id){ where("data->>'receiver_id' = ?", user_id) }
   scope :with_video_filename, -> (video_filename){ where("data->>'video_filename' = ?", video_filename) }
   scope :with_video_filenames, -> (video_filenames){ where("data->>'video_filename' IN (?)", video_filenames) }
+  scope :video_s3_uploaded, -> { where('name = ARRAY[?]::varchar[]', %w(video s3 uploaded)) }
 
   paginates_per 100
 
