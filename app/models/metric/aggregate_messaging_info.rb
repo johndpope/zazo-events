@@ -6,7 +6,7 @@ class Metric::AggregateMessagingInfo < Metric::Base
   def generate
     %i(outgoing incoming).each_with_object({}) do |direction, result|
       scope = find_scope(direction)
-      total_sent = reduce(scope.by_name(%w(video s3 uploaded)))
+      total_sent = reduce(scope.video_s3_uploaded)
       total_received = reduce(scope.name_overlap(%w(downloaded viewed)))
       result[direction] ||= {}
       result[direction][:total_sent] = total_sent
