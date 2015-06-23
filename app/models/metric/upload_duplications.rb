@@ -1,6 +1,6 @@
 class Metric::UploadDuplications < Metric::Base
   def self.type
-    :aggregated_by_sender_id
+    :upload_duplications
   end
 
   def generate
