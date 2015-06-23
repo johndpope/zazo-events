@@ -1,4 +1,8 @@
 class Metric::UploadDuplications < Metric::Base
+  def self.type
+    :aggregated_by_sender_id
+  end
+
   def generate
     reduce(data)
   end
