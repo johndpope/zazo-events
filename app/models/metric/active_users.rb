@@ -8,7 +8,7 @@ class Metric::ActiveUsers < Metric::Base
   private
 
   def video_uploaded
-    @video_uploaded ||= common_scope.by_name(%w(video s3 uploaded)).group("data->>'sender_id'").count("data->>'sender_id'")
+    @video_uploaded ||= common_scope.video_s3_uploaded.group("data->>'sender_id'").count("data->>'sender_id'")
   end
 
   def video_viewed

@@ -24,6 +24,6 @@ class Metric::UsageByActiveUsers < Metric::Base
   end
 
   def messages_sent_scope
-    Event.by_name(%w(video s3 uploaded)).send(:"group_by_#{group_by}", :triggered_at)
+    Event.video_s3_uploaded.send(:"group_by_#{group_by}", :triggered_at)
   end
 end
