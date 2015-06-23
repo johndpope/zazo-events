@@ -4,7 +4,7 @@ class Message
   alias_method :id, :file_name
 
   def self.all_s3_events(options = {})
-    events = Event.by_name(%w(video s3 uploaded))
+    events = Event.video_s3_uploaded
     events = events.with_sender(options.fetch(:sender_id)) if options.key?(:sender_id)
     events = events.with_receiver(options.fetch(:receiver_id)) if options.key?(:receiver_id)
     events = events.page(options.fetch(:page, 1))
