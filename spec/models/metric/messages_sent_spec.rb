@@ -12,8 +12,6 @@ RSpec.describe Metric::MessagesSent, type: :model do
   let(:video_4) { gen_video_id }
   let(:video_5) { gen_video_id }
   let(:video_6) { gen_video_id }
-  let(:video_7) { gen_video_id }
-  let(:video_8) { gen_video_id }
 
   describe '#generate' do
     subject { instance.generate }
