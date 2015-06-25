@@ -35,23 +35,40 @@ class Metric::InvitationFunnel < Metric::Base
         WHERE name @> ARRAY['user', 'verified']::VARCHAR[]
         GROUP BY initiator_id
       ), inviters AS (
+        SELECT
+          DISTINCT events.initiator_id inviter,
+          MIN(events.triggered_at) first_invitation
+        FROM events
+          INNER JOIN invited ON events.target_id = invited.invitee
+        WHERE
+          name @> ARRAY['user', 'invitation_sent']::VARCHAR[] AND
+          EXTRACT(EPOCH FROM events.triggered_at - invited.triggered_at) < 1
+        GROUP BY inviter
+      ), verified_not_inviters AS (
+        SELECT
+          verified.initiator,
+          verified.becoming_verified
+        FROM verified
+          LEFT OUTER JOIN inviters ON verified.initiator = inviters.inviter
+        WHERE inviters.inviter IS NULL
+      ), verified_sent_invitations AS (
           SELECT
-            DISTINCT events.initiator_id inviter,
-            MIN(events.triggered_at) first_invitation
-          FROM events
-            INNER JOIN invited ON events.target_id = invited.invitee
-          WHERE
-            name @> ARRAY['user', 'invitation_sent']::VARCHAR[] AND
-            EXTRACT(EPOCH FROM events.triggered_at - invited.triggered_at) < 1
-          GROUP BY inviter
+            COUNT(*) verified_sent_invitations,
+            ROUND(AVG(EXTRACT(EPOCH FROM
+              inviters.first_invitation -
+              verified.becoming_verified) / 3600)::numeric) avg_delay_in_hours
+          FROM verified
+            INNER JOIN inviters ON verified.initiator = inviters.inviter
       ) SELECT
           (SELECT COUNT(*) FROM verified) total_verified,
-          COUNT(*) verified_sent_invitations,
-          ROUND(AVG(EXTRACT(EPOCH FROM
-            inviters.first_invitation -
-            verified.becoming_verified) / 3600)::numeric) avg_delay_in_hours
-        FROM verified
-          INNER JOIN inviters ON verified.initiator = inviters.inviter
+          verified_sent_invitations,
+          avg_delay_in_hours,
+          (SELECT COUNT(*) FROM verified_not_inviters) verified_not_invite,
+          COUNT(*) verified_not_invite_more_6_weeks_old
+        FROM verified_not_inviters
+          CROSS JOIN verified_sent_invitations
+        WHERE becoming_verified < NOW() - INTERVAL '6 weeks'
+        GROUP BY verified_sent_invitations, avg_delay_in_hours
     SQL
   end
 
