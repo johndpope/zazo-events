@@ -7,6 +7,7 @@ class Metric::InvitationFunnel < Metric::Base
     {
       verified_sent_invitations: verified_sent_invitations[0],
       average_invitations_count: average_invitations_count,
+      verified_to_active:        verified_to_active[0],
       invited_to_registered:     invited_to_registered[0],
       registered_to_verified:    registered_to_verified[0]
     }
@@ -133,6 +134,39 @@ class Metric::InvitationFunnel < Metric::Base
         FROM count_by_weeks
         GROUP BY week
         ORDER BY week
+    SQL
+  end
+
+  def verified_to_active
+    query <<-SQL
+      WITH invited AS (
+        SELECT
+          initiator_id invitee,
+          triggered_at
+        FROM events
+        WHERE name @> ARRAY['user', 'invited']::VARCHAR[]
+      ), verified AS (
+        SELECT
+          events.initiator_id initiator,
+          MIN(events.triggered_at) becoming_verified
+        FROM events
+          INNER JOIN invited ON events.initiator_id = invited.invitee
+        WHERE name @> ARRAY['user', 'verified']::VARCHAR[]
+        GROUP BY initiator_id
+      ), active AS (
+        SELECT
+          events.data->>'sender_id' initiator,
+          MIN(events.triggered_at) becoming_active
+        FROM events
+        WHERE name @> ARRAY['video', 's3', 'uploaded']::VARCHAR[]
+        GROUP BY data->>'sender_id'
+      ) SELECT
+          (SELECT COUNT(*) FROM verified) total_verified,
+          COUNT(*) verified_that_active,
+          ROUND(AVG(EXTRACT(EPOCH FROM becoming_active -
+                            becoming_verified) / 60)::numeric) avg_delay_in_minutes
+        FROM active
+          INNER JOIN verified ON verified.initiator = active.initiator
     SQL
   end
 
