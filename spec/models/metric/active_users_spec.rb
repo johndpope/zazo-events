@@ -6,89 +6,61 @@ RSpec.describe Metric::ActiveUsers, type: :model do
   describe '#generate' do
     subject { instance.generate }
 
+    (1..13).each do |i|
+      let(:"sender_#{i}") { gen_hash }
+      let(:"receiver_#{i}") { gen_hash }
+      let(:"video_#{i}") { gen_hash }
+    end
+
     context 'by day' do
       let(:group_by) { :day }
 
       context 'dataset 1' do
         before do
           Timecop.travel(3.days.ago) do
-            sender_id = gen_hash
-            receiver_id = gen_hash
-            video_id = gen_video_id
-            send_video(video_data(sender_id, receiver_id, video_id))
-            send_video(video_data(sender_id, receiver_id, video_id))
+            send_video(video_data(sender_1, receiver_1, video_1))
+            send_video(video_data(sender_1, receiver_1, video_2))
+            send_video(video_data(sender_1, receiver_1, video_2))
 
-            sender_id = gen_hash
-            receiver_id = gen_hash
-            video_id = gen_video_id
-            receive_video(video_data(sender_id, receiver_id, video_id))
+            receive_video(video_data(sender_3, receiver_3, video_3))
 
-            sender_id = gen_hash
-            receiver_id = gen_hash
-            video_id = gen_video_id
-            receive_video(video_data(sender_id, receiver_id, video_id))
-            download_video(video_data(sender_id, receiver_id, video_id))
+            receive_video(video_data(sender_4, receiver_4, video_4))
+            download_video(video_data(sender_4, receiver_4, video_4))
 
-            sender_id = gen_hash
-            receiver_id = gen_hash
-            video_id = gen_video_id
-            receive_video(video_data(sender_id, receiver_id, video_id))
-            download_video(video_data(sender_id, receiver_id, video_id))
-            view_video(video_data(sender_id, receiver_id, video_id))
-            receive_video(video_data(sender_id, receiver_id, video_id))
-            download_video(video_data(sender_id, receiver_id, video_id))
-            view_video(video_data(sender_id, receiver_id, video_id))
+            receive_video(video_data(sender_5, receiver_5, video_5))
+            download_video(video_data(sender_5, receiver_5, video_5))
+            view_video(video_data(sender_5, receiver_5, video_5))
+            receive_video(video_data(sender_5, receiver_5, video_5))
+            download_video(video_data(sender_5, receiver_5, video_5))
+            view_video(video_data(sender_5, receiver_5, video_5))
           end
           Timecop.travel(2.days.ago) do
-            sender_id = gen_hash
-            receiver_id = gen_hash
-            video_id = gen_video_id
-            send_video(video_data(sender_id, receiver_id, video_id))
+            send_video(video_data(sender_6, receiver_6, video_6))
 
-            sender_id = gen_hash
-            receiver_id = gen_hash
-            video_id = gen_video_id
-            send_video(video_data(sender_id, receiver_id, video_id))
-            receive_video(video_data(sender_id, receiver_id, video_id))
+            send_video(video_data(sender_7, receiver_7, video_7))
+            send_video(video_data(sender_7, receiver_7, video_7))
+            receive_video(video_data(sender_7, receiver_7, video_7))
 
-            sender_id = gen_hash
-            receiver_id = gen_hash
-            video_id = gen_video_id
-            receive_video(video_data(sender_id, receiver_id, video_id))
-            download_video(video_data(sender_id, receiver_id, video_id))
+            receive_video(video_data(sender_8, receiver_8, video_8))
+            download_video(video_data(sender_8, receiver_8, video_8))
 
-            sender_id = gen_hash
-            receiver_id = gen_hash
-            video_id = gen_video_id
-            receive_video(video_data(sender_id, receiver_id, video_id))
-            download_video(video_data(sender_id, receiver_id, video_id))
-            view_video(video_data(sender_id, receiver_id, video_id))
+            receive_video(video_data(sender_9, receiver_9, video_9))
+            download_video(video_data(sender_9, receiver_9, video_9))
+            view_video(video_data(sender_9, receiver_9, video_9))
           end
           Timecop.travel(1.days.ago) do
-            sender_id = gen_hash
-            receiver_id = gen_hash
-            video_id = gen_video_id
-            send_video(video_data(sender_id, receiver_id, video_id))
+            send_video(video_data(sender_10, receiver_10, video_10))
 
-            sender_id = gen_hash
-            receiver_id = gen_hash
-            video_id = gen_video_id
-            send_video(video_data(sender_id, receiver_id, video_id))
-            receive_video(video_data(sender_id, receiver_id, video_id))
+            send_video(video_data(sender_11, receiver_11, video_11))
+            receive_video(video_data(sender_11, receiver_11, video_11))
 
-            sender_id = gen_hash
-            receiver_id = gen_hash
-            video_id = gen_video_id
-            receive_video(video_data(sender_id, receiver_id, video_id))
-            download_video(video_data(sender_id, receiver_id, video_id))
-            view_video(video_data(sender_id, receiver_id, video_id))
+            receive_video(video_data(sender_12, receiver_12, video_12))
+            download_video(video_data(sender_12, receiver_12, video_12))
+            view_video(video_data(sender_12, receiver_12, video_12))
 
-            sender_id = gen_hash
-            receiver_id = gen_hash
-            video_id = gen_video_id
-            receive_video(video_data(sender_id, receiver_id, video_id))
-            download_video(video_data(sender_id, receiver_id, video_id))
-            view_video(video_data(sender_id, receiver_id, video_id))
+            receive_video(video_data(sender_13, receiver_13, video_13))
+            download_video(video_data(sender_13, receiver_13, video_13))
+            view_video(video_data(sender_13, receiver_13, video_13))
           end
         end
 
