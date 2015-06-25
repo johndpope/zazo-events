@@ -6,7 +6,7 @@ RSpec.describe Api::V1::EventsController, type: :controller do
   let(:attributes) do
     { name: %w(video s3 uploaded),
       triggered_by: 'aws:s3',
-      triggered_at: '2015-04-22T18:01:20.663Z',
+      triggered_at: '2015-04-22T18:01:20.663Z'.to_datetime,
       initiator: 's3',
       initiator_id: nil,
       target: 'video',
@@ -145,7 +145,7 @@ RSpec.describe Api::V1::EventsController, type: :controller do
     context 'generic event' do
       let(:params) do
         { name: %w(video notification received),
-          triggered_at: DateTime.now.utc.to_json,
+          triggered_at: '2015-06-25 12:56:52Z'.to_datetime,
           triggered_by: 'zazo:api',
           initiator: 'admin',
           initiator_id: nil,

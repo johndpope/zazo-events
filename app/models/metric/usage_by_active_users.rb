@@ -12,7 +12,7 @@ class Metric::UsageByActiveUsers < Metric::Base
   private
 
   def total_messages
-    @total_messages ||= messages_sent_scope.count
+    @total_messages ||= messages_sent_scope.count("data->>'video_filename'")
   end
 
   def users_sent_message
@@ -24,6 +24,9 @@ class Metric::UsageByActiveUsers < Metric::Base
   end
 
   def messages_sent_scope
-    Event.video_s3_uploaded.send(:"group_by_#{group_by}", :triggered_at)
+    Event.video_s3_uploaded
+      .distinct
+      .select(:triggered_at, "data->>'video_filename'")
+      .send(:"group_by_#{group_by}", :triggered_at)
   end
 end
