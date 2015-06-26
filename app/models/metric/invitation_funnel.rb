@@ -107,30 +107,30 @@ class Metric::InvitationFunnel < Metric::Base
           INNER JOIN inviters ON verified.initiator = inviters.inviter
       ), count_by_six_weeks AS (
         SELECT
-          week::TEXT,
-          initiator,
+          number::TEXT week,
+          initiator::TEXT,
           COUNT(initiator) invitations_count
         FROM group_by_weeks
-          INNER JOIN generate_series(1, 6) number ON number = group_by_weeks.week
-        GROUP BY week, initiator
+          RIGHT OUTER JOIN generate_series(1, 6) number ON number = group_by_weeks.week
+        GROUP BY number, initiator
       ), count_after_six_weeks AS (
         SELECT
           'after 6 weeks'::TEXT week_after_verified,
-          initiator,
+          NULL::TEXT initiator,
           COUNT(*) invitations_count
         FROM group_by_weeks
         WHERE week > 6
-        GROUP BY initiator
       ), count_by_weeks AS (
         SELECT *
         FROM count_by_six_weeks
         UNION
-          SELECT *
-          FROM count_after_six_weeks
+        SELECT *
+        FROM count_after_six_weeks
       ) SELECT
           week week_after_verified,
           ROUND(SUM(invitations_count) /
-                (SELECT COUNT(*) FROM count_by_weeks), 2) avg_invitations_count
+            (SELECT COUNT(*) FROM count_by_weeks WHERE initiator IS NOT NULL)
+          , 2) avg_invitations_count
         FROM count_by_weeks
         GROUP BY week
         ORDER BY week
