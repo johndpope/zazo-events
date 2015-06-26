@@ -7,9 +7,9 @@ class Metric::InvitationFunnel < Metric::Base
     {
       verified_sent_invitations: verified_sent_invitations[0],
       average_invitations_count: average_invitations_count,
-      verified_to_active:        verified_to_active[0],
       invited_to_registered:     invited_to_registered[0],
-      registered_to_verified:    registered_to_verified[0]
+      registered_to_verified:    registered_to_verified[0],
+      verified_to_active:        verified_to_active[0]
     }
   end
 
