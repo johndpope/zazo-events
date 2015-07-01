@@ -78,8 +78,10 @@ class Message
       file_size: file_size,
       status: status,
       delivered: delivered?,
+      complete: complete?,
       missing_events: missing_events }
   end
+  alias_method :to_h, :to_hash
 
   def data
     @data ||= Hashie::Mash.new(s3_event.data)
@@ -116,6 +118,14 @@ class Message
                        events.map(&:name)
                      end
     ALL_EVENTS - existed_events
+  end
+
+  def complete?
+    missing_events.empty?
+  end
+
+  def incomplete?
+    !complete?
   end
 
   protected
