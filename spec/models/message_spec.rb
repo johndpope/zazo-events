@@ -8,6 +8,7 @@ RSpec.describe Message, type: :model do
   let(:receiver_id) { s3_event.receiver_id }
   let(:message) { described_class.new(file_name) }
   let(:instance) { message }
+  let(:missing_events) { Message::ALL_EVENTS - [%w(video s3 uploaded)] }
 
   describe 'initialize' do
     context 'by file_name' do
@@ -132,7 +133,8 @@ RSpec.describe Message, type: :model do
                         file_name: file_name,
                         file_size: 94_555,
                         status: :uploaded,
-                        delivered: false)
+                        delivered: false,
+                        missing_events: missing_events)
     end
   end
 
@@ -146,7 +148,8 @@ RSpec.describe Message, type: :model do
                           file_name: file_name,
                           file_size: 94_555,
                           status: :uploaded,
-                          delivered: false }.to_json)
+                          delivered: false,
+                          missing_events: missing_events }.to_json)
     end
   end
 
@@ -312,6 +315,52 @@ RSpec.describe Message, type: :model do
     context 'when receiver_id given' do
       let(:options) { { receiver_id: receiver_id } }
       it { is_expected.to eq([message, message_1, message_2]) }
+    end
+  end
+
+  describe '#missing_events' do
+    subject { instance.missing_events }
+
+    context 'kvstore: R, D; notification: V' do
+      before do
+        notification_receive_video s3_event.data
+        notification_download_video s3_event.data
+        kvstore_view_video s3_event.data
+      end
+
+      it do
+        is_expected.to eq([
+          %w(video kvstore received),
+          %w(video kvstore downloaded),
+          %w(video notification viewed)
+        ]) end
+    end
+
+    context 'notification: D, V' do
+      before do
+        receive_video s3_event.data
+        kvstore_download_video s3_event.data
+        kvstore_view_video s3_event.data
+      end
+
+      it do
+        is_expected.to eq([
+          %w(video notification downloaded),
+          %w(video notification viewed)
+        ]) end
+    end
+
+    context 'kvstore: V' do
+      before do
+        receive_video s3_event.data
+        download_video s3_event.data
+        notification_view_video s3_event.data
+      end
+
+      it do
+        is_expected.to eq([
+          %w(video kvstore viewed)
+        ]) end
     end
   end
 end

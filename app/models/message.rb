@@ -1,5 +1,15 @@
 class Message
   DELIVERED_STATUSES = %i(downloaded viewed).freeze
+  ALL_EVENTS = [
+    %w(video s3 uploaded),
+    %w(video kvstore received),
+    %w(video notification received),
+    %w(video kvstore downloaded),
+    %w(video notification downloaded),
+    %w(video kvstore viewed),
+    %w(video notification viewed)
+  ].freeze
+
   attr_reader :file_name
   alias_method :id, :file_name
 
@@ -67,7 +77,8 @@ class Message
       file_name: file_name,
       file_size: file_size,
       status: status,
-      delivered: delivered? }
+      delivered: delivered?,
+      missing_events: missing_events }
   end
 
   def data
@@ -98,10 +109,19 @@ class Message
     !delivered?
   end
 
+  def missing_events
+    existed_events = if events.respond_to?(:pluck)
+                       events.pluck(:name)
+                     else
+                       events.map(&:name)
+                     end
+    ALL_EVENTS - existed_events
+  end
+
   protected
 
   def find_s3_event
-    s3_event = events.select { |e| e.name == %w(video s3 uploaded) }.first
+    s3_event = events.find { |e| e.name == %w(video s3 uploaded) }
     fail ActiveRecord::RecordNotFound, 'no video:s3:uploaded event found' if s3_event.blank?
     s3_event
   end
