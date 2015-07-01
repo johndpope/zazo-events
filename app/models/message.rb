@@ -17,7 +17,7 @@ class Message
     events = Event.video_s3_uploaded
     events = events.with_sender(options.fetch(:sender_id)) if options.key?(:sender_id)
     events = events.with_receiver(options.fetch(:receiver_id)) if options.key?(:receiver_id)
-    events = events.page(options.fetch(:page, 1))
+    events = events.page(options.fetch(:page, 1)) if options.key?(:page)
     events = events.per(options.fetch(:per, 100)) if options.key?(:per)
     order = options.fetch(:reverse, false) ? 'DESC' : 'ASC'
     events.order("triggered_at #{order}")
@@ -101,7 +101,7 @@ class Message
   end
 
   def status
-    events.last.name.last.to_sym
+    @status ||= (ALL_EVENTS & event_names).last.last.to_sym
   end
 
   def delivered?
@@ -112,13 +112,16 @@ class Message
     !delivered?
   end
 
+  def event_names
+    if events.respond_to?(:pluck)
+      events.pluck(:name)
+    else
+      events.map(&:name)
+    end
+  end
+
   def missing_events
-    existed_events = if events.respond_to?(:pluck)
-                       events.pluck(:name)
-                     else
-                       events.map(&:name)
-                     end
-    ALL_EVENTS - existed_events
+    ALL_EVENTS - event_names
   end
 
   def complete?

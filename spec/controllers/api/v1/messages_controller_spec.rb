@@ -21,7 +21,7 @@ RSpec.describe Api::V1::MessagesController, type: :controller do
       end
 
       specify do
-        expect(Message).to receive(:all).with({}).and_call_original
+        expect(Message).to receive(:all).with(page: 1).and_call_original
         subject
       end
 
@@ -48,7 +48,7 @@ RSpec.describe Api::V1::MessagesController, type: :controller do
       end
 
       specify do
-        expect(Message).to receive(:all).with(params).and_call_original
+        expect(Message).to receive(:all).with(params.merge(page: 1)).and_call_original
         subject
       end
 

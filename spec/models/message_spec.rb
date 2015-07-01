@@ -359,6 +359,61 @@ RSpec.describe Message, type: :model do
     end
   end
 
+  describe '#event_names' do
+    subject { instance.event_names }
+
+    context 'U, N:R, N:D, K:V' do
+      before do
+        notification_receive_video s3_event.data
+        notification_download_video s3_event.data
+        kvstore_view_video s3_event.data
+      end
+
+      it do
+        is_expected.to eq([
+          %w(video s3 uploaded),
+          %w(video notification received),
+          %w(video notification downloaded),
+          %w(video kvstore viewed)
+        ]) end
+    end
+
+    context 'R, K:D, K:V' do
+      before do
+        receive_video s3_event.data
+        kvstore_download_video s3_event.data
+        kvstore_view_video s3_event.data
+      end
+
+      it do
+        is_expected.to eq([
+          %w(video s3 uploaded),
+          %w(video kvstore received),
+          %w(video notification received),
+          %w(video kvstore downloaded),
+          %w(video kvstore viewed)
+        ]) end
+    end
+
+    context 'R, D, N:V' do
+      before do
+        receive_video s3_event.data
+        download_video s3_event.data
+        notification_view_video s3_event.data
+      end
+
+      it do
+        is_expected.to eq([
+          %w(video s3 uploaded),
+          %w(video kvstore received),
+          %w(video notification received),
+          %w(video kvstore downloaded),
+          %w(video notification downloaded),
+          %w(video notification viewed)])
+      end
+    end
+  end
+
   describe '#complete?' do
     subject { instance.complete? }
 
