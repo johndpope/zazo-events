@@ -132,10 +132,11 @@ RSpec.describe Message, type: :model do
                         uploaded_at: '2015-04-22T18:01:20.663Z'.to_datetime,
                         file_name: file_name,
                         file_size: 94_555,
+                        missing_events: missing_events,
                         status: :uploaded,
                         delivered: false,
-                        complete: false,
-                        missing_events: missing_events)
+                        viewed: false,
+                        complete: false)
     end
   end
 
@@ -396,6 +397,88 @@ RSpec.describe Message, type: :model do
         notification_receive_video s3_event.data
         notification_download_video s3_event.data
         kvstore_view_video s3_event.data
+      end
+
+      it { is_expected.to be true }
+    end
+  end
+
+  describe '#viewed?' do
+    subject { instance.viewed? }
+
+    context 'full flow' do
+      before do
+        video_flow s3_event.data
+      end
+
+      it { is_expected.to be true }
+    end
+
+    context 'without K:V' do
+      before do
+        receive_video s3_event.data
+        download_video s3_event.data
+        notification_view_video s3_event.data
+      end
+
+      it { is_expected.to be true }
+    end
+
+    context 'without N:V' do
+      before do
+        receive_video s3_event.data
+        download_video s3_event.data
+        kvstore_view_video s3_event.data
+      end
+
+      it { is_expected.to be true }
+    end
+
+    context 'without KN:V' do
+      before do
+        receive_video s3_event.data
+        download_video s3_event.data
+      end
+
+      it { is_expected.to be false }
+    end
+  end
+
+  describe '#unviewed?' do
+    subject { instance.unviewed? }
+
+    context 'full flow' do
+      before do
+        video_flow s3_event.data
+      end
+
+      it { is_expected.to be false }
+    end
+
+    context 'without K:V' do
+      before do
+        receive_video s3_event.data
+        download_video s3_event.data
+        notification_view_video s3_event.data
+      end
+
+      it { is_expected.to be false }
+    end
+
+    context 'without N:V' do
+      before do
+        receive_video s3_event.data
+        download_video s3_event.data
+        kvstore_view_video s3_event.data
+      end
+
+      it { is_expected.to be false }
+    end
+
+    context 'without KN:V' do
+      before do
+        receive_video s3_event.data
+        download_video s3_event.data
       end
 
       it { is_expected.to be true }

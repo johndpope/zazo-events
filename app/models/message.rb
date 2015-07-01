@@ -76,10 +76,11 @@ class Message
       uploaded_at: uploaded_at,
       file_name: file_name,
       file_size: file_size,
+      missing_events: missing_events,
       status: status,
       delivered: delivered?,
-      complete: complete?,
-      missing_events: missing_events }
+      viewed: viewed?,
+      complete: complete? }
   end
   alias_method :to_h, :to_hash
 
@@ -126,6 +127,14 @@ class Message
 
   def incomplete?
     !complete?
+  end
+
+  def viewed?
+    status == :viewed
+  end
+
+  def unviewed?
+    !viewed?
   end
 
   protected
