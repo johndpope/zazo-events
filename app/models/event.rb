@@ -15,7 +15,9 @@ class Event < ActiveRecord::Base
   scope :name_contains, ->(part) { where('name @> ARRAY[?]::varchar[]', part) }
   scope :name_overlap, ->(part) { where('name && ARRAY[?]::varchar[]', part) }
   scope :with_sender, -> (user_id){ where("data->>'sender_id' = ?", user_id) }
+  scope :with_senders, -> (user_ids){ where("data->>'sender_id' IN (?)", user_ids) }
   scope :with_receiver, -> (user_id){ where("data->>'receiver_id' = ?", user_id) }
+  scope :with_receivers, -> (user_ids){ where("data->>'receiver_id' IN (?)", user_ids) }
   scope :with_video_filename, -> (video_filename){ where("data->>'video_filename' = ?", video_filename) }
   scope :with_video_filenames, -> (video_filenames){ where("data->>'video_filename' IN (?)", video_filenames) }
   scope :video_s3_uploaded, -> { by_name(%w(video s3 uploaded)) }
