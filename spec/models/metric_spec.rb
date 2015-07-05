@@ -27,6 +27,7 @@ RSpec.describe Metric, type: :model do
     let(:all_metrics) do
       [Metric::ActiveUsers,
        Metric::AggregateMessagingInfo,
+       Metric::Filter::NotVerified,
        Metric::InvitationFunnel,
        Metric::MessagesCountBetweenUsers,
        Metric::MessagesCountByPeriod,
