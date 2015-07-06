@@ -8,14 +8,44 @@ RSpec.describe Message, type: :model do
   let(:receiver_id) { s3_event.receiver_id }
   let(:message) { described_class.new(file_name) }
   let(:instance) { message }
+  let(:missing_events) { Message::ALL_EVENTS - [%w(video s3 uploaded)] }
 
-  describe 'initialize' do
+  describe '#initialize' do
     context 'by file_name' do
-      let(:instance) { described_class.new(file_name) }
+      let(:options) { {} }
+      let(:instance) { described_class.new(file_name, options) }
 
       context '#file_name' do
         subject { instance.file_name }
         it { is_expected.to eq(file_name) }
+
+        context 'with events parameter' do
+          let(:events) do
+            result = [s3_event]
+            result += receive_video(s3_event.data)
+            result += download_video(s3_event.data)
+            result += view_video(s3_event.data)
+            result
+          end
+          let(:options) { { events: events } }
+
+          context '#events' do
+            subject { instance.events }
+            it { is_expected.to eq(events) }
+          end
+        end
+
+        context 'with event_names parameter' do
+          let(:event_names) do
+            Message::ALL_EVENTS
+          end
+          let(:options) { { event_names: event_names } }
+
+          context '#event_names' do
+            subject { instance.event_names }
+            it { is_expected.to eq(event_names) }
+          end
+        end
       end
 
       context '#s3_event' do
@@ -42,7 +72,7 @@ RSpec.describe Message, type: :model do
       subject { described_class.new(build(:event, :video_kvstore_received)) }
 
       specify do
-        expect { subject }.to raise_error(TypeError, 'value must be either file_name or video:s3:uploaded event')
+        expect { subject }.to raise_error(TypeError, 'value must be either file_name or video:s3:uploaded (video:sent) event')
       end
     end
   end
@@ -66,7 +96,7 @@ RSpec.describe Message, type: :model do
     end
 
     context 'with events given in initializer' do
-      let(:instance) { described_class.new(file_name, []) }
+      let(:instance) { described_class.new(file_name, events: []) }
 
       specify do
         expect(Event).to_not receive(:with_video_filename).with(file_name)
@@ -82,7 +112,7 @@ RSpec.describe Message, type: :model do
     context 'no s3 event found' do
       let(:file_name) { 'unknown' }
       specify do
-        expect { subject }.to raise_error('no video:s3:uploaded event found')
+        expect { subject }.to raise_error('no video:s3:uploaded (video:sent) event found')
       end
     end
   end
@@ -131,22 +161,18 @@ RSpec.describe Message, type: :model do
                         uploaded_at: '2015-04-22T18:01:20.663Z'.to_datetime,
                         file_name: file_name,
                         file_size: 94_555,
+                        missing_events: missing_events,
                         status: :uploaded,
-                        delivered: false)
+                        delivered: false,
+                        viewed: false,
+                        complete: false)
     end
   end
 
   context 'to_json' do
     subject { instance.to_json }
     specify do
-      is_expected.to eq({ id: file_name,
-                          sender_id: sender_id,
-                          receiver_id: receiver_id,
-                          uploaded_at: '2015-04-22T18:01:20.663Z',
-                          file_name: file_name,
-                          file_size: 94_555,
-                          status: :uploaded,
-                          delivered: false }.to_json)
+      is_expected.to eq(instance.to_hash.to_json)
     end
   end
 
@@ -312,6 +338,234 @@ RSpec.describe Message, type: :model do
     context 'when receiver_id given' do
       let(:options) { { receiver_id: receiver_id } }
       it { is_expected.to eq([message, message_1, message_2]) }
+    end
+  end
+
+  describe '#missing_events' do
+    subject { instance.missing_events }
+
+    context 'kvstore: R, D; notification: V' do
+      before do
+        notification_receive_video s3_event.data
+        notification_download_video s3_event.data
+        kvstore_view_video s3_event.data
+      end
+
+      it do
+        is_expected.to eq([
+          %w(video kvstore received),
+          %w(video kvstore downloaded),
+          %w(video notification viewed)
+        ]) end
+    end
+
+    context 'notification: D, V' do
+      before do
+        receive_video s3_event.data
+        kvstore_download_video s3_event.data
+        kvstore_view_video s3_event.data
+      end
+
+      it do
+        is_expected.to eq([
+          %w(video notification downloaded),
+          %w(video notification viewed)
+        ]) end
+    end
+
+    context 'kvstore: V' do
+      before do
+        receive_video s3_event.data
+        download_video s3_event.data
+        notification_view_video s3_event.data
+      end
+
+      it do
+        is_expected.to eq([
+          %w(video kvstore viewed)
+        ])
+      end
+    end
+  end
+
+  describe '#event_names' do
+    subject { instance.event_names }
+
+    context 'U, N:R, N:D, K:V' do
+      before do
+        notification_receive_video s3_event.data
+        notification_download_video s3_event.data
+        kvstore_view_video s3_event.data
+      end
+
+      it do
+        is_expected.to eq([
+          %w(video s3 uploaded),
+          %w(video notification received),
+          %w(video notification downloaded),
+          %w(video kvstore viewed)
+        ]) end
+    end
+
+    context 'R, K:D, K:V' do
+      before do
+        receive_video s3_event.data
+        kvstore_download_video s3_event.data
+        kvstore_view_video s3_event.data
+      end
+
+      it do
+        is_expected.to eq([
+          %w(video s3 uploaded),
+          %w(video kvstore received),
+          %w(video notification received),
+          %w(video kvstore downloaded),
+          %w(video kvstore viewed)
+        ]) end
+    end
+
+    context 'R, D, N:V' do
+      before do
+        receive_video s3_event.data
+        download_video s3_event.data
+        notification_view_video s3_event.data
+      end
+
+      it do
+        is_expected.to eq([
+          %w(video s3 uploaded),
+          %w(video kvstore received),
+          %w(video notification received),
+          %w(video kvstore downloaded),
+          %w(video notification downloaded),
+          %w(video notification viewed)])
+      end
+    end
+  end
+
+  describe '#complete?' do
+    subject { instance.complete? }
+
+    context 'empty' do
+      before do
+        video_flow s3_event.data
+      end
+
+      it { is_expected.to be true }
+    end
+
+    context 'kvstore: R, D; notification: V' do
+      before do
+        notification_receive_video s3_event.data
+        notification_download_video s3_event.data
+        kvstore_view_video s3_event.data
+      end
+
+      it { is_expected.to be false }
+    end
+  end
+
+  describe '#incomplete?' do
+    subject { instance.incomplete? }
+
+    context 'empty' do
+      before do
+        video_flow s3_event.data
+      end
+
+      it { is_expected.to be false }
+    end
+
+    context 'kvstore: R, D; notification: V' do
+      before do
+        notification_receive_video s3_event.data
+        notification_download_video s3_event.data
+        kvstore_view_video s3_event.data
+      end
+
+      it { is_expected.to be true }
+    end
+  end
+
+  describe '#viewed?' do
+    subject { instance.viewed? }
+
+    context 'full flow' do
+      before do
+        video_flow s3_event.data
+      end
+
+      it { is_expected.to be true }
+    end
+
+    context 'without K:V' do
+      before do
+        receive_video s3_event.data
+        download_video s3_event.data
+        notification_view_video s3_event.data
+      end
+
+      it { is_expected.to be true }
+    end
+
+    context 'without N:V' do
+      before do
+        receive_video s3_event.data
+        download_video s3_event.data
+        kvstore_view_video s3_event.data
+      end
+
+      it { is_expected.to be true }
+    end
+
+    context 'without KN:V' do
+      before do
+        receive_video s3_event.data
+        download_video s3_event.data
+      end
+
+      it { is_expected.to be false }
+    end
+  end
+
+  describe '#unviewed?' do
+    subject { instance.unviewed? }
+
+    context 'full flow' do
+      before do
+        video_flow s3_event.data
+      end
+
+      it { is_expected.to be false }
+    end
+
+    context 'without K:V' do
+      before do
+        receive_video s3_event.data
+        download_video s3_event.data
+        notification_view_video s3_event.data
+      end
+
+      it { is_expected.to be false }
+    end
+
+    context 'without N:V' do
+      before do
+        receive_video s3_event.data
+        download_video s3_event.data
+        kvstore_view_video s3_event.data
+      end
+
+      it { is_expected.to be false }
+    end
+
+    context 'without KN:V' do
+      before do
+        receive_video s3_event.data
+        download_video s3_event.data
+      end
+
+      it { is_expected.to be true }
     end
   end
 end
