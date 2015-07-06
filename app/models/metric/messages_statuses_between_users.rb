@@ -4,72 +4,108 @@ class Metric::MessagesStatusesBetweenUsers < Metric::Base
   validates :user_id, :friend_ids, presence: true
 
   def generate
-    initial = { total: { outgoing: data_sample, incoming: data_sample } }
-    build_outgoing_messages
-    build_incoming_messages
-    friend_ids.each_with_object(initial) do |friend_id, results|
-      results[friend_id] = { outgoing: reduce(@outgoing_messages[friend_id]),
-                             incoming: reduce(@incoming_messages[friend_id]) }
-      calculate_total(:outgoing, results, friend_id)
-      calculate_total(:incoming, results, friend_id)
+    data  = query
+    total = empty_user_data
+    results = data.each_with_object({}) do |row, memo|
+      memo[row['friend']] ||= empty_user_data
+      memo[row['friend']][row['direction'].to_sym] = {
+        sent:       row['sent'].to_i,
+        incomplete: row['incompleted'].to_i,
+        unviewed:   row['unviewed'].to_i
+      }
+      total[row['direction'].to_sym][:sent] += row['sent'].to_i
+      total[row['direction'].to_sym][:incomplete] += row['incompleted'].to_i
+      total[row['direction'].to_sym][:unviewed] += row['unviewed'].to_i
     end
+    friend_ids.each { |u| results[u] = empty_user_data unless results.key? u }
+    results[:total] = total
+    results
   end
 
   protected
 
+  def empty_user_data
+    direction_data = {
+      sent: 0,
+      incomplete: 0,
+      unviewed: 0
+    }
+    { outgoing: direction_data.deep_dup,
+      incoming: direction_data.deep_dup }
+  end
+
+  def query
+    sql = <<-SQL
+      WITH outgoing AS (
+      SELECT
+        DISTINCT name status,
+        target_id message,
+        data->>'receiver_id' friend,
+        'outgoing' direction
+      FROM events
+      WHERE name && ARRAY['video']::VARCHAR[] AND
+            data->>'sender_id' = ? AND
+            data->>'receiver_id' IN (?)
+    ), incoming AS (
+      SELECT
+        DISTINCT name status,
+        target_id message,
+        initiator_id friend,
+        'incoming' direction
+      FROM events
+      WHERE name && ARRAY['video']::VARCHAR[] AND
+            data->>'sender_id' IN (?) AND
+            data->>'receiver_id' = ?
+    ), total AS (
+      SELECT *
+      FROM outgoing
+      UNION SELECT * FROM incoming
+    ), incompleted AS (
+      SELECT
+        message,
+        TRUE is_incompleted
+      FROM total
+      GROUP BY message
+      HAVING COUNT(status) < 7
+    ), viewed AS (
+      SELECT
+        DISTINCT message
+      FROM total
+      WHERE status @> ARRAY['video','kvstore','viewed']::VARCHAR[] OR
+            status @> ARRAY['video','notification','viewed']::VARCHAR []
+    ), unviewed AS (
+      SELECT
+        DISTINCT total.message,
+        TRUE is_unviewed
+      FROM total
+      LEFT OUTER JOIN viewed ON total.message = viewed.message
+      WHERE viewed.message ISNULL
+    ), total_extended AS (
+      SELECT
+        DISTINCT total.message,
+        friend, direction,
+        incompleted.is_incompleted,
+        unviewed.is_unviewed
+      FROM total
+        LEFT OUTER JOIN incompleted ON total.message = incompleted.message
+        LEFT OUTER JOIN unviewed ON total.message = unviewed.message
+      WHERE friend NOTNULL
+    ) SELECT
+        friend, direction,
+        COUNT(message) sent,
+        COUNT(is_incompleted) incompleted,
+        COUNT(is_unviewed) unviewed
+      FROM total_extended
+      GROUP BY friend, direction
+      ORDER BY direction DESC
+    SQL
+    sql = Event.send :sanitize_sql_array,
+                     [sql, user_id, friend_ids, friend_ids, user_id]
+    Event.connection.select_all sql
+  end
+
   def set_attributes
     @user_id = attributes['user_id']
     @friend_ids = Array.wrap(attributes['friend_ids'])
-  end
-
-  def data_sample(default = 0)
-    { sent: default, incomplete: default, unviewed: default }
-  end
-
-  def outgoing_events
-    Event.with_sender(user_id).with_receivers(friend_ids).order(:triggered_at)
-      .pluck(:name, "data->>'video_filename'", "data->>'receiver_id'")
-  end
-
-  def build_outgoing_messages
-    @outgoing_messages = group_events(outgoing_events)
-  end
-
-  def incoming_events
-    Event.with_senders(friend_ids).with_receiver(user_id).order(:triggered_at)
-      .pluck(:name, "data->>'video_filename'", "data->>'sender_id'")
-  end
-
-  def build_incoming_messages
-    @incoming_messages = group_events(incoming_events)
-  end
-
-  def group_events(flat_events)
-    data = flat_events.group_by { |row| row[2] }
-    data.each_with_object({}) do |(friend_id, events), result|
-      result[friend_id] = build_messages(events.group_by { |row| row[1] })
-    end
-  end
-
-  def build_messages(hash)
-    hash.map do |file_name, rows|
-      Message.new(file_name, event_names: rows.map(&:first))
-    end
-  end
-
-  def reduce(messages)
-    return data_sample if messages.blank?
-    messages.each_with_object(data_sample) do |message, results|
-      results[:sent] += 1
-      results[:incomplete] += 1 if message.incomplete?
-      results[:unviewed] += 1 if message.unviewed?
-    end
-  end
-
-  def calculate_total(subject, memo, friend_id)
-    total = memo[:total][subject]
-    total.each_with_object(total) do |(key, value), result|
-      result[key] = value + memo[friend_id][subject][key]
-    end
   end
 end
