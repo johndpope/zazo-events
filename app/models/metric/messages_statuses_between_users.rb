@@ -48,7 +48,7 @@ class Metric::MessagesStatusesBetweenUsers < Metric::Base
   end
 
   def build_messages(hash)
-    hash.map { |file_name, events| Message.new(file_name, events) }
+    hash.map { |file_name, events| Message.new(file_name, events: events) }
   end
 
   def reduce(messages)
