@@ -72,7 +72,7 @@ RSpec.describe Message, type: :model do
       subject { described_class.new(build(:event, :video_kvstore_received)) }
 
       specify do
-        expect { subject }.to raise_error(TypeError, 'value must be either file_name or video:s3:uploaded event')
+        expect { subject }.to raise_error(TypeError, 'value must be either file_name or video:s3:uploaded (video:sent) event')
       end
     end
   end
@@ -112,7 +112,7 @@ RSpec.describe Message, type: :model do
     context 'no s3 event found' do
       let(:file_name) { 'unknown' }
       specify do
-        expect { subject }.to raise_error('no video:s3:uploaded event found')
+        expect { subject }.to raise_error('no video:s3:uploaded (video:sent) event found')
       end
     end
   end

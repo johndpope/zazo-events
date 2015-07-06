@@ -14,7 +14,7 @@ class Message
   alias_method :id, :file_name
 
   def self.all_s3_events(options = {})
-    events = Event.video_s3_uploaded
+    events = Event.s3_events
     events = events.with_sender(options.fetch(:sender_id)) if options.key?(:sender_id)
     events = events.with_receiver(options.fetch(:receiver_id)) if options.key?(:receiver_id)
     events = events.page(options.fetch(:page, 1)) if options.key?(:page)
@@ -41,8 +41,9 @@ class Message
   def initialize(file_name_or_event, options = {})
     if !file_name_or_event.is_a?(String) &&
        file_name_or_event.is_a?(Event) &&
-       file_name_or_event.name != %w(video s3 uploaded)
-      fail TypeError, 'value must be either file_name or video:s3:uploaded event'
+       unless [%w(video s3 uploaded), %w(video sent)].include?(file_name_or_event.name)
+         fail TypeError, 'value must be either file_name or video:s3:uploaded (video:sent) event'
+       end
     end
     if file_name_or_event.is_a?(String)
       @file_name = file_name_or_event
@@ -146,7 +147,7 @@ class Message
 
   def find_s3_event
     s3_event = events.find { |e| [%w(video s3 uploaded), %w(video sent)].include?(e.name) }
-    fail ActiveRecord::RecordNotFound, 'no video:s3:uploaded event found' if s3_event.blank?
+    fail ActiveRecord::RecordNotFound, 'no video:s3:uploaded (video:sent) event found' if s3_event.blank?
     s3_event
   end
 end
