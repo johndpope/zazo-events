@@ -5,9 +5,11 @@ class Metric::MessagesStatusesBetweenUsers < Metric::Base
 
   def generate
     initial = { total: { outgoing: data_sample, incoming: data_sample } }
+    build_outgoing_messages
+    build_incoming_messages
     friend_ids.each_with_object(initial) do |friend_id, results|
-      results[friend_id] = { outgoing: reduce(outgoing_messages[friend_id]),
-                             incoming: reduce(incoming_messages[friend_id]) }
+      results[friend_id] = { outgoing: reduce(@outgoing_messages[friend_id]),
+                             incoming: reduce(@incoming_messages[friend_id]) }
       calculate_total(:outgoing, results, friend_id)
       calculate_total(:incoming, results, friend_id)
     end
@@ -26,29 +28,33 @@ class Metric::MessagesStatusesBetweenUsers < Metric::Base
 
   def outgoing_events
     Event.with_sender(user_id).with_receivers(friend_ids).order(:triggered_at)
+      .pluck(:name, "data->>'video_filename'", "data->>'receiver_id'")
   end
 
-  def outgoing_messages
-    @outgoing_messages ||= group_events(outgoing_events, :receiver_id)
+  def build_outgoing_messages
+    @outgoing_messages = group_events(outgoing_events)
   end
 
   def incoming_events
     Event.with_senders(friend_ids).with_receiver(user_id).order(:triggered_at)
+      .pluck(:name, "data->>'video_filename'", "data->>'sender_id'")
   end
 
-  def incoming_messages
-    @incoming_messages ||= group_events(incoming_events, :sender_id)
+  def build_incoming_messages
+    @incoming_messages = group_events(incoming_events)
   end
 
-  def group_events(flat_events, attribute)
-    data = flat_events.group_by(&attribute)
+  def group_events(flat_events)
+    data = flat_events.group_by { |row| row[2] }
     data.each_with_object({}) do |(friend_id, events), result|
-      result[friend_id] = build_messages(events.group_by(&:video_filename))
+      result[friend_id] = build_messages(events.group_by { |row| row[1] })
     end
   end
 
   def build_messages(hash)
-    hash.map { |file_name, events| Message.new(file_name, events: events) }
+    hash.map do |file_name, rows|
+      Message.new(file_name, event_names: rows.map(&:first))
+    end
   end
 
   def reduce(messages)
