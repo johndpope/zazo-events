@@ -28,7 +28,7 @@ class Message
                    .order(:triggered_at)
                    .group_by(&:video_filename)
     s3_events.map do |s3_event|
-      Message.new(s3_event, events_cache[s3_event.video_filename])
+      Message.new(s3_event, events: events_cache[s3_event.video_filename])
     end.uniq(&:id)
   end
 
@@ -38,7 +38,7 @@ class Message
 
   # @param file_name_or_event
   # @param events
-  def initialize(file_name_or_event, events = nil)
+  def initialize(file_name_or_event, options = {})
     if !file_name_or_event.is_a?(String) &&
        file_name_or_event.is_a?(Event) &&
        file_name_or_event.name != %w(video s3 uploaded)
@@ -50,11 +50,12 @@ class Message
       @s3_event = file_name_or_event
       @file_name = @s3_event.video_filename
     end
-    @events ||= events
+    @event_names = options[:event_names]
+    @events = options[:events]
   end
 
-  def ==(message)
-    super || id == message.id
+  def ==(other)
+    super || id == other.id
   end
 
   def inspect
@@ -113,6 +114,7 @@ class Message
   end
 
   def event_names
+    return @event_names if @event_names
     if events.respond_to?(:pluck)
       events.pluck(:name)
     else

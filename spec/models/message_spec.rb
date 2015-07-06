@@ -10,13 +10,42 @@ RSpec.describe Message, type: :model do
   let(:instance) { message }
   let(:missing_events) { Message::ALL_EVENTS - [%w(video s3 uploaded)] }
 
-  describe 'initialize' do
+  describe '#initialize' do
     context 'by file_name' do
-      let(:instance) { described_class.new(file_name) }
+      let(:options) { {} }
+      let(:instance) { described_class.new(file_name, options) }
 
       context '#file_name' do
         subject { instance.file_name }
         it { is_expected.to eq(file_name) }
+
+        context 'with events parameter' do
+          let(:events) do
+            result = [s3_event]
+            result += receive_video(s3_event.data)
+            result += download_video(s3_event.data)
+            result += view_video(s3_event.data)
+            result
+          end
+          let(:options) { { events: events } }
+
+          context '#events' do
+            subject { instance.events }
+            it { is_expected.to eq(events) }
+          end
+        end
+
+        context 'with event_names parameter' do
+          let(:event_names) do
+            Message::ALL_EVENTS
+          end
+          let(:options) { { event_names: event_names } }
+
+          context '#event_names' do
+            subject { instance.event_names }
+            it { is_expected.to eq(event_names) }
+          end
+        end
       end
 
       context '#s3_event' do
@@ -67,7 +96,7 @@ RSpec.describe Message, type: :model do
     end
 
     context 'with events given in initializer' do
-      let(:instance) { described_class.new(file_name, []) }
+      let(:instance) { described_class.new(file_name, events: []) }
 
       specify do
         expect(Event).to_not receive(:with_video_filename).with(file_name)
