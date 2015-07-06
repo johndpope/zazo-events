@@ -261,3 +261,55 @@ FORMAT: 1A
                 "count": 63
             }
         ]
+
+### Calculates count of incomplete and unviewed messages by direction [POST /api/v1/metrics/messages_statuses_between_users]
+
+Returns data for messages from user to friend (`outgoing`) and in reverse (`incoming`).
+
++ Parameters
+
+    + user_id: fxVPRkGICwnrAwym52gK (string) - ID of user.
+    + friend_ids: [7qdanSEmctZ2jPnYA0a1, 0DAQEVtmNKQiW6aoQrvo] (enum[string]) - IDs of friends.
+
++ Response 200 (application/json; charset=utf-8)
+
+    + Body
+
+        {
+            "total": {
+                "outgoing": {
+                    "sent": 59,
+                    "incomplete": 4,
+                    "unviewed": 3
+                },
+                "incoming": {
+                    "sent": 82,
+                    "incomplete": 6,
+                    "unviewed": 6
+                }
+            },
+            "7qdanSEmctZ2jPnYA0a1": {
+                "outgoing": {
+                    "sent": 39,
+                    "incomplete": 2,
+                    "unviewed": 2
+                },
+                "incoming": {
+                    "sent": 60,
+                    "incomplete": 6,
+                    "unviewed": 6
+                }
+            },
+            "0DAQEVtmNKQiW6aoQrvo": {
+                "outgoing": {
+                    "sent": 20,
+                    "incomplete": 2,
+                    "unviewed": 1
+                },
+                "incoming": {
+                    "sent": 22,
+                    "incomplete": 0,
+                    "unviewed": 0
+                }
+            }
+        }

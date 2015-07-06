@@ -31,6 +31,7 @@ RSpec.describe Metric, type: :model do
        Metric::MessagesCountBetweenUsers,
        Metric::MessagesCountByPeriod,
        Metric::MessagesSent,
+       Metric::MessagesStatusesBetweenUsers,
        Metric::OnboardingInfo,
        Metric::UploadDuplications,
        Metric::UsageByActiveUsers,

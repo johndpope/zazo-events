@@ -21,6 +21,7 @@ class Api::V1::MessagesController < ApplicationController
   end
 
   def messages_params
+    params[:page] ||= 1
     params.permit(:sender_id, :receiver_id, :reverse, :page, :per)
   end
 end
