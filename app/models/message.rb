@@ -145,7 +145,7 @@ class Message
   protected
 
   def find_s3_event
-    s3_event = events.find { |e| e.name == %w(video s3 uploaded) }
+    s3_event = events.find { |e| [%w(video s3 uploaded), %w(video sent)].include?(e.name) }
     fail ActiveRecord::RecordNotFound, 'no video:s3:uploaded event found' if s3_event.blank?
     s3_event
   end
