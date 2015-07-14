@@ -1,5 +1,5 @@
 class Message
-  DELIVERED_STATUSES = %i(downloaded viewed).freeze
+  DELIVERED_STATUSES = %w(downloaded viewed).freeze
   ALL_EVENTS = [
     %w(video s3 uploaded),
     %w(video kvstore received),
@@ -12,6 +12,7 @@ class Message
 
   attr_reader :file_name
   alias_method :id, :file_name
+  delegate :viewed?, to: :status
 
   def self.all_s3_events(options = {})
     events = Event.s3_events
@@ -105,7 +106,7 @@ class Message
   end
 
   def status
-    @status ||= (ALL_EVENTS & event_names).last.last.to_sym
+    @status ||= (ALL_EVENTS & event_names).last.last.inquiry
   end
 
   def delivered?
@@ -135,10 +136,6 @@ class Message
 
   def incomplete?
     !complete?
-  end
-
-  def viewed?
-    status == :viewed
   end
 
   def unviewed?

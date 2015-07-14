@@ -162,7 +162,7 @@ RSpec.describe Message, type: :model do
                         file_name: file_name,
                         file_size: 94_555,
                         missing_events: missing_events,
-                        status: :uploaded,
+                        status: 'uploaded',
                         delivered: false,
                         viewed: false,
                         complete: false)
@@ -184,7 +184,7 @@ RSpec.describe Message, type: :model do
         instance
       end
 
-      it { is_expected.to eq(:uploaded) }
+      it { is_expected.to eq('uploaded') }
     end
 
     context 'received' do
@@ -192,7 +192,7 @@ RSpec.describe Message, type: :model do
         receive_video s3_event.data
       end
 
-      it { is_expected.to eq(:received) }
+      it { is_expected.to eq('received') }
     end
 
     context 'downloaded' do
@@ -201,7 +201,7 @@ RSpec.describe Message, type: :model do
         download_video s3_event.data
       end
 
-      it { is_expected.to eq(:downloaded) }
+      it { is_expected.to eq('downloaded') }
     end
 
     context 'viewed' do
@@ -211,7 +211,12 @@ RSpec.describe Message, type: :model do
         view_video s3_event.data
       end
 
-      it { is_expected.to eq(:viewed) }
+      it { is_expected.to eq('viewed') }
+
+      describe '.viewed?' do
+        subject { instance.status.viewed? }
+        it { is_expected.to be true }
+      end
     end
   end
 
@@ -219,7 +224,7 @@ RSpec.describe Message, type: :model do
     subject { instance.delivered? }
 
     context 'uploaded' do
-      it { is_expected.to be_falsey }
+      it { is_expected.to be false }
     end
 
     context 'received' do
@@ -227,7 +232,7 @@ RSpec.describe Message, type: :model do
         receive_video s3_event.data
       end
 
-      it { is_expected.to be_falsey }
+      it { is_expected.to be false }
     end
 
     context 'downloaded' do
@@ -236,7 +241,7 @@ RSpec.describe Message, type: :model do
         download_video s3_event.data
       end
 
-      it { is_expected.to be_truthy }
+      it { is_expected.to be true }
     end
 
     context 'viewed' do
@@ -246,7 +251,7 @@ RSpec.describe Message, type: :model do
         view_video s3_event.data
       end
 
-      it { is_expected.to be_truthy }
+      it { is_expected.to be true }
     end
   end
 
@@ -254,7 +259,7 @@ RSpec.describe Message, type: :model do
     subject { instance.undelivered? }
 
     context 'uploaded' do
-      it { is_expected.to be_truthy }
+      it { is_expected.to be true }
     end
 
     context 'received' do
@@ -262,7 +267,7 @@ RSpec.describe Message, type: :model do
         receive_video s3_event.data
       end
 
-      it { is_expected.to be_truthy }
+      it { is_expected.to be true }
     end
 
     context 'downloaded' do
@@ -271,7 +276,7 @@ RSpec.describe Message, type: :model do
         download_video s3_event.data
       end
 
-      it { is_expected.to be_falsey }
+      it { is_expected.to be false }
     end
 
     context 'viewed' do
@@ -281,7 +286,7 @@ RSpec.describe Message, type: :model do
         view_video s3_event.data
       end
 
-      it { is_expected.to be_falsey }
+      it { is_expected.to be false }
     end
   end
 
