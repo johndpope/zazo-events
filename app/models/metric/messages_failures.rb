@@ -35,15 +35,26 @@ class Metric::MessagesFailures < Metric::Base
        missing_notification_viewed: 0 }
   end
 
+  def events
+    @events ||= Event.since(start_date).till(end_date)
+                .group("data->>'video_filename'", :name)
+                .count
+  end
+
   def messages
-    Message.all(start_date: start_date, end_date: end_date)
+    return @messages if @messages
+    @messages = events.group_by { |row, _count| row.first }
+    @messages.map do |file_name, row|
+      next if file_name.nil?
+      Message.new(file_name, event_names: row.map { |r| r[0][1] })
+    end.compact
   end
 
   def start_date
-    12.days.ago
+    12.days.ago.to_date
   end
 
   def end_date
-    2.days.ago
+    2.days.ago.to_date + 1
   end
 end
