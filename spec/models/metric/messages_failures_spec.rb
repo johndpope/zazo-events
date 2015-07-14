@@ -80,9 +80,9 @@ RSpec.describe Metric::MessagesFailures, type: :model do
   describe '#generate' do
     subject { instance.generate }
     specify do
-      is_expected.to eq(sent: 11,
-                        received: 9,
-                        not_received: 2,
+      is_expected.to eq(uploaded: 11,
+                        delivered: 9,
+                        undelivered: 2,
                         incomplete: 1,
                         missing_kvstore_received: 4,
                         missing_notification_received: 4,

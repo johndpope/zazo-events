@@ -1,9 +1,9 @@
 class Metric::MessagesFailures < Metric::Base
   def generate
     messages.each_with_object(sample) do |message, data|
-      data[:sent] += 1
-      message.delivered? && data[:received] += 1
-      message.undelivered? && data[:not_received] += 1
+      data[:uploaded] += 1
+      message.delivered? && data[:delivered] += 1
+      message.undelivered? && data[:undelivered] += 1
       message.status.uploaded? && data[:incomplete] += 1
       message.missing_events.include?(%w(video kvstore received)) &&
         data[:missing_kvstore_received] += 1
@@ -23,9 +23,9 @@ class Metric::MessagesFailures < Metric::Base
   private
 
   def sample
-    {  sent: 0,
-       received: 0,
-       not_received: 0,
+    {  uploaded: 0,
+       delivered: 0,
+       undelivered: 0,
        incomplete: 0,
        missing_kvstore_received: 0,
        missing_notification_received: 0,
