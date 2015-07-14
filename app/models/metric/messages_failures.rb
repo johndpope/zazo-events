@@ -1,4 +1,7 @@
 class Metric::MessagesFailures < Metric::Base
+  after_initialize :set_attributes
+  attr_reader :start_date, :end_date
+
   def generate
     messages.each_with_object(sample) do |message, data|
       data[:uploaded] += 1
@@ -22,6 +25,11 @@ class Metric::MessagesFailures < Metric::Base
 
   private
 
+  def set_attributes
+    @start_date = attributes.fetch('start_date', 12.days.ago).to_date
+    @end_date = attributes.fetch('end_date', 2.days.ago).to_date
+  end
+
   def sample
     {  uploaded: 0,
        delivered: 0,
@@ -36,7 +44,7 @@ class Metric::MessagesFailures < Metric::Base
   end
 
   def events
-    @events ||= Event.since(start_date).till(end_date)
+    @events ||= Event.since(start_date).till(end_date + 1)
                 .group("data->>'video_filename'", :name)
                 .count
   end
@@ -48,13 +56,5 @@ class Metric::MessagesFailures < Metric::Base
       next if file_name.nil?
       Message.new(file_name, event_names: row.map { |r| r[0][1] })
     end.compact
-  end
-
-  def start_date
-    12.days.ago.to_date
-  end
-
-  def end_date
-    2.days.ago.to_date + 1
   end
 end
