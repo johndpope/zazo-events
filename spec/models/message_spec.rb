@@ -289,9 +289,13 @@ RSpec.describe Message, type: :model do
     let(:video_1) { video_data(sender_id, receiver_id, gen_video_id) }
     let(:video_2) { video_data(gen_hash, receiver_id, gen_video_id) }
     let(:video_3) { video_data(sender_id, gen_hash, gen_video_id) }
+    let(:video_4) { video_data(sender_id, gen_hash, gen_video_id) }
+    let(:video_5) { video_data(sender_id, gen_hash, gen_video_id) }
     let!(:message_1) { described_class.new(video_1[:video_filename]) }
     let!(:message_2) { described_class.new(video_2[:video_filename]) }
     let!(:message_3) { described_class.new(video_3[:video_filename]) }
+    let!(:message_4) { described_class.new(video_3[:video_filename]) }
+    let!(:message_5) { described_class.new(video_3[:video_filename]) }
     let(:options) { {} }
     let(:list) { described_class.all(options) }
     let(:instance) { list.first }
@@ -338,6 +342,17 @@ RSpec.describe Message, type: :model do
     context 'when receiver_id given' do
       let(:options) { { receiver_id: receiver_id } }
       it { is_expected.to eq([message, message_1, message_2]) }
+    end
+
+    context 'with time frame' do
+      let(:options) { { start_date: 2.day.ago.to_date, end_date: Date.today } }
+      before do
+        Timecop.travel(3.days.ago) do
+          send_video video_4
+          send_video video_5
+        end
+      end
+      it { is_expected.to eq([message, message_1, message_2, message_3]) }
     end
   end
 

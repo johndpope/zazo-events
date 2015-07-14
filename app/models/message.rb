@@ -17,6 +17,8 @@ class Message
     events = Event.s3_events
     events = events.with_sender(options.fetch(:sender_id)) if options.key?(:sender_id)
     events = events.with_receiver(options.fetch(:receiver_id)) if options.key?(:receiver_id)
+    events = events.since(options.fetch(:start_date).to_date) if options.key?(:start_date)
+    events = events.till(options.fetch(:end_date).to_date + 1) if options.key?(:end_date)
     events = events.page(options.fetch(:page, 1)) if options.key?(:page)
     events = events.per(options.fetch(:per, 100)) if options.key?(:per)
     order = options.fetch(:reverse, false) ? 'DESC' : 'ASC'

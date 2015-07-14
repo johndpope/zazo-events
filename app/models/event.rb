@@ -7,6 +7,7 @@ class Event < ActiveRecord::Base
   validates :triggered_by, inclusion: { in: SOURCES }
 
   scope :since, ->(time) { where('triggered_at >= ?', time) }
+  scope :till, ->(time) { where('triggered_at <= ?', time) }
   scope :today, -> { since(Date.today) }
   scope :top_namespace, ->(namespace) { where('name[1] = ?', namespace) }
   scope :by_initiator, ->(initiator, initiator_id) { where(initiator: initiator, initiator_id: initiator_id) }
