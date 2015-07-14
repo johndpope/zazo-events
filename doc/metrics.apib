@@ -313,3 +313,22 @@ Returns data for messages from user to friend (`outgoing`) and in reverse (`inco
                 }
             }
         }
+
+### Message failures analysis [POST /api/v1/metrics/messages_failures]
+
++ Response 200 (application/json; charset=utf-8)
+
+    + Body
+
+        {
+            "sent": 1473,
+            "received": 1371,
+            "not_received": 102,
+            "incomplete": 12,
+            "missing_kvstore_received": 12,
+            "missing_notification_received": 70,
+            "missing_kvstore_downloaded": 103,
+            "missing_notification_downloaded": 106,
+            "missing_kvstore_viewed": 173,
+            "missing_notification_viewed": 179
+        }
