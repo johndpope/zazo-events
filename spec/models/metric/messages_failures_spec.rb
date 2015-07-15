@@ -80,16 +80,17 @@ RSpec.describe Metric::MessagesFailures, type: :model do
   describe '#generate' do
     subject { instance.generate }
     specify do
-      is_expected.to eq(uploaded: 11,
-                        delivered: 9,
-                        undelivered: 2,
-                        incomplete: 1,
-                        missing_kvstore_received: 4,
-                        missing_notification_received: 4,
-                        missing_kvstore_downloaded: 5,
-                        missing_notification_downloaded: 5,
-                        missing_kvstore_viewed: 8,
-                        missing_notification_viewed: 8)
+      is_expected.to eq(meta: { total: :uploaded }, data: {
+                          uploaded: 11,
+                          delivered: 9,
+                          undelivered: 2,
+                          incomplete: 1,
+                          missing_kvstore_received: 4,
+                          missing_notification_received: 4,
+                          missing_kvstore_downloaded: 5,
+                          missing_notification_downloaded: 5,
+                          missing_kvstore_viewed: 8,
+                          missing_notification_viewed: 8 })
     end
   end
 end

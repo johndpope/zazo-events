@@ -3,24 +3,7 @@ class Metric::MessagesFailures < Metric::Base
   attr_reader :start_date, :end_date
 
   def generate
-    messages.each_with_object(sample) do |message, data|
-      data[:uploaded] += 1
-      message.delivered? && data[:delivered] += 1
-      message.undelivered? && data[:undelivered] += 1
-      message.status.uploaded? && data[:incomplete] += 1
-      message.missing_events.include?(%w(video kvstore received)) &&
-        data[:missing_kvstore_received] += 1
-      message.missing_events.include?(%w(video notification received)) &&
-        data[:missing_notification_received] += 1
-      message.missing_events.include?(%w(video kvstore downloaded)) &&
-        data[:missing_kvstore_downloaded] += 1
-      message.missing_events.include?(%w(video notification downloaded)) &&
-        data[:missing_notification_downloaded] += 1
-      message.missing_events.include?(%w(video kvstore viewed)) &&
-        data[:missing_kvstore_viewed] += 1
-      message.missing_events.include?(%w(video notification viewed)) &&
-        data[:missing_notification_viewed] += 1
-    end
+    { meta: { total: :uploaded }, data: data }
   end
 
   private
@@ -56,5 +39,26 @@ class Metric::MessagesFailures < Metric::Base
       next if file_name.nil?
       Message.new(file_name, event_names: row.map { |r| r[0][1] })
     end.compact
+  end
+
+  def data
+    messages.each_with_object(sample) do |message, data|
+      data[:uploaded] += 1
+      message.delivered? && data[:delivered] += 1
+      message.undelivered? && data[:undelivered] += 1
+      message.status.uploaded? && data[:incomplete] += 1
+      message.missing_events.include?(%w(video kvstore received)) &&
+        data[:missing_kvstore_received] += 1
+      message.missing_events.include?(%w(video notification received)) &&
+        data[:missing_notification_received] += 1
+      message.missing_events.include?(%w(video kvstore downloaded)) &&
+        data[:missing_kvstore_downloaded] += 1
+      message.missing_events.include?(%w(video notification downloaded)) &&
+        data[:missing_notification_downloaded] += 1
+      message.missing_events.include?(%w(video kvstore viewed)) &&
+        data[:missing_kvstore_viewed] += 1
+      message.missing_events.include?(%w(video notification viewed)) &&
+        data[:missing_notification_viewed] += 1
+    end
   end
 end
