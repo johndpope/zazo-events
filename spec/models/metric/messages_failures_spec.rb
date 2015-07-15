@@ -80,7 +80,10 @@ RSpec.describe Metric::MessagesFailures, type: :model do
   describe '#generate' do
     subject { instance.generate }
     specify do
-      is_expected.to eq(meta: { total: :uploaded }, data: {
+      is_expected.to eq(meta: { total: :uploaded,
+                                start_date: 12.days.ago.to_date,
+                                end_date: 2.days.ago.to_date },
+                        data: {
                           uploaded: 11,
                           delivered: 9,
                           undelivered: 2,

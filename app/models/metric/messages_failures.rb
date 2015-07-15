@@ -3,14 +3,22 @@ class Metric::MessagesFailures < Metric::Base
   attr_reader :start_date, :end_date
 
   def generate
-    { meta: { total: :uploaded }, data: data }
+    { meta: meta, data: data }
   end
 
   private
 
   def set_attributes
-    @start_date = attributes.fetch('start_date', 12.days.ago).to_date
-    @end_date = attributes.fetch('end_date', 2.days.ago).to_date
+    @start_date = attributes.fetch('start_date', default_start_date).to_date
+    @end_date = attributes.fetch('end_date', default_end_date).to_date
+  end
+
+  def default_start_date
+    12.days.ago
+  end
+
+  def default_end_date
+    2.days.ago
   end
 
   def sample
@@ -39,6 +47,10 @@ class Metric::MessagesFailures < Metric::Base
       next if file_name.nil?
       Message.new(file_name, event_names: row.map { |r| r[0][1] })
     end.compact
+  end
+
+  def meta
+    { total: :uploaded, start_date: start_date, end_date: end_date }
   end
 
   def data
