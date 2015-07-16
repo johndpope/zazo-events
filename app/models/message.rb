@@ -39,6 +39,15 @@ class Message
     build_from_s3_events(all_s3_events(options))
   end
 
+  def self.build_from_events_scope(scope)
+    events = scope.group("data->>'video_filename'", :name).count
+    data = events.group_by { |row, _count| row.first }
+    data.map do |file_name, row|
+      next if file_name.nil?
+      Message.new(file_name, event_names: row.map { |r| r[0][1] })
+    end.compact
+  end
+
   # @param file_name_or_event
   # @param events
   def initialize(file_name_or_event, options = {})

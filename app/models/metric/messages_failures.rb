@@ -34,19 +34,12 @@ class Metric::MessagesFailures < Metric::Base
        missing_notification_viewed: 0 }
   end
 
-  def events
-    @events ||= Event.since(start_date).till(end_date + 1)
-                .group("data->>'video_filename'", :name)
-                .count
+  def events_scope
+    Event.since(start_date).till(end_date + 1)
   end
 
   def messages
-    return @messages if @messages
-    @messages = events.group_by { |row, _count| row.first }
-    @messages.map do |file_name, row|
-      next if file_name.nil?
-      Message.new(file_name, event_names: row.map { |r| r[0][1] })
-    end.compact
+    @messages ||= Message.build_from_events_scope(events_scope)
   end
 
   def meta
