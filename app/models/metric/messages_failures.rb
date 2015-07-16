@@ -56,21 +56,27 @@ class Metric::MessagesFailures < Metric::Base
   def data
     messages.each_with_object(sample) do |message, data|
       data[:uploaded] += 1
-      message.delivered? && data[:delivered] += 1
-      message.undelivered? && data[:undelivered] += 1
-      message.status.uploaded? && data[:incomplete] += 1
-      message.missing_events.include?(%w(video kvstore received)) &&
+      data[:delivered] += 1 if message.delivered?
+      data[:undelivered] += 1 if message.undelivered?
+      data[:incomplete] += 1 if message.status.uploaded?
+      if message.missing_events.include?(%w(video kvstore received))
         data[:missing_kvstore_received] += 1
-      message.missing_events.include?(%w(video notification received)) &&
+      end
+      if message.missing_events.include?(%w(video notification received))
         data[:missing_notification_received] += 1
-      message.missing_events.include?(%w(video kvstore downloaded)) &&
+      end
+      if message.missing_events.include?(%w(video kvstore downloaded))
         data[:missing_kvstore_downloaded] += 1
-      message.missing_events.include?(%w(video notification downloaded)) &&
+      end
+      if message.missing_events.include?(%w(video notification downloaded))
         data[:missing_notification_downloaded] += 1
-      message.missing_events.include?(%w(video kvstore viewed)) &&
+      end
+      if message.missing_events.include?(%w(video kvstore viewed))
         data[:missing_kvstore_viewed] += 1
-      message.missing_events.include?(%w(video notification viewed)) &&
+      end
+      if message.missing_events.include?(%w(video notification viewed))
         data[:missing_notification_viewed] += 1
+      end
     end
   end
 end
