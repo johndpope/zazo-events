@@ -7,10 +7,16 @@ class Metric::VerifiedAfterNthNotification < Metric::Base
   def generate
     temp_table_drop
     temp_table_create
-    results
+    format results
   end
 
   protected
+
+  def format(data)
+    data.each_with_object({}) do |row, memo|
+      memo[row['msg_order']] = row['count'].to_i
+    end
+  end
 
   def run(*params)
     Event.connection.select_all Event.send :sanitize_sql_array, params

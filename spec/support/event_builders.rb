@@ -114,6 +114,14 @@ module EventBuilders
   def video_flow(data)
     [send_video(data)] + receiver_video_flow(data)
   end
+
+  def verify_at(user, at)
+    e = build :event, :user_verified, initiator_id: user
+    e.initiator = 'user'
+    e.triggered_at = at
+    e.save
+    e
+  end
 end
 
 RSpec.configure do |config|

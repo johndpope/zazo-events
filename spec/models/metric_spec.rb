@@ -35,7 +35,8 @@ RSpec.describe Metric, type: :model do
        Metric::OnboardingInfo,
        Metric::UploadDuplications,
        Metric::UsageByActiveUsers,
-       Metric::UserActivity]
+       Metric::UserActivity,
+       Metric::VerifiedAfterNthNotification]
     end
     it { is_expected.to eq(all_metrics) }
   end
