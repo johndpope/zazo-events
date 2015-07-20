@@ -54,7 +54,12 @@ class Metric::VerifiedAfterNthNotification < Metric::Base
   def temp_table_values
     users_data.inject('') do |memo, row|
       memo += ',' unless memo.empty?
-      memo + "('#{row['user_id']}',#{row['msg_order']}::INT,'#{row['sent_at']}'::TIMESTAMP,'#{row['next_sent_at']}'::TIMESTAMP)"
+      memo + <<-SQL
+        ( '#{row['user_id']}',
+          '#{row['msg_order']}'::INT,
+          '#{row['sent_at']}'::TIMESTAMP,
+          '#{row['next_sent_at']}'::TIMESTAMP )
+      SQL
     end
   end
 
