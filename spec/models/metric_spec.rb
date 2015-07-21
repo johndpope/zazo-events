@@ -27,6 +27,7 @@ RSpec.describe Metric, type: :model do
     let(:all_metrics) do
       [Metric::ActiveUsers,
        Metric::AggregateMessagingInfo,
+       Metric::Filter::NonMarketing,
        Metric::InvitationFunnel,
        Metric::MessagesCountBetweenUsers,
        Metric::MessagesCountByPeriod,
@@ -35,7 +36,8 @@ RSpec.describe Metric, type: :model do
        Metric::OnboardingInfo,
        Metric::UploadDuplications,
        Metric::UsageByActiveUsers,
-       Metric::UserActivity]
+       Metric::UserActivity,
+       Metric::VerifiedAfterNthNotification]
     end
     it { is_expected.to eq(all_metrics) }
   end

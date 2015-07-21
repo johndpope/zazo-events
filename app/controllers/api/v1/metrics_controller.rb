@@ -1,6 +1,11 @@
 class Api::V1::MetricsController < ApplicationController
   def show
-    @metric = Metric.find(params[:id]).new(metric_parameters)
+    if params[:prefix]
+      @metric = Metric.find(params[:id], params[:prefix]).new(metric_parameters)
+    else
+      @metric = Metric.find(params[:id]).new(metric_parameters)
+    end
+
     if @metric.valid?
       render json: @metric.generate
     else
@@ -18,6 +23,6 @@ class Api::V1::MetricsController < ApplicationController
   private
 
   def metric_parameters
-    params.except(:controller, :action, :id)
+    params.except(:controller, :action, :id, :prefix)
   end
 end
