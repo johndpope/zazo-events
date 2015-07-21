@@ -162,7 +162,7 @@ RSpec.describe Message, type: :model do
                         file_name: file_name,
                         file_size: 94_555,
                         missing_events: missing_events,
-                        status: :uploaded,
+                        status: 'uploaded',
                         delivered: false,
                         viewed: false,
                         complete: false)
@@ -184,7 +184,7 @@ RSpec.describe Message, type: :model do
         instance
       end
 
-      it { is_expected.to eq(:uploaded) }
+      it { is_expected.to eq('uploaded') }
     end
 
     context 'received' do
@@ -192,7 +192,7 @@ RSpec.describe Message, type: :model do
         receive_video s3_event.data
       end
 
-      it { is_expected.to eq(:received) }
+      it { is_expected.to eq('received') }
     end
 
     context 'downloaded' do
@@ -201,7 +201,7 @@ RSpec.describe Message, type: :model do
         download_video s3_event.data
       end
 
-      it { is_expected.to eq(:downloaded) }
+      it { is_expected.to eq('downloaded') }
     end
 
     context 'viewed' do
@@ -211,7 +211,12 @@ RSpec.describe Message, type: :model do
         view_video s3_event.data
       end
 
-      it { is_expected.to eq(:viewed) }
+      it { is_expected.to eq('viewed') }
+
+      describe '.viewed?' do
+        subject { instance.status.viewed? }
+        it { is_expected.to be true }
+      end
     end
   end
 
@@ -219,7 +224,7 @@ RSpec.describe Message, type: :model do
     subject { instance.delivered? }
 
     context 'uploaded' do
-      it { is_expected.to be_falsey }
+      it { is_expected.to be false }
     end
 
     context 'received' do
@@ -227,7 +232,7 @@ RSpec.describe Message, type: :model do
         receive_video s3_event.data
       end
 
-      it { is_expected.to be_falsey }
+      it { is_expected.to be false }
     end
 
     context 'downloaded' do
@@ -236,7 +241,7 @@ RSpec.describe Message, type: :model do
         download_video s3_event.data
       end
 
-      it { is_expected.to be_truthy }
+      it { is_expected.to be true }
     end
 
     context 'viewed' do
@@ -246,7 +251,7 @@ RSpec.describe Message, type: :model do
         view_video s3_event.data
       end
 
-      it { is_expected.to be_truthy }
+      it { is_expected.to be true }
     end
   end
 
@@ -254,7 +259,7 @@ RSpec.describe Message, type: :model do
     subject { instance.undelivered? }
 
     context 'uploaded' do
-      it { is_expected.to be_truthy }
+      it { is_expected.to be true }
     end
 
     context 'received' do
@@ -262,7 +267,7 @@ RSpec.describe Message, type: :model do
         receive_video s3_event.data
       end
 
-      it { is_expected.to be_truthy }
+      it { is_expected.to be true }
     end
 
     context 'downloaded' do
@@ -271,7 +276,7 @@ RSpec.describe Message, type: :model do
         download_video s3_event.data
       end
 
-      it { is_expected.to be_falsey }
+      it { is_expected.to be false }
     end
 
     context 'viewed' do
@@ -281,7 +286,7 @@ RSpec.describe Message, type: :model do
         view_video s3_event.data
       end
 
-      it { is_expected.to be_falsey }
+      it { is_expected.to be false }
     end
   end
 
@@ -289,9 +294,13 @@ RSpec.describe Message, type: :model do
     let(:video_1) { video_data(sender_id, receiver_id, gen_video_id) }
     let(:video_2) { video_data(gen_hash, receiver_id, gen_video_id) }
     let(:video_3) { video_data(sender_id, gen_hash, gen_video_id) }
+    let(:video_4) { video_data(sender_id, gen_hash, gen_video_id) }
+    let(:video_5) { video_data(sender_id, gen_hash, gen_video_id) }
     let!(:message_1) { described_class.new(video_1[:video_filename]) }
     let!(:message_2) { described_class.new(video_2[:video_filename]) }
     let!(:message_3) { described_class.new(video_3[:video_filename]) }
+    let!(:message_4) { described_class.new(video_3[:video_filename]) }
+    let!(:message_5) { described_class.new(video_3[:video_filename]) }
     let(:options) { {} }
     let(:list) { described_class.all(options) }
     let(:instance) { list.first }
@@ -338,6 +347,17 @@ RSpec.describe Message, type: :model do
     context 'when receiver_id given' do
       let(:options) { { receiver_id: receiver_id } }
       it { is_expected.to eq([message, message_1, message_2]) }
+    end
+
+    context 'with time frame' do
+      let(:options) { { start_date: 2.day.ago.to_date, end_date: Date.today } }
+      before do
+        Timecop.travel(3.days.ago) do
+          send_video video_4
+          send_video video_5
+        end
+      end
+      it { is_expected.to eq([message, message_1, message_2, message_3]) }
     end
   end
 
@@ -567,5 +587,33 @@ RSpec.describe Message, type: :model do
 
       it { is_expected.to be true }
     end
+  end
+
+  describe '.build_from_events_scope' do
+    let(:scope) { Event.all }
+    subject { described_class.build_from_events_scope(scope) }
+    let(:video_1) { video_data(sender_id, receiver_id, gen_video_id) }
+    let(:video_2) { video_data(gen_hash, receiver_id, gen_video_id) }
+    let(:video_3) { video_data(sender_id, gen_hash, gen_video_id) }
+    let(:video_4) { video_data(sender_id, gen_hash, gen_video_id) }
+    let(:video_5) { video_data(sender_id, gen_hash, gen_video_id) }
+    let!(:message_1) { described_class.new(video_1[:video_filename]) }
+    let!(:message_2) { described_class.new(video_2[:video_filename]) }
+    let!(:message_3) { described_class.new(video_3[:video_filename]) }
+    let!(:message_4) { described_class.new(video_3[:video_filename]) }
+    let!(:message_5) { described_class.new(video_3[:video_filename]) }
+    let(:options) { {} }
+    let(:list) { described_class.all(options) }
+    let(:instance) { list.first }
+    subject { list }
+
+    before do
+      send_video s3_event.data # check for duplications
+      send_video video_1
+      send_video video_2
+      send_video video_3
+    end
+
+    it { is_expected.to eq([message, message_1, message_2, message_3]) }
   end
 end

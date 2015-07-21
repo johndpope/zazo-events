@@ -1,5 +1,5 @@
 class Message
-  DELIVERED_STATUSES = %i(downloaded viewed).freeze
+  DELIVERED_STATUSES = %w(downloaded viewed).freeze
   ALL_EVENTS = [
     %w(video s3 uploaded),
     %w(video kvstore received),
@@ -12,11 +12,14 @@ class Message
 
   attr_reader :file_name
   alias_method :id, :file_name
+  delegate :viewed?, to: :status
 
   def self.all_s3_events(options = {})
     events = Event.s3_events
     events = events.with_sender(options.fetch(:sender_id)) if options.key?(:sender_id)
     events = events.with_receiver(options.fetch(:receiver_id)) if options.key?(:receiver_id)
+    events = events.since(options.fetch(:start_date).to_date) if options.key?(:start_date)
+    events = events.till(options.fetch(:end_date).to_date + 1) if options.key?(:end_date)
     events = events.page(options.fetch(:page, 1)) if options.key?(:page)
     events = events.per(options.fetch(:per, 100)) if options.key?(:per)
     order = options.fetch(:reverse, false) ? 'DESC' : 'ASC'
@@ -34,6 +37,15 @@ class Message
 
   def self.all(options = {})
     build_from_s3_events(all_s3_events(options))
+  end
+
+  def self.build_from_events_scope(scope)
+    events = scope.group("data->>'video_filename'", :name).count
+    data = events.group_by { |row, _count| row.first }
+    data.map do |file_name, row|
+      next if file_name.nil?
+      Message.new(file_name, event_names: row.map { |r| r[0][1] })
+    end.compact
   end
 
   # @param file_name_or_event
@@ -103,7 +115,7 @@ class Message
   end
 
   def status
-    @status ||= (ALL_EVENTS & event_names).last.last.to_sym
+    @status ||= (ALL_EVENTS & event_names).last.last.inquiry
   end
 
   def delivered?
@@ -133,10 +145,6 @@ class Message
 
   def incomplete?
     !complete?
-  end
-
-  def viewed?
-    status == :viewed
   end
 
   def unviewed?
