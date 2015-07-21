@@ -2,13 +2,10 @@ module Metric
   class UnknownMetric < StandardError
   end
 
-  def self.find(name)
-    klass = name.to_s.camelize
-    begin
-      const_get(klass)
-    rescue NameError
-      raise UnknownMetric, "Metric #{name.inspect} not found"
-    end
+  def self.find(name, prefix = nil)
+    const_get [prefix, name].compact.map(&:to_s).map(&:camelize).join '::'
+  rescue NameError
+    raise UnknownMetric, "Metric #{name.inspect} not found"
   end
 
   def self.all

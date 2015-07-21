@@ -7,6 +7,7 @@ Rails.application.routes.draw do
       end
       resources :metrics, only: [:index] do
         post ':id' => :show, on: :collection
+        get 'filter/:id' => :show, prefix: 'filter', on: :collection
       end
       resources :messages, only: [:index, :show] do
         get :events, on: :member
