@@ -69,6 +69,8 @@ class Metric::InvitationFunnel < Metric::Base
         (SELECT SUM(invitations_count) FROM inviters) invitations_count,
         avg_delay_in_hours,
         (SELECT COUNT(*) FROM verified_not_inviters) verified_not_invite,
+        (SELECT COUNT(*) FROM verified
+         WHERE becoming_verified < NOW() - INTERVAL '6 weeks') total_verified_more_6_weeks_old,
         COUNT(*) verified_not_invite_more_6_weeks_old
       FROM verified_not_inviters
         CROSS JOIN verified_sent_invitations
