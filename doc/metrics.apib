@@ -313,3 +313,37 @@ Returns data for messages from user to friend (`outgoing`) and in reverse (`inco
                 }
             }
         }
+
+### Message failures analysis in time frame [POST /api/v1/metrics/messages_failures]
+
++ Parameters
+
+    + start_date: 2015-06-25 (string, optional) - Start date
+      Default: 12.days.ago
+
+    + end_date: 2015-07-05 (string, optional) - End date
+      Default: 2.days.ago
+
++ Response 200 (application/json; charset=utf-8)
+
+    + Body
+
+        {
+            "meta": {
+                "total": "uploaded",
+                "start_date": "2015-07-03",
+                "end_date": "2015-07-13"
+            },
+            "data": {
+                "uploaded": 2749,
+                "delivered": 2537,
+                "undelivered": 212,
+                "incomplete": 10,
+                "missing_kvstore_received": 116,
+                "missing_notification_received": 245,
+                "missing_kvstore_downloaded": 301,
+                "missing_notification_downloaded": 308,
+                "missing_kvstore_viewed": 307,
+                "missing_notification_viewed": 316
+            }
+        }

@@ -31,6 +31,7 @@ RSpec.describe Metric, type: :model do
        Metric::InvitationFunnel,
        Metric::MessagesCountBetweenUsers,
        Metric::MessagesCountByPeriod,
+       Metric::MessagesFailures,
        Metric::MessagesSent,
        Metric::MessagesStatusesBetweenUsers,
        Metric::OnboardingInfo,
