@@ -133,14 +133,22 @@ class Metric::InvitationFunnel < Metric::Base
         UNION
         SELECT *
         FROM count_after_six_weeks
-      ) SELECT
-          week week_after_verified,
-          ROUND(SUM(invitations_count) /
-            (SELECT COUNT(DISTINCT initiator) FROM count_by_weeks)
-          , 3) avg_invitations_count
-        FROM count_by_weeks
-        GROUP BY week
-        ORDER BY week
+      ) ( SELECT
+            week week_after_verified,
+            ROUND(SUM(invitations_count) /
+              (SELECT COUNT(DISTINCT initiator) FROM count_by_weeks)
+            , 3) avg_invitations_count
+          FROM count_by_weeks
+          GROUP BY week
+          ORDER BY week
+        ) UNION (
+          SELECT
+            'total'::TEXT week_after_verified,
+            ROUND(COUNT(*)::NUMERIC /
+              (SELECT COUNT(DISTINCT initiator) FROM count_by_weeks)
+            , 3) avg_invitations_count
+          FROM group_by_weeks
+        ) ORDER BY week_after_verified
     SQL
   end
 
