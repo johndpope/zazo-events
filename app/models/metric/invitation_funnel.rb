@@ -121,11 +121,12 @@ class Metric::InvitationFunnel < Metric::Base
         GROUP BY number, initiator
       ), count_after_six_weeks AS (
         SELECT
-          'after 6 weeks'::TEXT week_after_verified,
-          NULL::TEXT initiator,
+          'after 6 weeks'::TEXT week,
+          initiator,
           COUNT(*) invitations_count
         FROM group_by_weeks
         WHERE week > 6
+        GROUP BY initiator
       ), count_by_weeks AS (
         SELECT *
         FROM count_by_six_weeks
@@ -135,8 +136,8 @@ class Metric::InvitationFunnel < Metric::Base
       ) SELECT
           week week_after_verified,
           ROUND(SUM(invitations_count) /
-            (SELECT COUNT(*) FROM count_by_weeks WHERE initiator IS NOT NULL)
-          , 2) avg_invitations_count
+            (SELECT COUNT(DISTINCT initiator) FROM count_by_weeks)
+          , 3) avg_invitations_count
         FROM count_by_weeks
         GROUP BY week
         ORDER BY week
