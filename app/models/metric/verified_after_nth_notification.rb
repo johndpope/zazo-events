@@ -26,7 +26,7 @@ class Metric::VerifiedAfterNthNotification < Metric::Base
     run <<-SQL
       SELECT
         messages.msg_order,
-        COUNT(*)
+        COUNT(DISTINCT messages.user_id)
       FROM events
         INNER JOIN _temp_messages messages ON messages.user_id = events.initiator_id
       WHERE name && ARRAY['verified']::VARCHAR[] AND
