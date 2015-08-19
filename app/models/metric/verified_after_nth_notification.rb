@@ -37,8 +37,7 @@ class Metric::VerifiedAfterNthNotification < Metric::Base
         FROM unique_events
           INNER JOIN _temp_messages messages
           ON messages.user_id = unique_events.initiator_id
-        WHERE name && ARRAY['verified']::VARCHAR[] AND
-              messages.sent_at < unique_events.triggered_at AND
+        WHERE messages.sent_at < unique_events.triggered_at AND
               messages.next_sent_at > unique_events.triggered_at
         GROUP BY messages.msg_order
     SQL
