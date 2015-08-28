@@ -115,8 +115,20 @@ module EventBuilders
     [send_video(data)] + receiver_video_flow(data)
   end
 
+  def invite_at(user, at)
+    create_user_event user, at, :user_invited
+  end
+
+  def register_at(user, at)
+    create_user_event user, at, :user_registered
+  end
+
   def verify_at(user, at)
-    e = build :event, :user_verified, initiator_id: user
+    create_user_event user, at, :user_verified
+  end
+
+  def create_user_event(user, at, event)
+    e = build :event, event, initiator_id: user
     e.initiator = 'user'
     e.triggered_at = at
     e.save
