@@ -1,6 +1,6 @@
 class Metric::InvitedBecomingRegistered < Metric::Base
   def self.type
-    :line_chart
+    :rate_line_chart
   end
 
   def generate
