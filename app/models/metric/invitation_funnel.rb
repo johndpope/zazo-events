@@ -190,9 +190,10 @@ class Metric::InvitationFunnel < Metric::Base
       WITH invited AS (
         SELECT
           initiator_id invitee,
-          triggered_at
+          MAX(triggered_at) becoming_invited
         FROM events
         WHERE name @> ARRAY['user', 'invited']::VARCHAR[]
+        GROUP BY initiator_id
       ), registered AS (
         SELECT
           DISTINCT events.initiator_id initiator,
@@ -206,7 +207,7 @@ class Metric::InvitationFunnel < Metric::Base
           COUNT(*) invited_that_register,
           ROUND(AVG(EXTRACT(EPOCH FROM
             registered.becoming_registered -
-            invited.triggered_at) / 3600)::numeric) avg_delay_in_hours
+            invited.becoming_invited) / 3600)::numeric) avg_delay_in_hours
         FROM registered
           INNER JOIN invited ON registered.initiator = invited.invitee
     SQL
