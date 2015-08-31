@@ -25,10 +25,21 @@ class Metric::InvitationFunnel < Metric::Base
   private
 
   def set_attributes
-    @start_date = attributes['start_date']
-    @end_date   = attributes['end_date']
+    @start_date = get_attribute_value 'start_date'
+    @end_date   = get_attribute_value 'end_date'
+  end
 
-    @start_date = @start_date.nil? ? FAR_IN_PAST_DATE : Time.parse(@start_date)
-    @end_date   = @end_date.nil? ? IN_FAR_FUTURE_DATE : Time.parse(@end_date)
+  def get_attribute_value(variable)
+    Time.parse attributes[variable]
+  rescue ArgumentError, TypeError
+    default_attribute_value variable
+  end
+
+  def default_attribute_value(attr)
+    case attr
+      when 'start_date' then FAR_IN_PAST_DATE
+      when 'end_date'   then IN_FAR_FUTURE_DATE
+      else FAR_IN_PAST_DATE
+    end
   end
 end
