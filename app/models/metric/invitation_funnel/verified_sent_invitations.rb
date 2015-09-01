@@ -1,6 +1,6 @@
 class Metric::InvitationFunnel::VerifiedSentInvitations < Metric::InvitationFunnel::Base
   def generate
-    default_if_nil query_first <<-SQL
+    data = query_first <<-SQL
       WITH invited AS (
         SELECT
           initiator_id invitee,
@@ -49,20 +49,24 @@ class Metric::InvitationFunnel::VerifiedSentInvitations < Metric::InvitationFunn
           ) avg_delay_in_hours
         FROM verified
           INNER JOIN inviters ON verified.initiator = inviters.inviter
-      ) SELECT
-          (SELECT COUNT(*) FROM verified) total_verified,
-          verified_sent_invitations,
-          (SELECT SUM(invitations_count) FROM inviters) invitations_count,
-          avg_delay_in_hours,
-          (SELECT COUNT(*) FROM verified_not_inviters) verified_not_invite,
-          (SELECT COUNT(*) FROM verified
-           WHERE becoming_verified < NOW() - INTERVAL '6 weeks') total_verified_more_6_weeks_old,
+      ), verified_not_invite_more_6_weeks_old AS (
+        SELECT
           COUNT(*) verified_not_invite_more_6_weeks_old
         FROM verified_not_inviters
-          CROSS JOIN verified_sent_invitations
         WHERE becoming_verified < NOW() - INTERVAL '6 weeks'
-        GROUP BY verified_sent_invitations, avg_delay_in_hours
+      ) SELECT
+          (SELECT COUNT(*) FROM verified) total_verified,
+          (SELECT COUNT(*) FROM verified_not_inviters) verified_not_invite,
+          (SELECT SUM(invitations_count) FROM inviters) invitations_count,
+          (
+            SELECT COUNT(*) FROM verified
+            WHERE becoming_verified < NOW() - INTERVAL '6 weeks'
+          ) total_verified_more_6_weeks_old,
+          *
+        FROM verified_sent_invitations
+          CROSS JOIN verified_not_invite_more_6_weeks_old
     SQL
+    default_if_key_nil data, :avg_delay_in_hours
   end
 
   def default_data
