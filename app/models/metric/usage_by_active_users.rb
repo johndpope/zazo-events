@@ -2,31 +2,29 @@ class Metric::UsageByActiveUsers < Metric::Base
   include Metric::GroupableByTimeFrame
 
   def generate
-    total_messages.each_with_object({}) do |(time_frame, messages_count), memo|
-      users_count = users_sent_message_reduced[time_frame].try(:size) || 0
-      next if users_count.zero?
-      memo[time_frame] = messages_count.to_f / users_count.to_f
+    results.each_with_object({}) do |row, memo|
+      memo[row['period']] = row['average_count'].to_f
     end
   end
 
   private
 
-  def total_messages
-    @total_messages ||= messages_sent_scope.count("data->>'video_filename'")
-  end
-
-  def users_sent_message
-    @users_sent_message ||= messages_sent_scope.group("data->>'sender_id'").count("data->>'sender_id'")
-  end
-
-  def users_sent_message_reduced
-    @users_sent_message_reduced ||= reduce_by_users(users_sent_message)
-  end
-
-  def messages_sent_scope
-    Event.video_s3_uploaded
-      .distinct
-      .select(:triggered_at, "data->>'video_filename'")
-      .send(:"group_by_#{group_by}", :triggered_at)
+  def results
+    run_raw_query <<-SQL
+      WITH usage AS (
+        SELECT
+          DATE_TRUNC('#{group_by}', triggered_at) period,
+          data->>'sender_id' user_mkey,
+          COUNT(DISTINCT data->>'video_filename') count
+        FROM events
+        WHERE name = ARRAY['video', 's3', 'uploaded']::VARCHAR[]
+        GROUP BY period, user_mkey
+      ) SELECT
+          period,
+          AVG(count) average_count
+        FROM usage
+        GROUP BY period
+        ORDER BY period
+    SQL
   end
 end

@@ -3,7 +3,7 @@ class Metric::ActiveUsers < Metric::Base
 
   def generate
     results.each_with_object({}) do |row, memo|
-      memo[row['period']] = row['count']
+      memo[row['period']] = row['count'].to_i
     end
   end
 
