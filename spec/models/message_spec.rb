@@ -9,6 +9,12 @@ RSpec.describe Message, type: :model do
   let(:message) { described_class.new(file_name) }
   let(:instance) { message }
   let(:missing_events) { Message::ALL_EVENTS - [%w(video s3 uploaded)] }
+  let(:data) { s3_event.data }
+  let(:data_ios_android) do
+    data.merge(
+      'sender_platform' => 'ios',
+      'receiver_platform' => 'android')
+  end
 
   describe '#initialize' do
     context 'by file_name' do
@@ -22,9 +28,9 @@ RSpec.describe Message, type: :model do
         context 'with events parameter' do
           let(:events) do
             result = [s3_event]
-            result += receive_video(s3_event.data)
-            result += download_video(s3_event.data)
-            result += view_video(s3_event.data)
+            result += receive_video(data)
+            result += download_video(data)
+            result += view_video(data)
             result
           end
           let(:options) { { events: events } }
@@ -87,9 +93,9 @@ RSpec.describe Message, type: :model do
     context 'all' do
       let(:events) do
         result = [s3_event]
-        result += receive_video(s3_event.data)
-        result += download_video(s3_event.data)
-        result += view_video(s3_event.data)
+        result += receive_video(data)
+        result += download_video(data)
+        result += view_video(data)
         result
       end
       it { is_expected.to eq(events) }
@@ -118,7 +124,7 @@ RSpec.describe Message, type: :model do
   end
 
   context '#data' do
-    subject { s3_event.data }
+    subject { instance.data }
     specify do
       is_expected.to eq(
         'sender_id' => sender_id,
@@ -150,6 +156,26 @@ RSpec.describe Message, type: :model do
   context '#file_size' do
     subject { instance.file_size }
     it { is_expected.to eq(94_555) }
+  end
+
+  context '#sender_platform' do
+    before do
+      receive_video data_ios_android
+      download_video data_ios_android
+      view_video data_ios_android
+    end
+    subject { instance.sender_platform }
+    it { is_expected.to eq(:ios) }
+  end
+
+  context '#receiver_platform' do
+    before do
+      receive_video data_ios_android
+      download_video data_ios_android
+      view_video data_ios_android
+    end
+    subject { instance.receiver_platform }
+    it { is_expected.to eq(:android) }
   end
 
   context 'to_hash' do
@@ -189,7 +215,7 @@ RSpec.describe Message, type: :model do
 
     context 'received' do
       before do
-        receive_video s3_event.data
+        receive_video data
       end
 
       it { is_expected.to eq('received') }
@@ -197,8 +223,8 @@ RSpec.describe Message, type: :model do
 
     context 'downloaded' do
       before do
-        receive_video s3_event.data
-        download_video s3_event.data
+        receive_video data
+        download_video data
       end
 
       it { is_expected.to eq('downloaded') }
@@ -206,9 +232,9 @@ RSpec.describe Message, type: :model do
 
     context 'viewed' do
       before do
-        receive_video s3_event.data
-        download_video s3_event.data
-        view_video s3_event.data
+        receive_video data
+        download_video data
+        view_video data
       end
 
       it { is_expected.to eq('viewed') }
@@ -229,7 +255,7 @@ RSpec.describe Message, type: :model do
 
     context 'received' do
       before do
-        receive_video s3_event.data
+        receive_video data
       end
 
       it { is_expected.to be false }
@@ -237,8 +263,8 @@ RSpec.describe Message, type: :model do
 
     context 'downloaded' do
       before do
-        receive_video s3_event.data
-        download_video s3_event.data
+        receive_video data
+        download_video data
       end
 
       it { is_expected.to be true }
@@ -246,9 +272,9 @@ RSpec.describe Message, type: :model do
 
     context 'viewed' do
       before do
-        receive_video s3_event.data
-        download_video s3_event.data
-        view_video s3_event.data
+        receive_video data
+        download_video data
+        view_video data
       end
 
       it { is_expected.to be true }
@@ -264,7 +290,7 @@ RSpec.describe Message, type: :model do
 
     context 'received' do
       before do
-        receive_video s3_event.data
+        receive_video data
       end
 
       it { is_expected.to be true }
@@ -272,8 +298,8 @@ RSpec.describe Message, type: :model do
 
     context 'downloaded' do
       before do
-        receive_video s3_event.data
-        download_video s3_event.data
+        receive_video data
+        download_video data
       end
 
       it { is_expected.to be false }
@@ -281,9 +307,9 @@ RSpec.describe Message, type: :model do
 
     context 'viewed' do
       before do
-        receive_video s3_event.data
-        download_video s3_event.data
-        view_video s3_event.data
+        receive_video data
+        download_video data
+        view_video data
       end
 
       it { is_expected.to be false }
@@ -307,7 +333,7 @@ RSpec.describe Message, type: :model do
     subject { list }
 
     before do
-      send_video s3_event.data # check for duplications
+      send_video data # check for duplications
       send_video video_1
       send_video video_2
       send_video video_3
@@ -366,9 +392,9 @@ RSpec.describe Message, type: :model do
 
     context 'kvstore: R, D; notification: V' do
       before do
-        notification_receive_video s3_event.data
-        notification_download_video s3_event.data
-        kvstore_view_video s3_event.data
+        notification_receive_video data
+        notification_download_video data
+        kvstore_view_video data
       end
 
       it do
@@ -381,9 +407,9 @@ RSpec.describe Message, type: :model do
 
     context 'notification: D, V' do
       before do
-        receive_video s3_event.data
-        kvstore_download_video s3_event.data
-        kvstore_view_video s3_event.data
+        receive_video data
+        kvstore_download_video data
+        kvstore_view_video data
       end
 
       it do
@@ -395,9 +421,9 @@ RSpec.describe Message, type: :model do
 
     context 'kvstore: V' do
       before do
-        receive_video s3_event.data
-        download_video s3_event.data
-        notification_view_video s3_event.data
+        receive_video data
+        download_video data
+        notification_view_video data
       end
 
       it do
@@ -413,9 +439,9 @@ RSpec.describe Message, type: :model do
 
     context 'U, N:R, N:D, K:V' do
       before do
-        notification_receive_video s3_event.data
-        notification_download_video s3_event.data
-        kvstore_view_video s3_event.data
+        notification_receive_video data
+        notification_download_video data
+        kvstore_view_video data
       end
 
       it do
@@ -429,9 +455,9 @@ RSpec.describe Message, type: :model do
 
     context 'R, K:D, K:V' do
       before do
-        receive_video s3_event.data
-        kvstore_download_video s3_event.data
-        kvstore_view_video s3_event.data
+        receive_video data
+        kvstore_download_video data
+        kvstore_view_video data
       end
 
       it do
@@ -446,9 +472,9 @@ RSpec.describe Message, type: :model do
 
     context 'R, D, N:V' do
       before do
-        receive_video s3_event.data
-        download_video s3_event.data
-        notification_view_video s3_event.data
+        receive_video data
+        download_video data
+        notification_view_video data
       end
 
       it do
@@ -468,7 +494,7 @@ RSpec.describe Message, type: :model do
 
     context 'empty' do
       before do
-        video_flow s3_event.data
+        video_flow data
       end
 
       it { is_expected.to be true }
@@ -476,9 +502,9 @@ RSpec.describe Message, type: :model do
 
     context 'kvstore: R, D; notification: V' do
       before do
-        notification_receive_video s3_event.data
-        notification_download_video s3_event.data
-        kvstore_view_video s3_event.data
+        notification_receive_video data
+        notification_download_video data
+        kvstore_view_video data
       end
 
       it { is_expected.to be false }
@@ -490,7 +516,7 @@ RSpec.describe Message, type: :model do
 
     context 'empty' do
       before do
-        video_flow s3_event.data
+        video_flow data
       end
 
       it { is_expected.to be false }
@@ -498,9 +524,9 @@ RSpec.describe Message, type: :model do
 
     context 'kvstore: R, D; notification: V' do
       before do
-        notification_receive_video s3_event.data
-        notification_download_video s3_event.data
-        kvstore_view_video s3_event.data
+        notification_receive_video data
+        notification_download_video data
+        kvstore_view_video data
       end
 
       it { is_expected.to be true }
@@ -512,7 +538,7 @@ RSpec.describe Message, type: :model do
 
     context 'full flow' do
       before do
-        video_flow s3_event.data
+        video_flow data
       end
 
       it { is_expected.to be true }
@@ -520,9 +546,9 @@ RSpec.describe Message, type: :model do
 
     context 'without K:V' do
       before do
-        receive_video s3_event.data
-        download_video s3_event.data
-        notification_view_video s3_event.data
+        receive_video data
+        download_video data
+        notification_view_video data
       end
 
       it { is_expected.to be true }
@@ -530,9 +556,9 @@ RSpec.describe Message, type: :model do
 
     context 'without N:V' do
       before do
-        receive_video s3_event.data
-        download_video s3_event.data
-        kvstore_view_video s3_event.data
+        receive_video data
+        download_video data
+        kvstore_view_video data
       end
 
       it { is_expected.to be true }
@@ -540,8 +566,8 @@ RSpec.describe Message, type: :model do
 
     context 'without KN:V' do
       before do
-        receive_video s3_event.data
-        download_video s3_event.data
+        receive_video data
+        download_video data
       end
 
       it { is_expected.to be false }
@@ -553,7 +579,7 @@ RSpec.describe Message, type: :model do
 
     context 'full flow' do
       before do
-        video_flow s3_event.data
+        video_flow data
       end
 
       it { is_expected.to be false }
@@ -561,9 +587,9 @@ RSpec.describe Message, type: :model do
 
     context 'without K:V' do
       before do
-        receive_video s3_event.data
-        download_video s3_event.data
-        notification_view_video s3_event.data
+        receive_video data
+        download_video data
+        notification_view_video data
       end
 
       it { is_expected.to be false }
@@ -571,9 +597,9 @@ RSpec.describe Message, type: :model do
 
     context 'without N:V' do
       before do
-        receive_video s3_event.data
-        download_video s3_event.data
-        kvstore_view_video s3_event.data
+        receive_video data
+        download_video data
+        kvstore_view_video data
       end
 
       it { is_expected.to be false }
@@ -581,8 +607,8 @@ RSpec.describe Message, type: :model do
 
     context 'without KN:V' do
       before do
-        receive_video s3_event.data
-        download_video s3_event.data
+        receive_video data
+        download_video data
       end
 
       it { is_expected.to be true }
@@ -608,7 +634,7 @@ RSpec.describe Message, type: :model do
     subject { list }
 
     before do
-      send_video s3_event.data # check for duplications
+      send_video data # check for duplications
       send_video video_1
       send_video video_2
       send_video video_3

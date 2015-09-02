@@ -151,11 +151,23 @@ class Message
     !viewed?
   end
 
+  def sender_platform
+    find_platform(:sender)
+  end
+
+  def receiver_platform
+    find_platform(:receiver)
+  end
+
   protected
 
   def find_s3_event
     s3_event = events.find { |e| [%w(video s3 uploaded), %w(video sent)].include?(e.name) }
     fail ActiveRecord::RecordNotFound, 'no video:s3:uploaded (video:sent) event found' if s3_event.blank?
     s3_event
+  end
+
+  def find_platform(member)
+    events.select { |e| e.data["#{member}_platform"].present? }.first.data["#{member}_platform"].to_sym
   end
 end
