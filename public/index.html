@@ -1,0 +1,1056 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><title>API Documentation</title><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"><style>@import url(http://fonts.googleapis.com/css?family=Roboto:400,700|Inconsolata|Raleway:200);@import url(http://fonts.googleapis.com/css?family=Roboto:400,700|Inconsolata|Raleway:200);.hljs-comment,.hljs-title{color:#8e908c}.hljs-variable,.hljs-attribute,.hljs-tag,.hljs-regexp,.ruby .hljs-constant,.xml .hljs-tag .hljs-title,.xml .hljs-pi,.xml .hljs-doctype,.html .hljs-doctype,.css .hljs-id,.css .hljs-class,.css .hljs-pseudo{color:#c82829}.hljs-number,.hljs-preprocessor,.hljs-pragma,.hljs-built_in,.hljs-literal,.hljs-params,.hljs-constant{color:#f5871f}.ruby .hljs-class .hljs-title,.css .hljs-rules .hljs-attribute{color:#eab700}.hljs-string,.hljs-value,.hljs-inheritance,.hljs-header,.ruby .hljs-symbol,.xml .hljs-cdata{color:#718c00}.css .hljs-hexcolor{color:#3e999f}.hljs-function,.python .hljs-decorator,.python .hljs-title,.ruby .hljs-function .hljs-title,.ruby .hljs-title .hljs-keyword,.perl .hljs-sub,.javascript .hljs-title,.coffeescript .hljs-title{color:#4271ae}.hljs-keyword,.javascript .hljs-function{color:#8959a8}.hljs{display:block;background:white;color:#4d4d4c;padding:.5em}.coffeescript .javascript,.javascript .xml,.tex .hljs-formula,.xml .javascript,.xml .vbscript,.xml .css,.xml .hljs-cdata{opacity:.5}.hljs-comment,.hljs-title{color:#999}.hljs-variable,.hljs-attribute,.hljs-tag,.hljs-regexp,.ruby .hljs-constant,.xml .hljs-tag .hljs-title,.xml .hljs-pi,.xml .hljs-doctype,.html .hljs-doctype,.css .hljs-id,.css .hljs-class,.css .hljs-pseudo{color:#f2777a}.hljs-number,.hljs-preprocessor,.hljs-pragma,.hljs-built_in,.hljs-literal,.hljs-params,.hljs-constant{color:#f99157}.ruby .hljs-class .hljs-title,.css .hljs-rules .hljs-attribute{color:#fc6}.hljs-string,.hljs-value,.hljs-inheritance,.hljs-header,.ruby .hljs-symbol,.xml .hljs-cdata{color:#9c9}.css .hljs-hexcolor{color:#6cc}.hljs-function,.python .hljs-decorator,.python .hljs-title,.ruby .hljs-function .hljs-title,.ruby .hljs-title .hljs-keyword,.perl .hljs-sub,.javascript .hljs-title,.coffeescript .hljs-title{color:#69c}.hljs-keyword,.javascript .hljs-function{color:#c9c}.hljs{display:block;background:#2d2d2d;color:#ccc;padding:.5em}.coffeescript .javascript,.javascript .xml,.tex .hljs-formula,.xml .javascript,.xml .vbscript,.xml .css,.xml .hljs-cdata{opacity:.5}body{color:#c8c8c8;background:#272b30;font-family:'Roboto',Helvetica,sans-serif;font-size:14px;line-height:1.42}header{border-bottom:1px solid #373d44;margin-bottom:12px}h1,h2,h3,h4,h5{color:#c8c8c8;margin:12px 0}h1 .permalink,h2 .permalink,h3 .permalink,h4 .permalink,h5 .permalink{margin-left:6px;opacity:0;transition:opacity .25s ease}h1:hover .permalink,h2:hover .permalink,h3:hover .permalink,h4:hover .permalink,h5:hover .permalink{opacity:1}h1{font-family:'Raleway',Helvetica,sans-serif;font-size:36px;font-weight:500}h2{font-family:'Raleway',Helvetica,sans-serif;font-size:30px;font-weight:500}h3{font-size:100%;text-transform:uppercase}h5{font-size:100%;font-weight:normal}p{margin:0 0 10px}p.choices{line-height:1.6}a{color:white;text-decoration:none}li p{margin:0}dl dt{float:left;width:160px;clear:left;text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:700}dl dd{margin-left:180px}blockquote{color:rgba(200,200,200,0.5);font-size:15.5px;padding:10px 20px;margin:12px 0;border-left:5px solid #2b3237}blockquote p:last-child{margin-bottom:0}pre{background-color:#202529;padding:12px;border:1px solid #424c54;border-radius:6px}pre code{background-color:transparent;padding:0;border:none}code{color:#ddd;background-color:#373b40;font-family:'Inconsolata',monospace;padding:1px 4px;border:1px solid #424c54;border-radius:3px}ul,ol{padding-left:2em}table{border-collapse:collapse;border-spacing:0;margin-bottom:12px}table tr:nth-child(2n){background-color:#22262a}table th,table td{padding:6px 12px;border:1px solid #202020}nav{position:fixed;top:24px;bottom:0;overflow-y:auto}nav .resource-group{padding:0}nav .resource-group .heading{position:relative}nav .resource-group .heading .chevron{position:absolute;top:12px;right:12px;opacity:.5}nav .resource-group .heading a{display:block;color:#c8c8c8;opacity:.7;border-left:2px solid transparent;margin:0}nav .resource-group .heading a:hover{border-left:2px solid #c8c8c8}nav ul{list-style-type:none;padding-left:0}nav ul a{display:block;font-size:13px;color:rgba(200,200,200,0.7);padding:8px 12px;border-top:1px solid #202020;border-left:2px solid transparent;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}nav ul a:hover{border-left:2px solid #c8c8c8}nav ul>li{margin:0}nav ul>li:first-child{margin-top:-12px}nav ul>li:last-child{margin-bottom:-12px}nav ul ul a{padding-left:24px}nav ul ul li{margin:0}nav ul ul li:first-child{margin-top:0}nav ul ul li:last-child{margin-bottom:0}nav>div>div>ul>li:first-child>a{border-top:none}.preload *{transition:none !important}.pull-left{float:left}.pull-right{float:right}.badge{display:inline-block;float:right;min-width:10px;min-height:14px;padding:3px 7px;font-size:12px;color:#fff;background-color:#373d44;border-radius:10px;margin-top:-2px;margin-bottom:-2px}.badge.get{color:white;background-color:#5bc0de}.badge.head{color:white;background-color:#5bc0de}.badge.options{color:white;background-color:#5bc0de}.badge.put{color:white;background-color:#f89406}.badge.patch{color:white;background-color:#f89406}.badge.post{color:white;background-color:#62c462}.badge.delete{color:white;background-color:#ee5f5b}.collapse-button{float:right}.collapse-button .close{display:none;color:white;cursor:pointer}.collapse-button .open{color:white;cursor:pointer}.collapse-button.show .close{display:inline}.collapse-button.show .open{display:none}.collapse-content{max-height:0;overflow:hidden;transition:max-height .3s ease-in-out}nav{width:220px}.container{max-width:940px;margin-left:auto;margin-right:auto}.container .row .content{margin-left:244px;width:696px}.container .row:after{content:'';display:block;clear:both}.container-fluid nav{width:22%}.container-fluid .row .content{margin-left:24%;width:76%}@media (max-width:1200px){nav{width:200px}.container{max-width:840px}.container .row .content{margin-left:224px;width:606px}}@media (max-width:992px){nav{width:170px}.container{max-width:720px}.container .row .content{margin-left:194px;width:526px}}@media (max-width:768px){nav{display:none}.container{width:95%;max-width:none}.container .row .content,.container-fluid .row .content{margin-left:auto;margin-right:auto;width:95%}}.back-to-top{position:fixed;z-index:1;bottom:0;right:24px;padding:4px 8px;color:rgba(200,200,200,0.5);background-color:#373d44;text-decoration:none !important;border-top:1px solid #202020;border-left:1px solid #202020;border-right:1px solid #202020;border-top-left-radius:3px;border-top-right-radius:3px}.resource-group{padding:12px;margin-bottom:12px;background-color:#272b30;border:1px solid #202020;border-radius:6px}.resource-group h2.group-heading,.resource-group .heading a{padding:12px;margin:-12px -12px 12px -12px;background-color:#373d44;border-bottom:1px solid #202020;border-top-left-radius:6px;border-top-right-radius:6px;white-space:nowrap;text-overflow:ellipsis;overflow:hidden}nav .resource-group .heading a{margin-bottom:0}nav .resource-group .collapse-content{padding:0}.action{margin-bottom:12px;padding:12px 12px 0 12px;overflow:hidden;border:1px solid transparent;border-radius:6px}.action h4{padding:12px;margin:-12px -12px 12px -12px;border-bottom:1px solid transparent;border-top-left-radius:6px;border-top-right-radius:6px;white-space:nowrap;text-overflow:ellipsis;overflow:hidden}.action h4 .name{float:right;font-weight:normal}.action h4 .method{padding:6px 12px;margin-right:12px;border-radius:3px}.action h4 .method.get{color:#fff;background-color:#2390b0}.action h4 .method.head{color:#fff;background-color:#2390b0}.action h4 .method.options{color:#fff;background-color:#2390b0}.action h4 .method.put{color:#fff;background-color:#945904}.action h4 .method.patch{color:#fff;background-color:#945904}.action h4 .method.post{color:#fff;background-color:#348c34}.action h4 .method.delete{color:#fff;background-color:#ce1a15}.action h4 code{color:black;background-color:rgba(255,255,255,0.7);border-color:transparent;font-weight:normal}.action dl.inner{padding-bottom:2px}.action .title{border-bottom:1px solid #272b30;margin:0 -12px -1px -12px;padding:12px}.action.get{border-color:#202020}.action.get h4{color:#2390b0;background:#5bc0de;border-bottom-color:#202020}.action.head{border-color:#202020}.action.head h4{color:#2390b0;background:#5bc0de;border-bottom-color:#202020}.action.options{border-color:#202020}.action.options h4{color:#2390b0;background:#5bc0de;border-bottom-color:#202020}.action.post{border-color:#202020}.action.post h4{color:#348c34;background:#62c462;border-bottom-color:#202020}.action.put{border-color:#202020}.action.put h4{color:#945904;background:#f89406;border-bottom-color:#202020}.action.patch{border-color:#202020}.action.patch h4{color:#945904;background:#f89406;border-bottom-color:#202020}.action.delete{border-color:#202020}.action.delete h4{color:#ce1a15;background:#ee5f5b;border-bottom-color:#202020}</style></head><body class="preload"><a href="#top" class="text-muted back-to-top"><i class="fa fa-toggle-up"></i>&nbsp;Back to top</a><div class="container-fluid"><div class="row"><nav><div class="resource-group"><div class="heading"><div class="chevron"><i class="open fa fa-angle-down"></i></div><a href="#resources">Resources</a></div><div class="collapse-content"><ul><li><a href="#resources-events">Events</a><ul><li><a href="#resources-events-get"><span class="badge get"><i class="fa fa-arrow-down"></i></span>Index</a></li><li><a href="#resources-events-post"><span class="badge post"><i class="fa fa-plus"></i></span>Create</a></li><li><a href="#resources-events-get-1"><span class="badge get"><i class="fa fa-arrow-down"></i></span>Show</a></li></ul></li><li><a href="#resources-messages">Messages</a><ul><li><a href="#resources-messages-get"><span class="badge get"><i class="fa fa-arrow-down"></i></span>Index</a></li><li><a href="#resources-messages-get-1"><span class="badge get"><i class="fa fa-arrow-down"></i></span>Show</a></li><li><a href="#resources-messages-get-2"><span class="badge get"><i class="fa fa-arrow-down"></i></span>Events</a></li></ul></li><li><a href="#resources-metrics-get"><span class="badge get"><i class="fa fa-arrow-down"></i></span>Index</a></li></ul></div></div><div class="resource-group"><div class="heading"><div class="chevron"><i class="open fa fa-angle-down"></i></div><a href="#metrics">Metrics</a></div><div class="collapse-content"><ul><li><a href="#metrics-messages-sent-post"><span class="badge post"><i class="fa fa-plus"></i></span>Messages Sent</a></li><li><a href="#metrics-active-users-post"><span class="badge post"><i class="fa fa-plus"></i></span>Active Users</a></li><li><a href="#metrics-usage-by-active-users-post"><span class="badge post"><i class="fa fa-plus"></i></span>Usage by Active Users</a></li><li><a href="#metrics-aggregate-messaging-info-post"><span class="badge post"><i class="fa fa-plus"></i></span>Aggregate Messaging Info</a></li><li><a href="#metrics-sent-messages-count-by-period-post"><span class="badge post"><i class="fa fa-plus"></i></span>Sent Messages Count By Period</a></li><li><a href="#metrics-video-uploads-duplications-by-sender_id-post"><span class="badge post"><i class="fa fa-plus"></i></span>Video uploads duplications by sender_id</a></li><li><a href="#metrics-calculates-count-of-incomplete-and-unviewed-messages-by-direction-post"><span class="badge post"><i class="fa fa-plus"></i></span>Calculates count of incomplete and unviewed messages by direction</a></li><li><a href="#metrics-message-failures-analysis-in-time-frame-post"><span class="badge post"><i class="fa fa-plus"></i></span>Message failures analysis in time frame</a></li></ul></div></div></nav><div class="content"><header><h1 id="top">API Documentation</h1></header><section id="resources" class="resource-group"><h2 class="group-heading">Resources<a href="#resources" class="permalink">&para;</a></h2><div id="resources-events" class="resource"><h3>Events<a href="#resources-events" class="permalink">&para;</a></h3><div id="resources-events-get" class="action get"><h4><div class="name">Index</div><a href="#resources-events-get" class="method get">GET</a><code class="uri">/api/v1/events</code></h4><div class="title"><strong>Parameters</strong><div class="collapse-button show"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><dl class="inner"><dt>page</dt><dd><code>number</code>&nbsp;<span>(optional)</span>&nbsp;<span class="text-info default"><strong>Default:&nbsp;</strong><span>1</span></span>&nbsp;<span class="text-muted example"><strong>Example:&nbsp;</strong><span>1</span></span><p>Set page for fetch (100 events per page).</p>
+</dd><dt>filter_by</dt><dd><code>string</code>&nbsp;<span>(optional)</span>&nbsp;<span class="text-muted example"><strong>Example:&nbsp;</strong><span>RxDrzAIuF9mFw7Xx9NSM</span></span><p>Filter events by term.
+Used <code>initiator_id</code>, <code>target_id</code> or <code>SIMILAR TO '%term%'</code> in <code>data</code> column.</p>
+</dd><dt>reverse</dt><dd><code>boolean</code>&nbsp;<span>(optional)</span>&nbsp;<span class="text-info default"><strong>Default:&nbsp;</strong><span>false</span></span>&nbsp;<span class="text-muted example"><strong>Example:&nbsp;</strong><span>true</span></span><p>Order in reverse. Default is by <code>triggered_at ASC</code>.</p>
+</dd></dl></div><div class="title"><strong>Request</strong><div class="collapse-button"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><div class="inner"><h5>Headers</h5><pre><code><span class="hljs-attribute">Content-Type</span>: <span class="hljs-string">application/json</span></code></pre><div style="height: 1px;"></div></div></div><div class="title"><strong>Response&nbsp;&nbsp;<code>200</code></strong><div class="collapse-button"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><div class="inner"><h5>Headers</h5><pre><code><span class="hljs-attribute">Content-Type</span>: <span class="hljs-string">application/json; charset=utf-8</span></code></pre><div style="height: 1px;"></div><h5>Body</h5><pre><code>[
+  {
+    "<span class="hljs-attribute">id</span>": <span class="hljs-value"><span class="hljs-number">9</span></span>,
+    "<span class="hljs-attribute">name</span>": <span class="hljs-value">[
+      <span class="hljs-string">"video"</span>,
+      <span class="hljs-string">"s3"</span>,
+      <span class="hljs-string">"uploaded"</span>
+    ]</span>,
+    "<span class="hljs-attribute">triggered_at</span>": <span class="hljs-value"><span class="hljs-string">"2015-05-12T14:47:08.199Z"</span></span>,
+    "<span class="hljs-attribute">triggered_by</span>": <span class="hljs-value"><span class="hljs-string">"aws:s3"</span></span>,
+    "<span class="hljs-attribute">initiator</span>": <span class="hljs-value"><span class="hljs-string">"user"</span></span>,
+    "<span class="hljs-attribute">initiator_id</span>": <span class="hljs-value"><span class="hljs-string">"RxDrzAIuF9mFw7Xx9NSM"</span></span>,
+    "<span class="hljs-attribute">target</span>": <span class="hljs-value"><span class="hljs-string">"video"</span></span>,
+    "<span class="hljs-attribute">target_id</span>": <span class="hljs-value"><span class="hljs-string">"RxDrzAIuF9mFw7Xx9NSM-6pqpuUZFp1zCXLykfTIx-98dba07c0113cc717d9fc5e5809bc998"</span></span>,
+    "<span class="hljs-attribute">data</span>": <span class="hljs-value"><span class="hljs-literal">null</span></span>,
+    "<span class="hljs-attribute">raw_params</span>": <span class="hljs-value"><span class="hljs-literal">null</span></span>,
+    "<span class="hljs-attribute">created_at</span>": <span class="hljs-value"><span class="hljs-string">"2015-05-12T15:47:08.201Z"</span></span>,
+    "<span class="hljs-attribute">updated_at</span>": <span class="hljs-value"><span class="hljs-string">"2015-05-12T15:47:08.201Z"</span></span>,
+    "<span class="hljs-attribute">message_id</span>": <span class="hljs-value"><span class="hljs-string">"055cb2d7-acb8-476b-a159-601d5e639aaf"</span>
+  </span>},
+  {
+    "<span class="hljs-attribute">id</span>": <span class="hljs-value"><span class="hljs-number">11</span></span>,
+    "<span class="hljs-attribute">name</span>": <span class="hljs-value">[
+      <span class="hljs-string">"video"</span>,
+      <span class="hljs-string">"s3"</span>,
+      <span class="hljs-string">"uploaded"</span>
+    ]</span>,
+    "<span class="hljs-attribute">triggered_at</span>": <span class="hljs-value"><span class="hljs-string">"2015-05-12T15:47:16.079Z"</span></span>,
+    "<span class="hljs-attribute">triggered_by</span>": <span class="hljs-value"><span class="hljs-string">"aws:s3"</span></span>,
+    "<span class="hljs-attribute">initiator</span>": <span class="hljs-value"><span class="hljs-string">"user"</span></span>,
+    "<span class="hljs-attribute">initiator_id</span>": <span class="hljs-value"><span class="hljs-string">"RxDrzAIuF9mFw7Xx9NSM"</span></span>,
+    "<span class="hljs-attribute">target</span>": <span class="hljs-value"><span class="hljs-string">"video"</span></span>,
+    "<span class="hljs-attribute">target_id</span>": <span class="hljs-value"><span class="hljs-string">"RxDrzAIuF9mFw7Xx9NSM-6pqpuUZFp1zCXLykfTIx-98dba07c0113cc717d9fc5e5809bc998"</span></span>,
+    "<span class="hljs-attribute">data</span>": <span class="hljs-value"><span class="hljs-literal">null</span></span>,
+    "<span class="hljs-attribute">raw_params</span>": <span class="hljs-value"><span class="hljs-literal">null</span></span>,
+    "<span class="hljs-attribute">created_at</span>": <span class="hljs-value"><span class="hljs-string">"2015-05-12T15:47:16.080Z"</span></span>,
+    "<span class="hljs-attribute">updated_at</span>": <span class="hljs-value"><span class="hljs-string">"2015-05-12T15:47:16.080Z"</span></span>,
+    "<span class="hljs-attribute">message_id</span>": <span class="hljs-value"><span class="hljs-string">"99c4bdef-7ff9-444f-90bc-48886d2895a3"</span>
+  </span>},
+  {
+    "<span class="hljs-attribute">id</span>": <span class="hljs-value"><span class="hljs-number">12</span></span>,
+    "<span class="hljs-attribute">name</span>": <span class="hljs-value">[
+      <span class="hljs-string">"video"</span>,
+      <span class="hljs-string">"s3"</span>,
+      <span class="hljs-string">"uploaded"</span>
+    ]</span>,
+    "<span class="hljs-attribute">triggered_at</span>": <span class="hljs-value"><span class="hljs-string">"2015-05-12T15:47:40.300Z"</span></span>,
+    "<span class="hljs-attribute">triggered_by</span>": <span class="hljs-value"><span class="hljs-string">"aws:s3"</span></span>,
+    "<span class="hljs-attribute">initiator</span>": <span class="hljs-value"><span class="hljs-string">"user"</span></span>,
+    "<span class="hljs-attribute">initiator_id</span>": <span class="hljs-value"><span class="hljs-string">"RxDrzAIuF9mFw7Xx9NSM"</span></span>,
+    "<span class="hljs-attribute">target</span>": <span class="hljs-value"><span class="hljs-string">"video"</span></span>,
+    "<span class="hljs-attribute">target_id</span>": <span class="hljs-value"><span class="hljs-string">"RxDrzAIuF9mFw7Xx9NSM-6pqpuUZFp1zCXLykfTIx-98dba07c0113cc717d9fc5e5809bc998"</span></span>,
+    "<span class="hljs-attribute">data</span>": <span class="hljs-value"><span class="hljs-literal">null</span></span>,
+    "<span class="hljs-attribute">raw_params</span>": <span class="hljs-value"><span class="hljs-literal">null</span></span>,
+    "<span class="hljs-attribute">created_at</span>": <span class="hljs-value"><span class="hljs-string">"2015-05-12T15:47:40.301Z"</span></span>,
+    "<span class="hljs-attribute">updated_at</span>": <span class="hljs-value"><span class="hljs-string">"2015-05-12T15:47:40.301Z"</span></span>,
+    "<span class="hljs-attribute">message_id</span>": <span class="hljs-value"><span class="hljs-string">"4ed2cc14-f535-4027-95ff-276a4210c579"</span>
+  </span>},
+  {
+    "<span class="hljs-attribute">id</span>": <span class="hljs-value"><span class="hljs-number">13</span></span>,
+    "<span class="hljs-attribute">name</span>": <span class="hljs-value">[
+      <span class="hljs-string">"video"</span>,
+      <span class="hljs-string">"s3"</span>,
+      <span class="hljs-string">"uploaded"</span>
+    ]</span>,
+    "<span class="hljs-attribute">triggered_at</span>": <span class="hljs-value"><span class="hljs-string">"2015-05-12T15:47:41.045Z"</span></span>,
+    "<span class="hljs-attribute">triggered_by</span>": <span class="hljs-value"><span class="hljs-string">"aws:s3"</span></span>,
+    "<span class="hljs-attribute">initiator</span>": <span class="hljs-value"><span class="hljs-string">"user"</span></span>,
+    "<span class="hljs-attribute">initiator_id</span>": <span class="hljs-value"><span class="hljs-string">"RxDrzAIuF9mFw7Xx9NSM"</span></span>,
+    "<span class="hljs-attribute">target</span>": <span class="hljs-value"><span class="hljs-string">"video"</span></span>,
+    "<span class="hljs-attribute">target_id</span>": <span class="hljs-value"><span class="hljs-string">"RxDrzAIuF9mFw7Xx9NSM-6pqpuUZFp1zCXLykfTIx-98dba07c0113cc717d9fc5e5809bc998"</span></span>,
+    "<span class="hljs-attribute">data</span>": <span class="hljs-value"><span class="hljs-literal">null</span></span>,
+    "<span class="hljs-attribute">raw_params</span>": <span class="hljs-value"><span class="hljs-literal">null</span></span>,
+    "<span class="hljs-attribute">created_at</span>": <span class="hljs-value"><span class="hljs-string">"2015-05-12T15:47:41.046Z"</span></span>,
+    "<span class="hljs-attribute">updated_at</span>": <span class="hljs-value"><span class="hljs-string">"2015-05-12T15:47:41.046Z"</span></span>,
+    "<span class="hljs-attribute">message_id</span>": <span class="hljs-value"><span class="hljs-string">"d4977224-d097-4eea-9baa-a484734afccf"</span>
+  </span>}
+]</code></pre><div style="height: 1px;"></div></div></div></div><div id="resources-events-post" class="action post"><h4><div class="name">Create</div><a href="#resources-events-post" class="method post">POST</a><code class="uri">/api/v1/events</code></h4><div class="title"><strong>Request&nbsp;&nbsp;<code>From S3 event</code></strong><div class="collapse-button"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><div class="inner"><h5>Headers</h5><pre><code><span class="hljs-attribute">Content-Type</span>: <span class="hljs-string">application/json</span><br><span class="hljs-attribute">X-Aws-Sqsd-Msgid</span>: <span class="hljs-string">1db6c331-3747-49db-8b2e-41d560587933</span></code></pre><div style="height: 1px;"></div><h5>Body</h5><pre><code>{
+  "<span class="hljs-attribute">Records</span>": <span class="hljs-value">[
+    {
+      "<span class="hljs-attribute">eventVersion</span>": <span class="hljs-value"><span class="hljs-string">"2.0"</span></span>,
+      "<span class="hljs-attribute">eventSource</span>": <span class="hljs-value"><span class="hljs-string">"aws:s3"</span></span>,
+      "<span class="hljs-attribute">awsRegion</span>": <span class="hljs-value"><span class="hljs-string">"us-west-1"</span></span>,
+      "<span class="hljs-attribute">eventTime</span>": <span class="hljs-value"><span class="hljs-string">"2015-04-22T18:01:20.663Z"</span></span>,
+      "<span class="hljs-attribute">eventName</span>": <span class="hljs-value"><span class="hljs-string">"ObjectCreated:Put"</span></span>,
+      "<span class="hljs-attribute">userIdentity</span>": <span class="hljs-value">{
+        "<span class="hljs-attribute">principalId</span>": <span class="hljs-value"><span class="hljs-string">"AWS:AIDAIUFT72XFHDTJOMRJW"</span>
+      </span>}</span>,
+      "<span class="hljs-attribute">requestParameters</span>": <span class="hljs-value">{
+        "<span class="hljs-attribute">sourceIPAddress</span>": <span class="hljs-value"><span class="hljs-string">"49.204.248.238"</span>
+      </span>}</span>,
+      "<span class="hljs-attribute">responseElements</span>": <span class="hljs-value">{
+        "<span class="hljs-attribute">x-amz-request-id</span>": <span class="hljs-value"><span class="hljs-string">"EEC1C1CCB42A1720"</span></span>,
+        "<span class="hljs-attribute">x-amz-id-2</span>": <span class="hljs-value"><span class="hljs-string">"/6QHbf9n3yNRrAuCz6kRkeAHTIl7fxr3ZOrnpMw6xqdgTwEK1RVU7D4R68OsFgjH0fB1LaFKaSU="</span>
+      </span>}</span>,
+      "<span class="hljs-attribute">s3</span>": <span class="hljs-value">{
+        "<span class="hljs-attribute">s3SchemaVersion</span>": <span class="hljs-value"><span class="hljs-string">"1.0"</span></span>,
+        "<span class="hljs-attribute">configurationId</span>": <span class="hljs-value"><span class="hljs-string">"zazo-videos-to-sqs"</span></span>,
+        "<span class="hljs-attribute">bucket</span>": <span class="hljs-value">{
+          "<span class="hljs-attribute">name</span>": <span class="hljs-value"><span class="hljs-string">"videos.zazo.com"</span></span>,
+          "<span class="hljs-attribute">ownerIdentity</span>": <span class="hljs-value">{
+            "<span class="hljs-attribute">principalId</span>": <span class="hljs-value"><span class="hljs-string">"A2MSYRMSE88G92"</span>
+          </span>}</span>,
+          "<span class="hljs-attribute">arn</span>": <span class="hljs-value"><span class="hljs-string">"arn:aws:s3:::videos.zazo.com"</span>
+        </span>}</span>,
+        "<span class="hljs-attribute">object</span>": <span class="hljs-value">{
+          "<span class="hljs-attribute">key</span>": <span class="hljs-value"><span class="hljs-string">"RxDrzAIuF9mFw7Xx9NSM-6pqpuUZFp1zCXLykfTIx-98dba07c0113cc717d9fc5e5809bc998"</span></span>,
+          "<span class="hljs-attribute">size</span>": <span class="hljs-value"><span class="hljs-number">94555</span></span>,
+          "<span class="hljs-attribute">eTag</span>": <span class="hljs-value"><span class="hljs-string">"d99d0f13a57d938a1e55b5030feb992e"</span>
+        </span>}
+      </span>}
+    </span>}
+  ]</span>,
+  "<span class="hljs-attribute">sq</span>": <span class="hljs-value">{
+    "<span class="hljs-attribute">Records</span>": <span class="hljs-value">[
+      {
+        "<span class="hljs-attribute">eventVersion</span>": <span class="hljs-value"><span class="hljs-string">"2.0"</span></span>,
+        "<span class="hljs-attribute">eventSource</span>": <span class="hljs-value"><span class="hljs-string">"aws:s3"</span></span>,
+        "<span class="hljs-attribute">awsRegion</span>": <span class="hljs-value"><span class="hljs-string">"us-west-1"</span></span>,
+        "<span class="hljs-attribute">eventTime</span>": <span class="hljs-value"><span class="hljs-string">"2015-04-22T18:01:20.663Z"</span></span>,
+        "<span class="hljs-attribute">eventName</span>": <span class="hljs-value"><span class="hljs-string">"ObjectCreated:Put"</span></span>,
+        "<span class="hljs-attribute">userIdentity</span>": <span class="hljs-value">{
+          "<span class="hljs-attribute">principalId</span>": <span class="hljs-value"><span class="hljs-string">"AWS:AIDAIUFT72XFHDTJOMRJW"</span>
+        </span>}</span>,
+        "<span class="hljs-attribute">requestParameters</span>": <span class="hljs-value">{
+          "<span class="hljs-attribute">sourceIPAddress</span>": <span class="hljs-value"><span class="hljs-string">"49.204.248.238"</span>
+        </span>}</span>,
+        "<span class="hljs-attribute">responseElements</span>": <span class="hljs-value">{
+          "<span class="hljs-attribute">x-amz-request-id</span>": <span class="hljs-value"><span class="hljs-string">"EEC1C1CCB42A1720"</span></span>,
+          "<span class="hljs-attribute">x-amz-id-2</span>": <span class="hljs-value"><span class="hljs-string">"/6QHbf9n3yNRrAuCz6kRkeAHTIl7fxr3ZOrnpMw6xqdgTwEK1RVU7D4R68OsFgjH0fB1LaFKaSU="</span>
+        </span>}</span>,
+        "<span class="hljs-attribute">s3</span>": <span class="hljs-value">{
+          "<span class="hljs-attribute">s3SchemaVersion</span>": <span class="hljs-value"><span class="hljs-string">"1.0"</span></span>,
+          "<span class="hljs-attribute">configurationId</span>": <span class="hljs-value"><span class="hljs-string">"zazo-videos-to-sqs"</span></span>,
+          "<span class="hljs-attribute">bucket</span>": <span class="hljs-value">{
+            "<span class="hljs-attribute">name</span>": <span class="hljs-value"><span class="hljs-string">"videos.zazo.com"</span></span>,
+            "<span class="hljs-attribute">ownerIdentity</span>": <span class="hljs-value">{
+              "<span class="hljs-attribute">principalId</span>": <span class="hljs-value"><span class="hljs-string">"A2MSYRMSE88G92"</span>
+            </span>}</span>,
+            "<span class="hljs-attribute">arn</span>": <span class="hljs-value"><span class="hljs-string">"arn:aws:s3:::videos.zazo.com"</span>
+          </span>}</span>,
+          "<span class="hljs-attribute">object</span>": <span class="hljs-value">{
+            "<span class="hljs-attribute">key</span>": <span class="hljs-value"><span class="hljs-string">"RxDrzAIuF9mFw7Xx9NSM-6pqpuUZFp1zCXLykfTIx-98dba07c0113cc717d9fc5e5809bc998"</span></span>,
+            "<span class="hljs-attribute">size</span>": <span class="hljs-value"><span class="hljs-number">94555</span></span>,
+            "<span class="hljs-attribute">eTag</span>": <span class="hljs-value"><span class="hljs-string">"d99d0f13a57d938a1e55b5030feb992e"</span>
+          </span>}
+        </span>}
+      </span>}
+    ]
+  </span>}
+</span>}</code></pre><div style="height: 1px;"></div></div></div><div class="title"><strong>Response&nbsp;&nbsp;<code>200</code></strong><div class="collapse-button"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><div class="inner"><h5>Headers</h5><pre><code><span class="hljs-attribute">Content-Type</span>: <span class="hljs-string">application/json; charset=utf-8</span></code></pre><div style="height: 1px;"></div><h5>Body</h5><pre><code>[
+  {
+    "<span class="hljs-attribute">id</span>": <span class="hljs-value"><span class="hljs-number">20</span></span>,
+    "<span class="hljs-attribute">name</span>": <span class="hljs-value">[
+      <span class="hljs-string">"video"</span>,
+      <span class="hljs-string">"s3"</span>,
+      <span class="hljs-string">"uploaded"</span>
+    ]</span>,
+    "<span class="hljs-attribute">triggered_at</span>": <span class="hljs-value"><span class="hljs-string">"2015-04-22T18:01:20.663Z"</span></span>,
+    "<span class="hljs-attribute">triggered_by</span>": <span class="hljs-value"><span class="hljs-string">"aws:s3"</span></span>,
+    "<span class="hljs-attribute">initiator</span>": <span class="hljs-value"><span class="hljs-string">"s3"</span></span>,
+    "<span class="hljs-attribute">initiator_id</span>": <span class="hljs-value"><span class="hljs-literal">null</span></span>,
+    "<span class="hljs-attribute">target</span>": <span class="hljs-value"><span class="hljs-string">"video"</span></span>,
+    "<span class="hljs-attribute">target_id</span>": <span class="hljs-value"><span class="hljs-string">"RxDrzAIuF9mFw7Xx9NSM-6pqpuUZFp1zCXLykfTIx-98dba07c0113cc717d9fc5e5809bc998"</span></span>,
+    "<span class="hljs-attribute">data</span>": <span class="hljs-value">{
+      "<span class="hljs-attribute">sender_id</span>": <span class="hljs-value"><span class="hljs-string">"RxDrzAIuF9mFw7Xx9NSM"</span></span>,
+      "<span class="hljs-attribute">receiver_id</span>": <span class="hljs-value"><span class="hljs-string">"6pqpuUZFp1zCXLykfTIx"</span></span>,
+      "<span class="hljs-attribute">video_filename</span>": <span class="hljs-value"><span class="hljs-string">"RxDrzAIuF9mFw7Xx9NSM-6pqpuUZFp1zCXLykfTIx-98dba07c0113cc717d9fc5e5809bc998"</span>
+    </span>}</span>,
+    "<span class="hljs-attribute">raw_params</span>": <span class="hljs-value">{
+      "<span class="hljs-attribute">eventVersion</span>": <span class="hljs-value"><span class="hljs-string">"2.0"</span></span>,
+      "<span class="hljs-attribute">eventSource</span>": <span class="hljs-value"><span class="hljs-string">"aws:s3"</span></span>,
+      "<span class="hljs-attribute">awsRegion</span>": <span class="hljs-value"><span class="hljs-string">"us-west-1"</span></span>,
+      "<span class="hljs-attribute">eventTime</span>": <span class="hljs-value"><span class="hljs-string">"2015-04-22T18:01:20.663Z"</span></span>,
+      "<span class="hljs-attribute">eventName</span>": <span class="hljs-value"><span class="hljs-string">"ObjectCreated:Put"</span></span>,
+      "<span class="hljs-attribute">userIdentity</span>": <span class="hljs-value">{
+        "<span class="hljs-attribute">principalId</span>": <span class="hljs-value"><span class="hljs-string">"AWS:AIDAIUFT72XFHDTJOMRJW"</span>
+      </span>}</span>,
+      "<span class="hljs-attribute">requestParameters</span>": <span class="hljs-value">{
+        "<span class="hljs-attribute">sourceIPAddress</span>": <span class="hljs-value"><span class="hljs-string">"49.204.248.238"</span>
+      </span>}</span>,
+      "<span class="hljs-attribute">responseElements</span>": <span class="hljs-value">{
+        "<span class="hljs-attribute">x-amz-request-id</span>": <span class="hljs-value"><span class="hljs-string">"EEC1C1CCB42A1720"</span></span>,
+        "<span class="hljs-attribute">x-amz-id-2</span>": <span class="hljs-value"><span class="hljs-string">"/6QHbf9n3yNRrAuCz6kRkeAHTIl7fxr3ZOrnpMw6xqdgTwEK1RVU7D4R68OsFgjH0fB1LaFKaSU="</span>
+      </span>}</span>,
+      "<span class="hljs-attribute">s3</span>": <span class="hljs-value">{
+        "<span class="hljs-attribute">s3SchemaVersion</span>": <span class="hljs-value"><span class="hljs-string">"1.0"</span></span>,
+        "<span class="hljs-attribute">configurationId</span>": <span class="hljs-value"><span class="hljs-string">"zazo-videos-to-sqs"</span></span>,
+        "<span class="hljs-attribute">bucket</span>": <span class="hljs-value">{
+          "<span class="hljs-attribute">name</span>": <span class="hljs-value"><span class="hljs-string">"videos.zazo.com"</span></span>,
+          "<span class="hljs-attribute">ownerIdentity</span>": <span class="hljs-value">{
+            "<span class="hljs-attribute">principalId</span>": <span class="hljs-value"><span class="hljs-string">"A2MSYRMSE88G92"</span>
+          </span>}</span>,
+          "<span class="hljs-attribute">arn</span>": <span class="hljs-value"><span class="hljs-string">"arn:aws:s3:::videos.zazo.com"</span>
+        </span>}</span>,
+        "<span class="hljs-attribute">object</span>": <span class="hljs-value">{
+          "<span class="hljs-attribute">key</span>": <span class="hljs-value"><span class="hljs-string">"RxDrzAIuF9mFw7Xx9NSM-6pqpuUZFp1zCXLykfTIx-98dba07c0113cc717d9fc5e5809bc998"</span></span>,
+          "<span class="hljs-attribute">size</span>": <span class="hljs-value"><span class="hljs-number">94555</span></span>,
+          "<span class="hljs-attribute">eTag</span>": <span class="hljs-value"><span class="hljs-string">"d99d0f13a57d938a1e55b5030feb992e"</span>
+        </span>}
+      </span>}
+    </span>}</span>,
+    "<span class="hljs-attribute">created_at</span>": <span class="hljs-value"><span class="hljs-string">"2015-05-26T11:12:17.391Z"</span></span>,
+    "<span class="hljs-attribute">updated_at</span>": <span class="hljs-value"><span class="hljs-string">"2015-05-26T11:12:17.391Z"</span></span>,
+    "<span class="hljs-attribute">message_id</span>": <span class="hljs-value"><span class="hljs-string">"1db6c331-3747-49db-8b2e-41d560587933"</span>
+  </span>}
+]</code></pre><div style="height: 1px;"></div></div></div><div class="title"><strong>Request&nbsp;&nbsp;<code>From API event</code></strong><div class="collapse-button"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><div class="inner"><h5>Headers</h5><pre><code><span class="hljs-attribute">Content-Type</span>: <span class="hljs-string">application/json</span><br><span class="hljs-attribute">X-Aws-Sqsd-Msgid</span>: <span class="hljs-string">925b981b-87d3-48e7-aad3-73aa855e8dfa</span></code></pre><div style="height: 1px;"></div><h5>Body</h5><pre><code>{
+  "<span class="hljs-attribute">name</span>": <span class="hljs-value">[
+    <span class="hljs-string">"video"</span>,
+    <span class="hljs-string">"notification"</span>,
+    <span class="hljs-string">"viewed"</span>
+  ]</span>,
+  "<span class="hljs-attribute">triggered_by</span>": <span class="hljs-value"><span class="hljs-string">"zazo:api"</span></span>,
+  "<span class="hljs-attribute">triggered_at</span>": <span class="hljs-value"><span class="hljs-string">"2015-05-26T11:10:40.965+00:00"</span></span>,
+  "<span class="hljs-attribute">initiator</span>": <span class="hljs-value"><span class="hljs-string">"user"</span></span>,
+  "<span class="hljs-attribute">initiator_id</span>": <span class="hljs-value"><span class="hljs-string">"SZOjYaibzpzKFuxDyKKS"</span></span>,
+  "<span class="hljs-attribute">target</span>": <span class="hljs-value"><span class="hljs-string">"video"</span></span>,
+  "<span class="hljs-attribute">target_id</span>": <span class="hljs-value"><span class="hljs-string">"SZOjYaibzpzKFuxDyKKS-sNn6GeRiiOLDeXDV6Kze-7a816303c0e9091354e2b5d974616fdf"</span></span>,
+  "<span class="hljs-attribute">data</span>": <span class="hljs-value">{
+    "<span class="hljs-attribute">sender_id</span>": <span class="hljs-value"><span class="hljs-string">"SZOjYaibzpzKFuxDyKKS"</span></span>,
+    "<span class="hljs-attribute">receiver_id\n</span>": <span class="hljs-value"><span class="hljs-string">"sNn6GeRiiOLDeXDV6Kze"</span></span>,
+    "<span class="hljs-attribute">video_filename</span>": <span class="hljs-value"><span class="hljs-string">"SZOjYaibzpzKFuxDyKKS-sNn6GeRiiOLDeXDV6Kze-7a816303c0e9091354e2b5d974616fdf"</span></span>,
+    "<span class="hljs-attribute">video_id</span>": <span class="hljs-value"><span class="hljs-string">"1432638552696"</span>
+  </span>}</span>,
+  "<span class="hljs-attribute">raw_params</span>": <span class="hljs-value">{
+    "<span class="hljs-attribute">target_mkey</span>": <span class="hljs-value"><span class="hljs-string">"SZOjYaibzpzKFuxDyKKS"</span></span>,
+    "<span class="hljs-attribute">to_mkey</span>": <span class="hljs-value"><span class="hljs-string">"sNn6GeRiiOLDeXDV6Kze"</span></span>,
+    "<span class="hljs-attribute">status</span>": <span class="hljs-value"><span class="hljs-string">"viewed"</span></span>,
+    "<span class="hljs-attribute">video_id</span>": <span class="hljs-value"><span class="hljs-string">"1432638552696"</span>
+  </span>}
+</span>}</code></pre><div style="height: 1px;"></div></div></div><div class="title"><strong>Response&nbsp;&nbsp;<code>200</code></strong></div></div><div id="resources-events-get-1" class="action get"><h4><div class="name">Show</div><a href="#resources-events-get-1" class="method get">GET</a><code class="uri">/api/v1/events/{id}</code></h4><div class="title"><strong>Parameters</strong><div class="collapse-button show"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><dl class="inner"><dt>id</dt><dd><code>number</code>&nbsp;<span class="required">(required)</span>&nbsp;<span class="text-muted example"><strong>Example:&nbsp;</strong><span>1</span></span><p>ID of event</p>
+</dd></dl></div><div class="title"><strong>Request</strong><div class="collapse-button"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><div class="inner"><h5>Headers</h5><pre><code><span class="hljs-attribute">Content-Type</span>: <span class="hljs-string">application/json</span></code></pre><div style="height: 1px;"></div></div></div><div class="title"><strong>Response&nbsp;&nbsp;<code>200</code></strong><div class="collapse-button"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><div class="inner"><h5>Headers</h5><pre><code><span class="hljs-attribute">Content-Type</span>: <span class="hljs-string">application/json; charset=utf-8</span><br><span class="hljs-attribute">X-Content-Type-Options</span>: <span class="hljs-string">nosniff</span><br><span class="hljs-attribute">X-Frame-Options</span>: <span class="hljs-string">SAMEORIGIN</span><br><span class="hljs-attribute">X-XSS-Protection</span>: <span class="hljs-string">1; mode=block</span><br><span class="hljs-attribute">X-Request-Id</span>: <span class="hljs-string">23940b13-e3e1-4bf4-bbbb-f351496afd03</span><br><span class="hljs-attribute">X-Runtime</span>: <span class="hljs-string">5.603830</span><br><span class="hljs-attribute">Cache-Control</span>: <span class="hljs-string">max-age=0, private, must-revalidate</span><br><span class="hljs-attribute">Etag</span>: <span class="hljs-string">W/"1c93682bb10030762ed644116942d693"</span></code></pre><div style="height: 1px;"></div><h5>Body</h5><pre><code>{
+  "<span class="hljs-attribute">id</span>": <span class="hljs-value"><span class="hljs-number">1</span></span>,
+  "<span class="hljs-attribute">name</span>": <span class="hljs-value">[
+    <span class="hljs-string">"video"</span>,
+    <span class="hljs-string">"sent"</span>
+  ]</span>,
+  "<span class="hljs-attribute">triggered_at</span>": <span class="hljs-value"><span class="hljs-string">"2015-04-25T00:33:42.332Z"</span></span>,
+  "<span class="hljs-attribute">triggered_by</span>": <span class="hljs-value"><span class="hljs-string">"aws:s3"</span></span>,
+  "<span class="hljs-attribute">initiator</span>": <span class="hljs-value"><span class="hljs-string">"user"</span></span>,
+  "<span class="hljs-attribute">initiator_id</span>": <span class="hljs-value"><span class="hljs-string">"8JY9TcxpuPGRVNMtRV6z"</span></span>,
+  "<span class="hljs-attribute">target</span>": <span class="hljs-value"><span class="hljs-string">"user"</span></span>,
+  "<span class="hljs-attribute">target_id</span>": <span class="hljs-value"><span class="hljs-string">"HM45WMMT4qu5fOD2kOTY"</span></span>,
+  "<span class="hljs-attribute">data</span>": <span class="hljs-value">{
+    "<span class="hljs-attribute">video_filename</span>": <span class="hljs-value"><span class="hljs-string">"8JY9TcxpuPGRVNMtRV6z-HM45WMMT4qu5fOD2kOTY-148b05c63bdd3619a644701690e059c0"</span>
+  </span>}</span>,
+  "<span class="hljs-attribute">raw_params</span>": <span class="hljs-value">{
+    "<span class="hljs-attribute">eventVersion</span>": <span class="hljs-value"><span class="hljs-string">"2.0"</span></span>,
+    "<span class="hljs-attribute">eventSource</span>": <span class="hljs-value"><span class="hljs-string">"aws:s3"</span></span>,
+    "<span class="hljs-attribute">awsRegion</span>": <span class="hljs-value"><span class="hljs-string">"us-west-1"</span></span>,
+    "<span class="hljs-attribute">eventTime</span>": <span class="hljs-value"><span class="hljs-string">"2015-04-25T00:33:42.332Z"</span></span>,
+    "<span class="hljs-attribute">eventName</span>": <span class="hljs-value"><span class="hljs-string">"ObjectCreated:Put"</span></span>,
+    "<span class="hljs-attribute">userIdentity</span>": <span class="hljs-value">{
+      "<span class="hljs-attribute">principalId</span>": <span class="hljs-value"><span class="hljs-string">"AWS:AIDAIUFT72XFHDTJOMRJW"</span>
+    </span>}</span>,
+    "<span class="hljs-attribute">requestParameters</span>": <span class="hljs-value">{
+      "<span class="hljs-attribute">sourceIPAddress</span>": <span class="hljs-value"><span class="hljs-string">"24.2.75.168"</span>
+    </span>}</span>,
+    "<span class="hljs-attribute">responseElements</span>": <span class="hljs-value">{
+      "<span class="hljs-attribute">x-amz-request-id</span>": <span class="hljs-value"><span class="hljs-string">"C55ED7CBC3E9E2E9"</span></span>,
+      "<span class="hljs-attribute">x-amz-id-2</span>": <span class="hljs-value"><span class="hljs-string">"LTmyAkMe+PTf+3mSoCYOv+H+XP11wEvZ6QlVAcrphGBT0fxFcwur7PYaFaOnLtd6"</span>
+    </span>}</span>,
+    "<span class="hljs-attribute">s3</span>": <span class="hljs-value">{
+      "<span class="hljs-attribute">s3SchemaVersion</span>": <span class="hljs-value"><span class="hljs-string">"1.0"</span></span>,
+      "<span class="hljs-attribute">configurationId</span>": <span class="hljs-value"><span class="hljs-string">"zazo-videos-to-sqs"</span></span>,
+      "<span class="hljs-attribute">bucket</span>": <span class="hljs-value">{
+        "<span class="hljs-attribute">name</span>": <span class="hljs-value"><span class="hljs-string">"videos.zazo.com"</span></span>,
+        "<span class="hljs-attribute">ownerIdentity</span>": <span class="hljs-value">{
+          "<span class="hljs-attribute">principalId</span>": <span class="hljs-value"><span class="hljs-string">"A2MSYRMSE88G92"</span>
+        </span>}</span>,
+        "<span class="hljs-attribute">arn</span>": <span class="hljs-value"><span class="hljs-string">"arn:aws:s3:::videos.zazo.com"</span>
+      </span>}</span>,
+      "<span class="hljs-attribute">object</span>": <span class="hljs-value">{
+        "<span class="hljs-attribute">key</span>": <span class="hljs-value"><span class="hljs-string">"8JY9TcxpuPGRVNMtRV6z-HM45WMMT4qu5fOD2kOTY-148b05c63bdd3619a644701690e059c0"</span></span>,
+        "<span class="hljs-attribute">size</span>": <span class="hljs-value"><span class="hljs-number">5025</span></span>,
+        "<span class="hljs-attribute">eTag</span>": <span class="hljs-value"><span class="hljs-string">"bd829632c91525c02d9724049c6b3d3a"</span>
+      </span>}
+    </span>}
+  </span>}</span>,
+  "<span class="hljs-attribute">created_at</span>": <span class="hljs-value"><span class="hljs-string">"2015-04-26T13:07:05.550Z"</span></span>,
+  "<span class="hljs-attribute">updated_at</span>": <span class="hljs-value"><span class="hljs-string">"2015-04-26T13:07:05.550Z"</span></span>,
+  "<span class="hljs-attribute">message_id</span>": <span class="hljs-value"><span class="hljs-literal">null</span>
+</span>}</code></pre><div style="height: 1px;"></div></div></div></div></div><div id="resources-messages" class="resource"><h3>Messages<a href="#resources-messages" class="permalink">&para;</a></h3><div id="resources-messages-get" class="action get"><h4><div class="name">Index</div><a href="#resources-messages-get" class="method get">GET</a><code class="uri">/api/v1/messages</code></h4><div class="title"><strong>Parameters</strong><div class="collapse-button show"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><dl class="inner"><dt>sender_id</dt><dd><code>string</code>&nbsp;<span>(optional)</span>&nbsp;<span class="text-muted example"><strong>Example:&nbsp;</strong><span>fxVPRkGICwnrAwym52gK</span></span><p>Filter messages by sender</p>
+</dd><dt>receiver_id</dt><dd><code>string</code>&nbsp;<span>(optional)</span>&nbsp;<span class="text-muted example"><strong>Example:&nbsp;</strong><span>7qdanSEmctZ2jPnYA0a1</span></span><p>Filter messages by receiver</p>
+</dd><dt>reverse</dt><dd><code>boolean</code>&nbsp;<span>(optional)</span>&nbsp;<span class="text-info default"><strong>Default:&nbsp;</strong><span>false</span></span>&nbsp;<span class="text-muted example"><strong>Example:&nbsp;</strong><span>true</span></span><p>Order in reverse. Default is by <code>triggered_at ASC</code>.</p>
+</dd><dt>page</dt><dd><code>number</code>&nbsp;<span>(optional)</span>&nbsp;<span class="text-info default"><strong>Default:&nbsp;</strong><span>1</span></span>&nbsp;<span class="text-muted example"><strong>Example:&nbsp;</strong><span>1</span></span><p>Set page for fetch (100 events per page).</p>
+</dd><dt>per</dt><dd><code>number</code>&nbsp;<span>(optional)</span>&nbsp;<span class="text-info default"><strong>Default:&nbsp;</strong><span>100</span></span>&nbsp;<span class="text-muted example"><strong>Example:&nbsp;</strong><span>1</span></span><p>Number of records per page</p>
+</dd></dl></div><div class="title"><strong>Request</strong><div class="collapse-button"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><div class="inner"><h5>Headers</h5><pre><code><span class="hljs-attribute">Content-Type</span>: <span class="hljs-string">application/json</span></code></pre><div style="height: 1px;"></div></div></div><div class="title"><strong>Response&nbsp;&nbsp;<code>200</code></strong><div class="collapse-button"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><div class="inner"><h5>Headers</h5><pre><code><span class="hljs-attribute">Content-Type</span>: <span class="hljs-string">application/json; charset=utf-8</span></code></pre><div style="height: 1px;"></div><h5>Body</h5><pre><code>[
+  {
+    "<span class="hljs-attribute">id</span>": <span class="hljs-value"><span class="hljs-string">"25bGO6mmNEmQmKbvrnj1-j8WAdT1Kxqb0WQGBp30v-815dabd1540103ce39fa8c182c9889e5"</span></span>,
+    "<span class="hljs-attribute">sender_id</span>": <span class="hljs-value"><span class="hljs-string">"25bGO6mmNEmQmKbvrnj1"</span></span>,
+    "<span class="hljs-attribute">receiver_id</span>": <span class="hljs-value"><span class="hljs-string">"j8WAdT1Kxqb0WQGBp30v"</span></span>,
+    "<span class="hljs-attribute">uploaded_at</span>": <span class="hljs-value"><span class="hljs-string">"2015-05-04T23:20:35.200Z"</span></span>,
+    "<span class="hljs-attribute">file_name</span>": <span class="hljs-value"><span class="hljs-string">"25bGO6mmNEmQmKbvrnj1-j8WAdT1Kxqb0WQGBp30v-815dabd1540103ce39fa8c182c9889e5"</span></span>,
+    "<span class="hljs-attribute">file_size</span>": <span class="hljs-value"><span class="hljs-number">96604</span></span>,
+    "<span class="hljs-attribute">missing_events</span>": <span class="hljs-value">[
+      [
+        <span class="hljs-string">"video"</span>,
+        <span class="hljs-string">"kvstore"</span>,
+        <span class="hljs-string">"received"</span>
+      ],
+      [
+        <span class="hljs-string">"video"</span>,
+        <span class="hljs-string">"notification"</span>,
+        <span class="hljs-string">"received"</span>
+      ],
+      [
+        <span class="hljs-string">"video"</span>,
+        <span class="hljs-string">"kvstore"</span>,
+        <span class="hljs-string">"downloaded"</span>
+      ],
+      [
+        <span class="hljs-string">"video"</span>,
+        <span class="hljs-string">"notification"</span>,
+        <span class="hljs-string">"downloaded"</span>
+      ],
+      [
+        <span class="hljs-string">"video"</span>,
+        <span class="hljs-string">"kvstore"</span>,
+        <span class="hljs-string">"viewed"</span>
+      ],
+      [
+        <span class="hljs-string">"video"</span>,
+        <span class="hljs-string">"notification"</span>,
+        <span class="hljs-string">"viewed"</span>
+      ]
+    ]</span>,
+    "<span class="hljs-attribute">status</span>": <span class="hljs-value"><span class="hljs-string">"uploaded"</span></span>,
+    "<span class="hljs-attribute">delivered</span>": <span class="hljs-value"><span class="hljs-literal">false</span></span>,
+    "<span class="hljs-attribute">viewed</span>": <span class="hljs-value"><span class="hljs-literal">false</span></span>,
+    "<span class="hljs-attribute">complete</span>": <span class="hljs-value"><span class="hljs-literal">false</span>
+  </span>},
+  {
+    "<span class="hljs-attribute">id</span>": <span class="hljs-value"><span class="hljs-string">"25bGO6mmNEmQmKbvrnj1-tceDMXCQDbBWaKhhAhc5-0390c02cfae30b2b54fe5e789ff8fb54"</span></span>,
+    "<span class="hljs-attribute">sender_id</span>": <span class="hljs-value"><span class="hljs-string">"25bGO6mmNEmQmKbvrnj1"</span></span>,
+    "<span class="hljs-attribute">receiver_id</span>": <span class="hljs-value"><span class="hljs-string">"tceDMXCQDbBWaKhhAhc5"</span></span>,
+    "<span class="hljs-attribute">uploaded_at</span>": <span class="hljs-value"><span class="hljs-string">"2015-05-04T23:20:52.867Z"</span></span>,
+    "<span class="hljs-attribute">file_name</span>": <span class="hljs-value"><span class="hljs-string">"25bGO6mmNEmQmKbvrnj1-tceDMXCQDbBWaKhhAhc5-0390c02cfae30b2b54fe5e789ff8fb54"</span></span>,
+    "<span class="hljs-attribute">file_size</span>": <span class="hljs-value"><span class="hljs-number">190713</span></span>,
+    "<span class="hljs-attribute">missing_events</span>": <span class="hljs-value">[
+      [
+        <span class="hljs-string">"video"</span>,
+        <span class="hljs-string">"kvstore"</span>,
+        <span class="hljs-string">"received"</span>
+      ],
+      [
+        <span class="hljs-string">"video"</span>,
+        <span class="hljs-string">"notification"</span>,
+        <span class="hljs-string">"received"</span>
+      ],
+      [
+        <span class="hljs-string">"video"</span>,
+        <span class="hljs-string">"kvstore"</span>,
+        <span class="hljs-string">"downloaded"</span>
+      ],
+      [
+        <span class="hljs-string">"video"</span>,
+        <span class="hljs-string">"notification"</span>,
+        <span class="hljs-string">"downloaded"</span>
+      ],
+      [
+        <span class="hljs-string">"video"</span>,
+        <span class="hljs-string">"kvstore"</span>,
+        <span class="hljs-string">"viewed"</span>
+      ],
+      [
+        <span class="hljs-string">"video"</span>,
+        <span class="hljs-string">"notification"</span>,
+        <span class="hljs-string">"viewed"</span>
+      ]
+    ]</span>,
+    "<span class="hljs-attribute">status</span>": <span class="hljs-value"><span class="hljs-string">"uploaded"</span></span>,
+    "<span class="hljs-attribute">delivered</span>": <span class="hljs-value"><span class="hljs-literal">false</span></span>,
+    "<span class="hljs-attribute">viewed</span>": <span class="hljs-value"><span class="hljs-literal">false</span></span>,
+    "<span class="hljs-attribute">complete</span>": <span class="hljs-value"><span class="hljs-literal">false</span>
+  </span>},
+  {
+    "<span class="hljs-attribute">id</span>": <span class="hljs-value"><span class="hljs-string">"25bGO6mmNEmQmKbvrnj1-VPO8LSmr8FD3vLhHFYQN-527233cc5fccf31805d2e65673f339b7"</span></span>,
+    "<span class="hljs-attribute">sender_id</span>": <span class="hljs-value"><span class="hljs-string">"25bGO6mmNEmQmKbvrnj1"</span></span>,
+    "<span class="hljs-attribute">receiver_id</span>": <span class="hljs-value"><span class="hljs-string">"VPO8LSmr8FD3vLhHFYQN"</span></span>,
+    "<span class="hljs-attribute">uploaded_at</span>": <span class="hljs-value"><span class="hljs-string">"2015-05-04T23:21:17.788Z"</span></span>,
+    "<span class="hljs-attribute">file_name</span>": <span class="hljs-value"><span class="hljs-string">"25bGO6mmNEmQmKbvrnj1-VPO8LSmr8FD3vLhHFYQN-527233cc5fccf31805d2e65673f339b7"</span></span>,
+    "<span class="hljs-attribute">file_size</span>": <span class="hljs-value"><span class="hljs-number">106467</span></span>,
+    "<span class="hljs-attribute">missing_events</span>": <span class="hljs-value">[
+      [
+        <span class="hljs-string">"video"</span>,
+        <span class="hljs-string">"kvstore"</span>,
+        <span class="hljs-string">"received"</span>
+      ],
+      [
+        <span class="hljs-string">"video"</span>,
+        <span class="hljs-string">"notification"</span>,
+        <span class="hljs-string">"received"</span>
+      ],
+      [
+        <span class="hljs-string">"video"</span>,
+        <span class="hljs-string">"kvstore"</span>,
+        <span class="hljs-string">"downloaded"</span>
+      ],
+      [
+        <span class="hljs-string">"video"</span>,
+        <span class="hljs-string">"notification"</span>,
+        <span class="hljs-string">"downloaded"</span>
+      ],
+      [
+        <span class="hljs-string">"video"</span>,
+        <span class="hljs-string">"kvstore"</span>,
+        <span class="hljs-string">"viewed"</span>
+      ],
+      [
+        <span class="hljs-string">"video"</span>,
+        <span class="hljs-string">"notification"</span>,
+        <span class="hljs-string">"viewed"</span>
+      ]
+    ]</span>,
+    "<span class="hljs-attribute">status</span>": <span class="hljs-value"><span class="hljs-string">"uploaded"</span></span>,
+    "<span class="hljs-attribute">delivered</span>": <span class="hljs-value"><span class="hljs-literal">false</span></span>,
+    "<span class="hljs-attribute">viewed</span>": <span class="hljs-value"><span class="hljs-literal">false</span></span>,
+    "<span class="hljs-attribute">complete</span>": <span class="hljs-value"><span class="hljs-literal">false</span>
+  </span>}
+]</code></pre><div style="height: 1px;"></div></div></div></div><div id="resources-messages-get-1" class="action get"><h4><div class="name">Show</div><a href="#resources-messages-get-1" class="method get">GET</a><code class="uri">/api/v1/messages/{id}</code></h4><div class="title"><strong>Parameters</strong><div class="collapse-button show"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><dl class="inner"><dt>id</dt><dd><code>string</code>&nbsp;<span class="required">(required)</span>&nbsp;<span class="text-muted example"><strong>Example:&nbsp;</strong><span>fxVPRkGICwnrAwym52gK-7qdanSEmctZ2jPnYA0a1-568a66958adfcd2d43a46fcdccf67960</span></span><p>ID of message</p>
+</dd></dl></div><div class="title"><strong>Request</strong><div class="collapse-button"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><div class="inner"><h5>Headers</h5><pre><code><span class="hljs-attribute">Content-Type</span>: <span class="hljs-string">application/json</span></code></pre><div style="height: 1px;"></div></div></div><div class="title"><strong>Response&nbsp;&nbsp;<code>200</code></strong><div class="collapse-button"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><div class="inner"><h5>Headers</h5><pre><code><span class="hljs-attribute">Content-Type</span>: <span class="hljs-string">application/json; charset=utf-8</span></code></pre><div style="height: 1px;"></div><h5>Body</h5><pre><code>{
+  "<span class="hljs-attribute">id</span>": <span class="hljs-value"><span class="hljs-string">"fxVPRkGICwnrAwym52gK-7qdanSEmctZ2jPnYA0a1-568a66958adfcd2d43a46fcdccf67960"</span></span>,
+  "<span class="hljs-attribute">sender_id</span>": <span class="hljs-value"><span class="hljs-string">"fxVPRkGICwnrAwym52gK"</span></span>,
+  "<span class="hljs-attribute">receiver_id</span>": <span class="hljs-value"><span class="hljs-string">"7qdanSEmctZ2jPnYA0a1"</span></span>,
+  "<span class="hljs-attribute">uploaded_at</span>": <span class="hljs-value"><span class="hljs-string">"2015-05-06T15:27:59.291Z"</span></span>,
+  "<span class="hljs-attribute">file_name</span>": <span class="hljs-value"><span class="hljs-string">"fxVPRkGICwnrAwym52gK-7qdanSEmctZ2jPnYA0a1-568a66958adfcd2d43a46fcdccf67960"</span></span>,
+  "<span class="hljs-attribute">file_size</span>": <span class="hljs-value"><span class="hljs-number">270864</span></span>,
+  "<span class="hljs-attribute">missing_events</span>": <span class="hljs-value">[]</span>,
+  "<span class="hljs-attribute">status</span>": <span class="hljs-value"><span class="hljs-string">"viewed"</span></span>,
+  "<span class="hljs-attribute">delivered</span>": <span class="hljs-value"><span class="hljs-literal">true</span></span>,
+  "<span class="hljs-attribute">viewed</span>": <span class="hljs-value"><span class="hljs-literal">true</span></span>,
+  "<span class="hljs-attribute">complete</span>": <span class="hljs-value"><span class="hljs-literal">true</span>
+</span>}</code></pre><div style="height: 1px;"></div></div></div></div><div id="resources-messages-get-2" class="action get"><h4><div class="name">Events</div><a href="#resources-messages-get-2" class="method get">GET</a><code class="uri">/api/v1/messages/{id}/events</code></h4><div class="title"><strong>Parameters</strong><div class="collapse-button show"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><dl class="inner"><dt>id</dt><dd><code>string</code>&nbsp;<span class="required">(required)</span>&nbsp;<span class="text-muted example"><strong>Example:&nbsp;</strong><span>fxVPRkGICwnrAwym52gK-7qdanSEmctZ2jPnYA0a1-568a66958adfcd2d43a46fcdccf67960</span></span><p>ID of message</p>
+</dd></dl></div><div class="title"><strong>Request</strong><div class="collapse-button"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><div class="inner"><h5>Headers</h5><pre><code><span class="hljs-attribute">Content-Type</span>: <span class="hljs-string">application/json</span></code></pre><div style="height: 1px;"></div></div></div><div class="title"><strong>Response&nbsp;&nbsp;<code>200</code></strong><div class="collapse-button"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><div class="inner"><h5>Headers</h5><pre><code><span class="hljs-attribute">Content-Type</span>: <span class="hljs-string">application/json; charset=utf-8</span></code></pre><div style="height: 1px;"></div><h5>Body</h5><pre><code>[
+  {
+    "<span class="hljs-attribute">id</span>": <span class="hljs-value"><span class="hljs-number">29736</span></span>,
+    "<span class="hljs-attribute">name</span>": <span class="hljs-value">[
+      <span class="hljs-string">"video"</span>,
+      <span class="hljs-string">"s3"</span>,
+      <span class="hljs-string">"uploaded"</span>
+    ]</span>,
+    "<span class="hljs-attribute">triggered_at</span>": <span class="hljs-value"><span class="hljs-string">"2015-05-06T15:27:59.291Z"</span></span>,
+    "<span class="hljs-attribute">triggered_by</span>": <span class="hljs-value"><span class="hljs-string">"aws:s3"</span></span>,
+    "<span class="hljs-attribute">initiator</span>": <span class="hljs-value"><span class="hljs-string">"s3"</span></span>,
+    "<span class="hljs-attribute">initiator_id</span>": <span class="hljs-value"><span class="hljs-literal">null</span></span>,
+    "<span class="hljs-attribute">target</span>": <span class="hljs-value"><span class="hljs-string">"video"</span></span>,
+    "<span class="hljs-attribute">target_id</span>": <span class="hljs-value"><span class="hljs-string">"fxVPRkGICwnrAwym52gK-7qdanSEmctZ2jPnYA0a1-568a66958adfcd2d43a46fcdccf67960"</span></span>,
+    "<span class="hljs-attribute">data</span>": <span class="hljs-value">{
+      "<span class="hljs-attribute">sender_id</span>": <span class="hljs-value"><span class="hljs-string">"fxVPRkGICwnrAwym52gK"</span></span>,
+      "<span class="hljs-attribute">receiver_id</span>": <span class="hljs-value"><span class="hljs-string">"7qdanSEmctZ2jPnYA0a1"</span></span>,
+      "<span class="hljs-attribute">video_file_name</span>": <span class="hljs-value"><span class="hljs-string">"fxVPRkGICwnrAwym52gK-7qdanSEmctZ2jPnYA0a1-568a66958adfcd2d43a46fcdccf67960"</span>
+    </span>}</span>,
+    "<span class="hljs-attribute">raw_params</span>": <span class="hljs-value">{
+      "<span class="hljs-attribute">eventVersion</span>": <span class="hljs-value"><span class="hljs-string">"2.0"</span></span>,
+      "<span class="hljs-attribute">eventSource</span>": <span class="hljs-value"><span class="hljs-string">"aws:s3"</span></span>,
+      "<span class="hljs-attribute">awsRegion</span>": <span class="hljs-value"><span class="hljs-string">"us-west-1"</span></span>,
+      "<span class="hljs-attribute">eventTime</span>": <span class="hljs-value"><span class="hljs-string">"2015-05-06T15:27:59.291Z"</span></span>,
+      "<span class="hljs-attribute">eventName</span>": <span class="hljs-value"><span class="hljs-string">"ObjectCreated:Put"</span></span>,
+      "<span class="hljs-attribute">userIdentity</span>": <span class="hljs-value">{
+        "<span class="hljs-attribute">principalId</span>": <span class="hljs-value"><span class="hljs-string">"AWS:AIDAIUFT72XFHDTJOMRJW"</span>
+      </span>}</span>,
+      "<span class="hljs-attribute">requestParameters</span>": <span class="hljs-value">{
+        "<span class="hljs-attribute">sourceIPAddress</span>": <span class="hljs-value"><span class="hljs-string">"213.169.66.130"</span>
+      </span>}</span>,
+      "<span class="hljs-attribute">responseElements</span>": <span class="hljs-value">{
+        "<span class="hljs-attribute">x-amz-request-id</span>": <span class="hljs-value"><span class="hljs-string">"8349EDA9DA7B0991"</span></span>,
+        "<span class="hljs-attribute">x-amz-id-2</span>": <span class="hljs-value"><span class="hljs-string">"KNLtuYUT5/BGmD4PjbL/IfNROPdGw9Vc1N1fBdaChJTM+mLoyQzMr0zBiMUo/U9yhdAsqx0OpSo="</span>
+      </span>}</span>,
+      "<span class="hljs-attribute">s3</span>": <span class="hljs-value">{
+        "<span class="hljs-attribute">s3SchemaVersion</span>": <span class="hljs-value"><span class="hljs-string">"1.0"</span></span>,
+        "<span class="hljs-attribute">configurationId</span>": <span class="hljs-value"><span class="hljs-string">"zazo-videos-to-sqs"</span></span>,
+        "<span class="hljs-attribute">bucket</span>": <span class="hljs-value">{
+          "<span class="hljs-attribute">name</span>": <span class="hljs-value"><span class="hljs-string">"videos.zazo.com"</span></span>,
+          "<span class="hljs-attribute">ownerIdentity</span>": <span class="hljs-value">{
+            "<span class="hljs-attribute">principalId</span>": <span class="hljs-value"><span class="hljs-string">"A2MSYRMSE88G92"</span>
+          </span>}</span>,
+          "<span class="hljs-attribute">arn</span>": <span class="hljs-value"><span class="hljs-string">"arn:aws:s3:::videos.zazo.com"</span>
+        </span>}</span>,
+        "<span class="hljs-attribute">object</span>": <span class="hljs-value">{
+          "<span class="hljs-attribute">key</span>": <span class="hljs-value"><span class="hljs-string">"fxVPRkGICwnrAwym52gK-7qdanSEmctZ2jPnYA0a1-568a66958adfcd2d43a46fcdccf67960"</span></span>,
+          "<span class="hljs-attribute">file_size</span>": <span class="hljs-value"><span class="hljs-number">270864</span></span>,
+          "<span class="hljs-attribute">eTag</span>": <span class="hljs-value"><span class="hljs-string">"703cdde8e407571420c7712e1491b08f"</span>
+        </span>}
+      </span>}
+    </span>}</span>,
+    "<span class="hljs-attribute">created_at</span>": <span class="hljs-value"><span class="hljs-string">"2015-05-06T15:27:59.395Z"</span></span>,
+    "<span class="hljs-attribute">updated_at</span>": <span class="hljs-value"><span class="hljs-string">"2015-05-06T15:27:59.395Z"</span></span>,
+    "<span class="hljs-attribute">message_id</span>": <span class="hljs-value"><span class="hljs-string">"3d7b75f5-c2fe-4ab0-bf92-592b59d1ee1a"</span>
+  </span>},
+  {
+    "<span class="hljs-attribute">id</span>": <span class="hljs-value"><span class="hljs-number">29738</span></span>,
+    "<span class="hljs-attribute">name</span>": <span class="hljs-value">[
+      <span class="hljs-string">"video"</span>,
+      <span class="hljs-string">"notification"</span>,
+      <span class="hljs-string">"received"</span>
+    ]</span>,
+    "<span class="hljs-attribute">triggered_at</span>": <span class="hljs-value"><span class="hljs-string">"2015-05-06T15:27:59.754Z"</span></span>,
+    "<span class="hljs-attribute">triggered_by</span>": <span class="hljs-value"><span class="hljs-string">"zazo:api"</span></span>,
+    "<span class="hljs-attribute">initiator</span>": <span class="hljs-value"><span class="hljs-string">"user"</span></span>,
+    "<span class="hljs-attribute">initiator_id</span>": <span class="hljs-value"><span class="hljs-string">"fxVPRkGICwnrAwym52gK"</span></span>,
+    "<span class="hljs-attribute">target</span>": <span class="hljs-value"><span class="hljs-string">"video"</span></span>,
+    "<span class="hljs-attribute">target_id</span>": <span class="hljs-value"><span class="hljs-string">"fxVPRkGICwnrAwym52gK-7qdanSEmctZ2jPnYA0a1-568a66958adfcd2d43a46fcdccf67960"</span></span>,
+    "<span class="hljs-attribute">data</span>": <span class="hljs-value">{
+      "<span class="hljs-attribute">sender_id</span>": <span class="hljs-value"><span class="hljs-string">"fxVPRkGICwnrAwym52gK"</span></span>,
+      "<span class="hljs-attribute">receiver_id</span>": <span class="hljs-value"><span class="hljs-string">"7qdanSEmctZ2jPnYA0a1"</span></span>,
+      "<span class="hljs-attribute">video_file_name</span>": <span class="hljs-value"><span class="hljs-string">"fxVPRkGICwnrAwym52gK-7qdanSEmctZ2jPnYA0a1-568a66958adfcd2d43a46fcdccf67960"</span></span>,
+      "<span class="hljs-attribute">video_id</span>": <span class="hljs-value"><span class="hljs-string">"1430926059657"</span>
+    </span>}</span>,
+    "<span class="hljs-attribute">raw_params</span>": <span class="hljs-value">{
+      "<span class="hljs-attribute">from_mkey</span>": <span class="hljs-value"><span class="hljs-string">"fxVPRkGICwnrAwym52gK"</span></span>,
+      "<span class="hljs-attribute">sender_name</span>": <span class="hljs-value"><span class="hljs-string">"Alex"</span></span>,
+      "<span class="hljs-attribute">target_mkey</span>": <span class="hljs-value"><span class="hljs-string">"7qdanSEmctZ2jPnYA0a1"</span></span>,
+      "<span class="hljs-attribute">video_id</span>": <span class="hljs-value"><span class="hljs-string">"1430926059657"</span>
+    </span>}</span>,
+    "<span class="hljs-attribute">created_at</span>": <span class="hljs-value"><span class="hljs-string">"2015-05-06T15:27:59.831Z"</span></span>,
+    "<span class="hljs-attribute">updated_at</span>": <span class="hljs-value"><span class="hljs-string">"2015-05-06T15:27:59.831Z"</span></span>,
+    "<span class="hljs-attribute">message_id</span>": <span class="hljs-value"><span class="hljs-string">"21860ed7-c41b-4a3c-80aa-dadb303cbd4f"</span>
+  </span>},
+  {
+    "<span class="hljs-attribute">id</span>": <span class="hljs-value"><span class="hljs-number">29737</span></span>,
+    "<span class="hljs-attribute">name</span>": <span class="hljs-value">[
+      <span class="hljs-string">"video"</span>,
+      <span class="hljs-string">"kvstore"</span>,
+      <span class="hljs-string">"received"</span>
+    ]</span>,
+    "<span class="hljs-attribute">triggered_at</span>": <span class="hljs-value"><span class="hljs-string">"2015-05-06T15:27:59.758Z"</span></span>,
+    "<span class="hljs-attribute">triggered_by</span>": <span class="hljs-value"><span class="hljs-string">"zazo:api"</span></span>,
+    "<span class="hljs-attribute">initiator</span>": <span class="hljs-value"><span class="hljs-string">"user"</span></span>,
+    "<span class="hljs-attribute">initiator_id</span>": <span class="hljs-value"><span class="hljs-string">"fxVPRkGICwnrAwym52gK"</span></span>,
+    "<span class="hljs-attribute">target</span>": <span class="hljs-value"><span class="hljs-string">"video"</span></span>,
+    "<span class="hljs-attribute">target_id</span>": <span class="hljs-value"><span class="hljs-string">"fxVPRkGICwnrAwym52gK-7qdanSEmctZ2jPnYA0a1-568a66958adfcd2d43a46fcdccf67960"</span></span>,
+    "<span class="hljs-attribute">data</span>": <span class="hljs-value">{
+      "<span class="hljs-attribute">sender_id</span>": <span class="hljs-value"><span class="hljs-string">"fxVPRkGICwnrAwym52gK"</span></span>,
+      "<span class="hljs-attribute">receiver_id</span>": <span class="hljs-value"><span class="hljs-string">"7qdanSEmctZ2jPnYA0a1"</span></span>,
+      "<span class="hljs-attribute">video_file_name</span>": <span class="hljs-value"><span class="hljs-string">"fxVPRkGICwnrAwym52gK-7qdanSEmctZ2jPnYA0a1-568a66958adfcd2d43a46fcdccf67960"</span></span>,
+      "<span class="hljs-attribute">video_id</span>": <span class="hljs-value"><span class="hljs-string">"1430926059657"</span>
+    </span>}</span>,
+    "<span class="hljs-attribute">raw_params</span>": <span class="hljs-value">{
+      "<span class="hljs-attribute">key1</span>": <span class="hljs-value"><span class="hljs-string">"fxVPRkGICwnrAwym52gK-7qdanSEmctZ2jPnYA0a1-63edf4e66cc521c4ad19b5124f255388-VideoIdKVKey"</span></span>,
+      "<span class="hljs-attribute">key2</span>": <span class="hljs-value"><span class="hljs-string">"1430926059657"</span></span>,
+      "<span class="hljs-attribute">value</span>": <span class="hljs-value"><span class="hljs-string">"{\"videoId\":\"1430926059657\"}"</span>
+    </span>}</span>,
+    "<span class="hljs-attribute">created_at</span>": <span class="hljs-value"><span class="hljs-string">"2015-05-06T15:27:59.830Z"</span></span>,
+    "<span class="hljs-attribute">updated_at</span>": <span class="hljs-value"><span class="hljs-string">"2015-05-06T15:27:59.830Z"</span></span>,
+    "<span class="hljs-attribute">message_id</span>": <span class="hljs-value"><span class="hljs-string">"90636ea1-fdca-4bd1-93f0-5352abd13ffd"</span>
+  </span>},
+  {
+    "<span class="hljs-attribute">id</span>": <span class="hljs-value"><span class="hljs-number">29742</span></span>,
+    "<span class="hljs-attribute">name</span>": <span class="hljs-value">[
+      <span class="hljs-string">"video"</span>,
+      <span class="hljs-string">"kvstore"</span>,
+      <span class="hljs-string">"downloaded"</span>
+    ]</span>,
+    "<span class="hljs-attribute">triggered_at</span>": <span class="hljs-value"><span class="hljs-string">"2015-05-06T15:28:05.765Z"</span></span>,
+    "<span class="hljs-attribute">triggered_by</span>": <span class="hljs-value"><span class="hljs-string">"zazo:api"</span></span>,
+    "<span class="hljs-attribute">initiator</span>": <span class="hljs-value"><span class="hljs-string">"user"</span></span>,
+    "<span class="hljs-attribute">initiator_id</span>": <span class="hljs-value"><span class="hljs-string">"fxVPRkGICwnrAwym52gK"</span></span>,
+    "<span class="hljs-attribute">target</span>": <span class="hljs-value"><span class="hljs-string">"video"</span></span>,
+    "<span class="hljs-attribute">target_id</span>": <span class="hljs-value"><span class="hljs-string">"fxVPRkGICwnrAwym52gK-7qdanSEmctZ2jPnYA0a1-568a66958adfcd2d43a46fcdccf67960"</span></span>,
+    "<span class="hljs-attribute">data</span>": <span class="hljs-value">{
+      "<span class="hljs-attribute">sender_id</span>": <span class="hljs-value"><span class="hljs-string">"fxVPRkGICwnrAwym52gK"</span></span>,
+      "<span class="hljs-attribute">receiver_id</span>": <span class="hljs-value"><span class="hljs-string">"7qdanSEmctZ2jPnYA0a1"</span></span>,
+      "<span class="hljs-attribute">video_file_name</span>": <span class="hljs-value"><span class="hljs-string">"fxVPRkGICwnrAwym52gK-7qdanSEmctZ2jPnYA0a1-568a66958adfcd2d43a46fcdccf67960"</span></span>,
+      "<span class="hljs-attribute">video_id</span>": <span class="hljs-value"><span class="hljs-string">"1430926059657"</span>
+    </span>}</span>,
+    "<span class="hljs-attribute">raw_params</span>": <span class="hljs-value">{
+      "<span class="hljs-attribute">key1</span>": <span class="hljs-value"><span class="hljs-string">"fxVPRkGICwnrAwym52gK-7qdanSEmctZ2jPnYA0a1-63edf4e66cc521c4ad19b5124f255388-VideoStatusKVKey"</span></span>,
+      "<span class="hljs-attribute">key2</span>": <span class="hljs-value"><span class="hljs-literal">null</span></span>,
+      "<span class="hljs-attribute">value</span>": <span class="hljs-value"><span class="hljs-string">"{\"videoId\":\"1430926059657\",\"status\":\"downloaded\"}"</span>
+    </span>}</span>,
+    "<span class="hljs-attribute">created_at</span>": <span class="hljs-value"><span class="hljs-string">"2015-05-06T15:28:05.821Z"</span></span>,
+    "<span class="hljs-attribute">updated_at</span>": <span class="hljs-value"><span class="hljs-string">"2015-05-06T15:28:05.821Z"</span></span>,
+    "<span class="hljs-attribute">message_id</span>": <span class="hljs-value"><span class="hljs-string">"bfa9b6d9-3ca6-4073-ae46-41130a7ac2d5"</span>
+  </span>},
+  {
+    "<span class="hljs-attribute">id</span>": <span class="hljs-value"><span class="hljs-number">29743</span></span>,
+    "<span class="hljs-attribute">name</span>": <span class="hljs-value">[
+      <span class="hljs-string">"video"</span>,
+      <span class="hljs-string">"notification"</span>,
+      <span class="hljs-string">"downloaded"</span>
+    ]</span>,
+    "<span class="hljs-attribute">triggered_at</span>": <span class="hljs-value"><span class="hljs-string">"2015-05-06T15:28:05.848Z"</span></span>,
+    "<span class="hljs-attribute">triggered_by</span>": <span class="hljs-value"><span class="hljs-string">"zazo:api"</span></span>,
+    "<span class="hljs-attribute">initiator</span>": <span class="hljs-value"><span class="hljs-string">"user"</span></span>,
+    "<span class="hljs-attribute">initiator_id</span>": <span class="hljs-value"><span class="hljs-string">"fxVPRkGICwnrAwym52gK"</span></span>,
+    "<span class="hljs-attribute">target</span>": <span class="hljs-value"><span class="hljs-string">"video"</span></span>,
+    "<span class="hljs-attribute">target_id</span>": <span class="hljs-value"><span class="hljs-string">"fxVPRkGICwnrAwym52gK-7qdanSEmctZ2jPnYA0a1-568a66958adfcd2d43a46fcdccf67960"</span></span>,
+    "<span class="hljs-attribute">data</span>": <span class="hljs-value">{
+      "<span class="hljs-attribute">sender_id</span>": <span class="hljs-value"><span class="hljs-string">"fxVPRkGICwnrAwym52gK"</span></span>,
+      "<span class="hljs-attribute">receiver_id</span>": <span class="hljs-value"><span class="hljs-string">"7qdanSEmctZ2jPnYA0a1"</span></span>,
+      "<span class="hljs-attribute">video_file_name</span>": <span class="hljs-value"><span class="hljs-string">"fxVPRkGICwnrAwym52gK-7qdanSEmctZ2jPnYA0a1-568a66958adfcd2d43a46fcdccf67960"</span></span>,
+      "<span class="hljs-attribute">video_id</span>": <span class="hljs-value"><span class="hljs-string">"1430926059657"</span>
+    </span>}</span>,
+    "<span class="hljs-attribute">raw_params</span>": <span class="hljs-value">{
+      "<span class="hljs-attribute">target_mkey</span>": <span class="hljs-value"><span class="hljs-string">"fxVPRkGICwnrAwym52gK"</span></span>,
+      "<span class="hljs-attribute">to_mkey</span>": <span class="hljs-value"><span class="hljs-string">"7qdanSEmctZ2jPnYA0a1"</span></span>,
+      "<span class="hljs-attribute">status</span>": <span class="hljs-value"><span class="hljs-string">"downloaded"</span></span>,
+      "<span class="hljs-attribute">video_id</span>": <span class="hljs-value"><span class="hljs-string">"1430926059657"</span>
+    </span>}</span>,
+    "<span class="hljs-attribute">created_at</span>": <span class="hljs-value"><span class="hljs-string">"2015-05-06T15:28:05.896Z"</span></span>,
+    "<span class="hljs-attribute">updated_at</span>": <span class="hljs-value"><span class="hljs-string">"2015-05-06T15:28:05.896Z"</span></span>,
+    "<span class="hljs-attribute">message_id</span>": <span class="hljs-value"><span class="hljs-string">"9123fc3e-e7f5-4057-9f22-1ad7cab7ce16"</span>
+  </span>},
+  {
+    "<span class="hljs-attribute">id</span>": <span class="hljs-value"><span class="hljs-number">29744</span></span>,
+    "<span class="hljs-attribute">name</span>": <span class="hljs-value">[
+      <span class="hljs-string">"video"</span>,
+      <span class="hljs-string">"kvstore"</span>,
+      <span class="hljs-string">"viewed"</span>
+    ]</span>,
+    "<span class="hljs-attribute">triggered_at</span>": <span class="hljs-value"><span class="hljs-string">"2015-05-06T15:28:07.727Z"</span></span>,
+    "<span class="hljs-attribute">triggered_by</span>": <span class="hljs-value"><span class="hljs-string">"zazo:api"</span></span>,
+    "<span class="hljs-attribute">initiator</span>": <span class="hljs-value"><span class="hljs-string">"user"</span></span>,
+    "<span class="hljs-attribute">initiator_id</span>": <span class="hljs-value"><span class="hljs-string">"fxVPRkGICwnrAwym52gK"</span></span>,
+    "<span class="hljs-attribute">target</span>": <span class="hljs-value"><span class="hljs-string">"video"</span></span>,
+    "<span class="hljs-attribute">target_id</span>": <span class="hljs-value"><span class="hljs-string">"fxVPRkGICwnrAwym52gK-7qdanSEmctZ2jPnYA0a1-568a66958adfcd2d43a46fcdccf67960"</span></span>,
+    "<span class="hljs-attribute">data</span>": <span class="hljs-value">{
+      "<span class="hljs-attribute">sender_id</span>": <span class="hljs-value"><span class="hljs-string">"fxVPRkGICwnrAwym52gK"</span></span>,
+      "<span class="hljs-attribute">receiver_id</span>": <span class="hljs-value"><span class="hljs-string">"7qdanSEmctZ2jPnYA0a1"</span></span>,
+      "<span class="hljs-attribute">video_file_name</span>": <span class="hljs-value"><span class="hljs-string">"fxVPRkGICwnrAwym52gK-7qdanSEmctZ2jPnYA0a1-568a66958adfcd2d43a46fcdccf67960"</span></span>,
+      "<span class="hljs-attribute">video_id</span>": <span class="hljs-value"><span class="hljs-string">"1430926059657"</span>
+    </span>}</span>,
+    "<span class="hljs-attribute">raw_params</span>": <span class="hljs-value">{
+      "<span class="hljs-attribute">key1</span>": <span class="hljs-value"><span class="hljs-string">"fxVPRkGICwnrAwym52gK-7qdanSEmctZ2jPnYA0a1-63edf4e66cc521c4ad19b5124f255388-VideoStatusKVKey"</span></span>,
+      "<span class="hljs-attribute">key2</span>": <span class="hljs-value"><span class="hljs-literal">null</span></span>,
+      "<span class="hljs-attribute">value</span>": <span class="hljs-value"><span class="hljs-string">"{\"videoId\":\"1430926059657\",\"status\":\"viewed\"}"</span>
+    </span>}</span>,
+    "<span class="hljs-attribute">created_at</span>": <span class="hljs-value"><span class="hljs-string">"2015-05-06T15:28:07.787Z"</span></span>,
+    "<span class="hljs-attribute">updated_at</span>": <span class="hljs-value"><span class="hljs-string">"2015-05-06T15:28:07.787Z"</span></span>,
+    "<span class="hljs-attribute">message_id</span>": <span class="hljs-value"><span class="hljs-string">"11cc23af-7997-479a-867e-2a014cc0b0b1"</span>
+  </span>},
+  {
+    "<span class="hljs-attribute">id</span>": <span class="hljs-value"><span class="hljs-number">29745</span></span>,
+    "<span class="hljs-attribute">name</span>": <span class="hljs-value">[
+      <span class="hljs-string">"video"</span>,
+      <span class="hljs-string">"notification"</span>,
+      <span class="hljs-string">"viewed"</span>
+    ]</span>,
+    "<span class="hljs-attribute">triggered_at</span>": <span class="hljs-value"><span class="hljs-string">"2015-05-06T15:28:07.853Z"</span></span>,
+    "<span class="hljs-attribute">triggered_by</span>": <span class="hljs-value"><span class="hljs-string">"zazo:api"</span></span>,
+    "<span class="hljs-attribute">initiator</span>": <span class="hljs-value"><span class="hljs-string">"user"</span></span>,
+    "<span class="hljs-attribute">initiator_id</span>": <span class="hljs-value"><span class="hljs-string">"fxVPRkGICwnrAwym52gK"</span></span>,
+    "<span class="hljs-attribute">target</span>": <span class="hljs-value"><span class="hljs-string">"video"</span></span>,
+    "<span class="hljs-attribute">target_id</span>": <span class="hljs-value"><span class="hljs-string">"fxVPRkGICwnrAwym52gK-7qdanSEmctZ2jPnYA0a1-568a66958adfcd2d43a46fcdccf67960"</span></span>,
+    "<span class="hljs-attribute">data</span>": <span class="hljs-value">{
+      "<span class="hljs-attribute">sender_id</span>": <span class="hljs-value"><span class="hljs-string">"fxVPRkGICwnrAwym52gK"</span></span>,
+      "<span class="hljs-attribute">receiver_id</span>": <span class="hljs-value"><span class="hljs-string">"7qdanSEmctZ2jPnYA0a1"</span></span>,
+      "<span class="hljs-attribute">video_file_name</span>": <span class="hljs-value"><span class="hljs-string">"fxVPRkGICwnrAwym52gK-7qdanSEmctZ2jPnYA0a1-568a66958adfcd2d43a46fcdccf67960"</span></span>,
+      "<span class="hljs-attribute">video_id</span>": <span class="hljs-value"><span class="hljs-string">"1430926059657"</span>
+    </span>}</span>,
+    "<span class="hljs-attribute">raw_params</span>": <span class="hljs-value">{
+      "<span class="hljs-attribute">target_mkey</span>": <span class="hljs-value"><span class="hljs-string">"fxVPRkGICwnrAwym52gK"</span></span>,
+      "<span class="hljs-attribute">to_mkey</span>": <span class="hljs-value"><span class="hljs-string">"7qdanSEmctZ2jPnYA0a1"</span></span>,
+      "<span class="hljs-attribute">status</span>": <span class="hljs-value"><span class="hljs-string">"viewed"</span></span>,
+      "<span class="hljs-attribute">video_id</span>": <span class="hljs-value"><span class="hljs-string">"1430926059657"</span>
+    </span>}</span>,
+    "<span class="hljs-attribute">created_at</span>": <span class="hljs-value"><span class="hljs-string">"2015-05-06T15:28:07.895Z"</span></span>,
+    "<span class="hljs-attribute">updated_at</span>": <span class="hljs-value"><span class="hljs-string">"2015-05-06T15:28:07.895Z"</span></span>,
+    "<span class="hljs-attribute">message_id</span>": <span class="hljs-value"><span class="hljs-string">"5f456c93-1231-445c-a04c-970e31ae4021"</span>
+  </span>}
+]</code></pre><div style="height: 1px;"></div></div></div></div></div><div id="resources-metrics" class="resource"><h3>Metrics<a href="#resources-metrics" class="permalink">&para;</a></h3><div id="resources-metrics-get" class="action get"><h4><div class="name">Index</div><a href="#resources-metrics-get" class="method get">GET</a><code class="uri">/api/v1/metrics</code></h4><div class="title"><strong>Response&nbsp;&nbsp;<code>200</code></strong><div class="collapse-button"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><div class="inner"><h5>Headers</h5><pre><code><span class="hljs-attribute">Content-Type</span>: <span class="hljs-string">application/json; charset=utf-8</span></code></pre><div style="height: 1px;"></div><h5>Body</h5><pre><code>[
+  {
+    "<span class="hljs-attribute">name</span>": <span class="hljs-value"><span class="hljs-string">"active_users"</span></span>,
+    "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"aggregated_by_timeframe"</span>
+  </span>},
+  {
+    "<span class="hljs-attribute">name</span>": <span class="hljs-value"><span class="hljs-string">"aggregate_messaging_info"</span></span>,
+    "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"aggregated"</span>
+  </span>},
+  {
+    "<span class="hljs-attribute">name</span>": <span class="hljs-value"><span class="hljs-string">"messages_sent"</span></span>,
+    "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"aggregated_by_timeframe"</span>
+  </span>},
+  {
+    "<span class="hljs-attribute">name</span>": <span class="hljs-value"><span class="hljs-string">"usage_by_active_users"</span></span>,
+    "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"aggregated_by_timeframe"</span>
+  </span>},
+  {
+    "<span class="hljs-attribute">name</span>": <span class="hljs-value"><span class="hljs-string">"user_activity"</span></span>,
+    "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"aggregated"</span>
+  </span>}
+]</code></pre><div style="height: 1px;"></div></div></div></div></div></section><section id="metrics" class="resource-group"><h2 class="group-heading">Metrics<a href="#metrics" class="permalink">&para;</a></h2><div id="metrics-messages-sent" class="resource"><h3>Messages Sent<a href="#metrics-messages-sent" class="permalink">&para;</a></h3><div id="metrics-messages-sent-post" class="action post"><h4><div class="name">Messages Sent</div><a href="#metrics-messages-sent-post" class="method post">POST</a><code class="uri">/api/v1/metrics/messages_sent</code></h4><div class="title"><strong>Parameters</strong><div class="collapse-button show"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><dl class="inner"><dt>group_by</dt><dd><code>string</code>&nbsp;<span>(optional)</span>&nbsp;<span class="text-info default"><strong>Default:&nbsp;</strong><span>day</span></span>&nbsp;<span class="text-muted example"><strong>Example:&nbsp;</strong><span>day</span></span><p>Time frame for grouping</p>
+</dd></dl></div><div class="title"><strong>Response&nbsp;&nbsp;<code>200</code></strong><div class="collapse-button"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><div class="inner"><h5>Headers</h5><pre><code><span class="hljs-attribute">Content-Type</span>: <span class="hljs-string">application/json; charset=utf-8</span></code></pre><div style="height: 1px;"></div><h5>Body</h5><pre><code>{
+  "<span class="hljs-attribute">2015-05-04 00:00:00 UTC</span>": <span class="hljs-value"><span class="hljs-number">42</span></span>,
+  "<span class="hljs-attribute">2015-05-05 00:00:00 UTC</span>": <span class="hljs-value"><span class="hljs-number">1094</span></span>,
+  "<span class="hljs-attribute">2015-05-06 00:00:00 UTC</span>": <span class="hljs-value"><span class="hljs-number">820</span></span>,
+  "<span class="hljs-attribute">2015-05-07 00:00:00 UTC</span>": <span class="hljs-value"><span class="hljs-number">845</span></span>,
+  "<span class="hljs-attribute">2015-05-08 00:00:00 UTC</span>": <span class="hljs-value"><span class="hljs-number">828</span></span>,
+  "<span class="hljs-attribute">2015-05-09 00:00:00 UTC</span>": <span class="hljs-value"><span class="hljs-number">924</span></span>,
+  "<span class="hljs-attribute">2015-05-10 00:00:00 UTC</span>": <span class="hljs-value"><span class="hljs-number">713</span></span>,
+  "<span class="hljs-attribute">2015-05-11 00:00:00 UTC</span>": <span class="hljs-value"><span class="hljs-number">317</span></span>,
+  "<span class="hljs-attribute">2015-05-12 00:00:00 UTC</span>": <span class="hljs-value"><span class="hljs-number">551</span></span>,
+  "<span class="hljs-attribute">2015-05-13 00:00:00 UTC</span>": <span class="hljs-value"><span class="hljs-number">574</span></span>,
+  "<span class="hljs-attribute">2015-05-14 00:00:00 UTC</span>": <span class="hljs-value"><span class="hljs-number">490</span></span>,
+  "<span class="hljs-attribute">2015-05-15 00:00:00 UTC</span>": <span class="hljs-value"><span class="hljs-number">705</span></span>,
+  "<span class="hljs-attribute">2015-05-16 00:00:00 UTC</span>": <span class="hljs-value"><span class="hljs-number">460</span></span>,
+  "<span class="hljs-attribute">2015-05-17 00:00:00 UTC</span>": <span class="hljs-value"><span class="hljs-number">208</span></span>,
+  "<span class="hljs-attribute">2015-05-18 00:00:00 UTC</span>": <span class="hljs-value"><span class="hljs-number">296</span></span>,
+  "<span class="hljs-attribute">2015-05-19 00:00:00 UTC</span>": <span class="hljs-value"><span class="hljs-number">376</span></span>,
+  "<span class="hljs-attribute">2015-05-20 00:00:00 UTC</span>": <span class="hljs-value"><span class="hljs-number">235</span></span>,
+  "<span class="hljs-attribute">2015-05-21 00:00:00 UTC</span>": <span class="hljs-value"><span class="hljs-number">591</span></span>,
+  "<span class="hljs-attribute">2015-05-22 00:00:00 UTC</span>": <span class="hljs-value"><span class="hljs-number">423</span></span>,
+  "<span class="hljs-attribute">2015-05-23 00:00:00 UTC</span>": <span class="hljs-value"><span class="hljs-number">445</span></span>,
+  "<span class="hljs-attribute">2015-05-24 00:00:00 UTC</span>": <span class="hljs-value"><span class="hljs-number">226</span></span>,
+  "<span class="hljs-attribute">2015-05-25 00:00:00 UTC</span>": <span class="hljs-value"><span class="hljs-number">243</span></span>,
+  "<span class="hljs-attribute">2015-05-26 00:00:00 UTC</span>": <span class="hljs-value"><span class="hljs-number">216</span></span>,
+  "<span class="hljs-attribute">2015-05-27 00:00:00 UTC</span>": <span class="hljs-value"><span class="hljs-number">344</span></span>,
+  "<span class="hljs-attribute">2015-05-28 00:00:00 UTC</span>": <span class="hljs-value"><span class="hljs-number">328</span>
+</span>}</code></pre><div style="height: 1px;"></div></div></div></div></div><div id="metrics-active-users" class="resource"><h3>Active Users<a href="#metrics-active-users" class="permalink">&para;</a></h3><div id="metrics-active-users-post" class="action post"><h4><div class="name">Active Users</div><a href="#metrics-active-users-post" class="method post">POST</a><code class="uri">/api/v1/metrics/active_users</code></h4><div class="title"><strong>Parameters</strong><div class="collapse-button show"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><dl class="inner"><dt>group_by</dt><dd><code>string</code>&nbsp;<span>(optional)</span>&nbsp;<span class="text-info default"><strong>Default:&nbsp;</strong><span>day</span></span>&nbsp;<span class="text-muted example"><strong>Example:&nbsp;</strong><span>day</span></span><p>Time frame for grouping</p>
+</dd></dl></div><div class="title"><strong>Response&nbsp;&nbsp;<code>200</code></strong><div class="collapse-button"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><div class="inner"><h5>Headers</h5><pre><code><span class="hljs-attribute">Content-Type</span>: <span class="hljs-string">application/json; charset=utf-8</span></code></pre><div style="height: 1px;"></div><h5>Body</h5><pre><code>{
+  "<span class="hljs-attribute">2015-05-06 00:00:00 UTC</span>": <span class="hljs-value"><span class="hljs-number">122</span></span>,
+  "<span class="hljs-attribute">2015-05-25 00:00:00 UTC</span>": <span class="hljs-value"><span class="hljs-number">64</span></span>,
+  "<span class="hljs-attribute">2015-05-05 00:00:00 UTC</span>": <span class="hljs-value"><span class="hljs-number">152</span></span>,
+  "<span class="hljs-attribute">2015-05-07 00:00:00 UTC</span>": <span class="hljs-value"><span class="hljs-number">134</span></span>,
+  "<span class="hljs-attribute">2015-05-08 00:00:00 UTC</span>": <span class="hljs-value"><span class="hljs-number">152</span></span>,
+  "<span class="hljs-attribute">2015-05-09 00:00:00 UTC</span>": <span class="hljs-value"><span class="hljs-number">154</span></span>,
+  "<span class="hljs-attribute">2015-05-10 00:00:00 UTC</span>": <span class="hljs-value"><span class="hljs-number">126</span></span>,
+  "<span class="hljs-attribute">2015-05-11 00:00:00 UTC</span>": <span class="hljs-value"><span class="hljs-number">105</span></span>,
+  "<span class="hljs-attribute">2015-05-14 00:00:00 UTC</span>": <span class="hljs-value"><span class="hljs-number">102</span></span>,
+  "<span class="hljs-attribute">2015-05-15 00:00:00 UTC</span>": <span class="hljs-value"><span class="hljs-number">114</span></span>,
+  "<span class="hljs-attribute">2015-05-16 00:00:00 UTC</span>": <span class="hljs-value"><span class="hljs-number">90</span></span>,
+  "<span class="hljs-attribute">2015-05-20 00:00:00 UTC</span>": <span class="hljs-value"><span class="hljs-number">70</span></span>,
+  "<span class="hljs-attribute">2015-05-21 00:00:00 UTC</span>": <span class="hljs-value"><span class="hljs-number">93</span></span>,
+  "<span class="hljs-attribute">2015-05-22 00:00:00 UTC</span>": <span class="hljs-value"><span class="hljs-number">84</span></span>,
+  "<span class="hljs-attribute">2015-05-24 00:00:00 UTC</span>": <span class="hljs-value"><span class="hljs-number">57</span></span>,
+  "<span class="hljs-attribute">2015-05-27 00:00:00 UTC</span>": <span class="hljs-value"><span class="hljs-number">71</span></span>,
+  "<span class="hljs-attribute">2015-05-12 00:00:00 UTC</span>": <span class="hljs-value"><span class="hljs-number">120</span></span>,
+  "<span class="hljs-attribute">2015-05-13 00:00:00 UTC</span>": <span class="hljs-value"><span class="hljs-number">103</span></span>,
+  "<span class="hljs-attribute">2015-05-19 00:00:00 UTC</span>": <span class="hljs-value"><span class="hljs-number">60</span></span>,
+  "<span class="hljs-attribute">2015-05-26 00:00:00 UTC</span>": <span class="hljs-value"><span class="hljs-number">61</span></span>,
+  "<span class="hljs-attribute">2015-05-28 00:00:00 UTC</span>": <span class="hljs-value"><span class="hljs-number">66</span></span>,
+  "<span class="hljs-attribute">2015-05-17 00:00:00 UTC</span>": <span class="hljs-value"><span class="hljs-number">77</span></span>,
+  "<span class="hljs-attribute">2015-05-18 00:00:00 UTC</span>": <span class="hljs-value"><span class="hljs-number">72</span></span>,
+  "<span class="hljs-attribute">2015-05-23 00:00:00 UTC</span>": <span class="hljs-value"><span class="hljs-number">69</span></span>,
+  "<span class="hljs-attribute">2015-05-04 00:00:00 UTC</span>": <span class="hljs-value"><span class="hljs-number">14</span>
+</span>}</code></pre><div style="height: 1px;"></div></div></div></div></div><div id="metrics-usage-by-active-users" class="resource"><h3>Usage by Active Users<a href="#metrics-usage-by-active-users" class="permalink">&para;</a></h3><div id="metrics-usage-by-active-users-post" class="action post"><h4><div class="name">Usage by Active Users</div><a href="#metrics-usage-by-active-users-post" class="method post">POST</a><code class="uri">/api/v1/metrics/usage_by_active_users</code></h4><div class="title"><strong>Parameters</strong><div class="collapse-button show"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><dl class="inner"><dt>group_by</dt><dd><code>string</code>&nbsp;<span>(optional)</span>&nbsp;<span class="text-info default"><strong>Default:&nbsp;</strong><span>day</span></span>&nbsp;<span class="text-muted example"><strong>Example:&nbsp;</strong><span>day</span></span><p>Time frame for grouping</p>
+</dd></dl></div><div class="title"><strong>Response&nbsp;&nbsp;<code>200</code></strong><div class="collapse-button"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><div class="inner"><h5>Headers</h5><pre><code><span class="hljs-attribute">Content-Type</span>: <span class="hljs-string">application/json; charset=utf-8</span></code></pre><div style="height: 1px;"></div><h5>Body</h5><pre><code>{
+  "<span class="hljs-attribute">2015-05-04 00:00:00 UTC</span>": <span class="hljs-value"><span class="hljs-number">3</span></span>,
+  "<span class="hljs-attribute">2015-05-05 00:00:00 UTC</span>": <span class="hljs-value"><span class="hljs-number">7.197368421052632</span></span>,
+  "<span class="hljs-attribute">2015-05-06 00:00:00 UTC</span>": <span class="hljs-value"><span class="hljs-number">7.0085470085470085</span></span>,
+  "<span class="hljs-attribute">2015-05-07 00:00:00 UTC</span>": <span class="hljs-value"><span class="hljs-number">7.222222222222222</span></span>,
+  "<span class="hljs-attribute">2015-05-08 00:00:00 UTC</span>": <span class="hljs-value"><span class="hljs-number">6.46875</span></span>,
+  "<span class="hljs-attribute">2015-05-09 00:00:00 UTC</span>": <span class="hljs-value"><span class="hljs-number">7.162790697674419</span></span>,
+  "<span class="hljs-attribute">2015-05-10 00:00:00 UTC</span>": <span class="hljs-value"><span class="hljs-number">7.505263157894737</span></span>,
+  "<span class="hljs-attribute">2015-05-11 00:00:00 UTC</span>": <span class="hljs-value"><span class="hljs-number">4.731343283582089</span></span>,
+  "<span class="hljs-attribute">2015-05-12 00:00:00 UTC</span>": <span class="hljs-value"><span class="hljs-number">6.191011235955056</span></span>,
+  "<span class="hljs-attribute">2015-05-13 00:00:00 UTC</span>": <span class="hljs-value"><span class="hljs-number">7.08641975308642</span></span>,
+  "<span class="hljs-attribute">2015-05-14 00:00:00 UTC</span>": <span class="hljs-value"><span class="hljs-number">6.447368421052632</span></span>,
+  "<span class="hljs-attribute">2015-05-15 00:00:00 UTC</span>": <span class="hljs-value"><span class="hljs-number">8.19767441860465</span></span>,
+  "<span class="hljs-attribute">2015-05-16 00:00:00 UTC</span>": <span class="hljs-value"><span class="hljs-number">6.216216216216216</span></span>,
+  "<span class="hljs-attribute">2015-05-17 00:00:00 UTC</span>": <span class="hljs-value"><span class="hljs-number">3.8518518518518516</span></span>,
+  "<span class="hljs-attribute">2015-05-18 00:00:00 UTC</span>": <span class="hljs-value"><span class="hljs-number">4.933333333333334</span></span>,
+  "<span class="hljs-attribute">2015-05-19 00:00:00 UTC</span>": <span class="hljs-value"><span class="hljs-number">8.173913043478262</span></span>,
+  "<span class="hljs-attribute">2015-05-20 00:00:00 UTC</span>": <span class="hljs-value"><span class="hljs-number">4.519230769230769</span></span>,
+  "<span class="hljs-attribute">2015-05-21 00:00:00 UTC</span>": <span class="hljs-value"><span class="hljs-number">8.32394366197183</span></span>,
+  "<span class="hljs-attribute">2015-05-22 00:00:00 UTC</span>": <span class="hljs-value"><span class="hljs-number">6.507692307692308</span></span>,
+  "<span class="hljs-attribute">2015-05-23 00:00:00 UTC</span>": <span class="hljs-value"><span class="hljs-number">8.557692307692308</span></span>,
+  "<span class="hljs-attribute">2015-05-24 00:00:00 UTC</span>": <span class="hljs-value"><span class="hljs-number">5.136363636363637</span></span>,
+  "<span class="hljs-attribute">2015-05-25 00:00:00 UTC</span>": <span class="hljs-value"><span class="hljs-number">5.170212765957447</span></span>,
+  "<span class="hljs-attribute">2015-05-26 00:00:00 UTC</span>": <span class="hljs-value"><span class="hljs-number">4.909090909090909</span></span>,
+  "<span class="hljs-attribute">2015-05-27 00:00:00 UTC</span>": <span class="hljs-value"><span class="hljs-number">5.830508474576271</span></span>,
+  "<span class="hljs-attribute">2015-05-28 00:00:00 UTC</span>": <span class="hljs-value"><span class="hljs-number">6.452830188679245</span>
+</span>}</code></pre><div style="height: 1px;"></div></div></div></div></div><div id="metrics-aggregate-messaging-info" class="resource"><h3>Aggregate Messaging Info<a href="#metrics-aggregate-messaging-info" class="permalink">&para;</a></h3><div id="metrics-aggregate-messaging-info-post" class="action post"><h4><div class="name">Aggregate Messaging Info</div><a href="#metrics-aggregate-messaging-info-post" class="method post">POST</a><code class="uri">/api/v1/metrics/aggregate_messaging_info</code></h4><div class="title"><strong>Parameters</strong><div class="collapse-button show"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><dl class="inner"><dt>user_id</dt><dd><code>string</code>&nbsp;<span class="required">(required)</span>&nbsp;<span class="text-muted example"><strong>Example:&nbsp;</strong><span>fxVPRkGICwnrAwym52gK</span></span><p>ID of user.</p>
+</dd><dt>friend_id</dt><dd><code>string</code>&nbsp;<span>(optional)</span>&nbsp;<span class="text-muted example"><strong>Example:&nbsp;</strong><span>7qdanSEmctZ2jPnYA0a1</span></span><p>ID of friend.
+If set, returns data for messages from user to friend (outgoing) and in reverse (incoming).</p>
+</dd></dl></div><div class="title"><strong>Response&nbsp;&nbsp;<code>200</code></strong><div class="collapse-button"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><div class="inner"><h5>Headers</h5><pre><code><span class="hljs-attribute">Content-Type</span>: <span class="hljs-string">application/json; charset=utf-8</span></code></pre><div style="height: 1px;"></div><h5>Body</h5><pre><code>{
+  "<span class="hljs-attribute">outgoing</span>": <span class="hljs-value">{
+    "<span class="hljs-attribute">total_sent</span>": <span class="hljs-value"><span class="hljs-number">41</span></span>,
+    "<span class="hljs-attribute">total_received</span>": <span class="hljs-value"><span class="hljs-number">40</span></span>,
+    "<span class="hljs-attribute">undelivered_percent</span>": <span class="hljs-value"><span class="hljs-number">2.4390243902439024</span>
+  </span>}</span>,
+  "<span class="hljs-attribute">incoming</span>": <span class="hljs-value">{
+    "<span class="hljs-attribute">total_sent</span>": <span class="hljs-value"><span class="hljs-number">70</span></span>,
+    "<span class="hljs-attribute">total_received</span>": <span class="hljs-value"><span class="hljs-number">48</span></span>,
+    "<span class="hljs-attribute">undelivered_percent</span>": <span class="hljs-value"><span class="hljs-number">31.428571428571427</span>
+  </span>}
+</span>}</code></pre><div style="height: 1px;"></div></div></div></div></div><div id="metrics-sent-messages-count-by-period" class="resource"><h3>Sent Messages Count By Period<a href="#metrics-sent-messages-count-by-period" class="permalink">&para;</a></h3><div id="metrics-sent-messages-count-by-period-post" class="action post"><h4><div class="name">Sent Messages Count By Period</div><a href="#metrics-sent-messages-count-by-period-post" class="method post">POST</a><code class="uri">/api/v1/metrics/messages_count_by_period</code></h4><div class="title"><strong>Parameters</strong><div class="collapse-button show"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><dl class="inner"><dt>users_ids</dt><dd><code>array of strings</code>&nbsp;<span class="required">(required)</span>&nbsp;<span class="text-muted example"><strong>Example:&nbsp;</strong><span>[fxVPRkGICwnrAwym52gK]</span></span><p>IDs of users.</p>
+</dd><dt>group_by</dt><dd><code>string</code>&nbsp;<span>(optional)</span>&nbsp;<span class="text-info default"><strong>Default:&nbsp;</strong><span>day</span></span>&nbsp;<span class="text-muted example"><strong>Example:&nbsp;</strong><span>day</span></span><p>Time frame for grouping</p>
+</dd><dt>since</dt><dd><code>string</code>&nbsp;<span class="required">(required)</span>&nbsp;<span class="text-muted example"><strong>Example:&nbsp;</strong><span>2015</span></span><p>05-25 00:00:00 (string, optional) - Start datetime</p>
+</dd></dl></div><div class="title"><strong>Response&nbsp;&nbsp;<code>200</code></strong><div class="collapse-button"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><div class="inner"><h5>Headers</h5><pre><code><span class="hljs-attribute">Content-Type</span>: <span class="hljs-string">application/json; charset=utf-8</span></code></pre><div style="height: 1px;"></div><h5>Body</h5><pre><code>{
+  "<span class="hljs-attribute">fxVPRkGICwnrAwym52gK</span>": <span class="hljs-value">{
+    "<span class="hljs-attribute">2015-05-21 00:00:00 UTC</span>": <span class="hljs-value"><span class="hljs-number">13</span></span>,
+    "<span class="hljs-attribute">2015-05-24 00:00:00 UTC</span>": <span class="hljs-value"><span class="hljs-number">2</span></span>,
+    "<span class="hljs-attribute">2015-05-26 00:00:00 UTC</span>": <span class="hljs-value"><span class="hljs-number">1</span></span>,
+    "<span class="hljs-attribute">2015-05-27 00:00:00 UTC</span>": <span class="hljs-value"><span class="hljs-number">2</span>
+  </span>}
+</span>}</code></pre><div style="height: 1px;"></div></div></div></div></div><div id="metrics-video-uploads-duplications-by-sender_id" class="resource"><h3>Video uploads duplications by sender_id<a href="#metrics-video-uploads-duplications-by-sender_id" class="permalink">&para;</a></h3><div id="metrics-video-uploads-duplications-by-sender_id-post" class="action post"><h4><div class="name">Video uploads duplications by sender_id</div><a href="#metrics-video-uploads-duplications-by-sender_id-post" class="method post">POST</a><code class="uri">/api/v1/metrics/upload_duplications</code></h4><div class="title"><strong>Response&nbsp;&nbsp;<code>200</code></strong><div class="collapse-button"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><div class="inner"><h5>Headers</h5><pre><code><span class="hljs-attribute">Content-Type</span>: <span class="hljs-string">application/json; charset=utf-8</span></code></pre><div style="height: 1px;"></div><h5>Body</h5><pre><code>[
+  {
+    "<span class="hljs-attribute">sender_id</span>": <span class="hljs-value"><span class="hljs-string">"7qdanSEmctZ2jPnYA0a1"</span></span>,
+    "<span class="hljs-attribute">count</span>": <span class="hljs-value"><span class="hljs-number">961</span>
+  </span>},
+  {
+    "<span class="hljs-attribute">sender_id</span>": <span class="hljs-value"><span class="hljs-string">"oRXc4Q9pIkTZXYDtQka6"</span></span>,
+    "<span class="hljs-attribute">count</span>": <span class="hljs-value"><span class="hljs-number">254</span>
+  </span>},
+  {
+    "<span class="hljs-attribute">sender_id</span>": <span class="hljs-value"><span class="hljs-string">"0JviygYehuUCOwY8TsMm"</span></span>,
+    "<span class="hljs-attribute">count</span>": <span class="hljs-value"><span class="hljs-number">132</span>
+  </span>},
+  {
+    "<span class="hljs-attribute">sender_id</span>": <span class="hljs-value"><span class="hljs-string">"aTgcP52EcZr2rylLaUQY"</span></span>,
+    "<span class="hljs-attribute">count</span>": <span class="hljs-value"><span class="hljs-number">84</span>
+  </span>},
+  {
+    "<span class="hljs-attribute">sender_id</span>": <span class="hljs-value"><span class="hljs-string">"j8WAdT1Kxqb0WQGBp30v"</span></span>,
+    "<span class="hljs-attribute">count</span>": <span class="hljs-value"><span class="hljs-number">80</span>
+  </span>},
+  {
+    "<span class="hljs-attribute">sender_id</span>": <span class="hljs-value"><span class="hljs-string">"czxnpPGc3NNM73JpwV5e"</span></span>,
+    "<span class="hljs-attribute">count</span>": <span class="hljs-value"><span class="hljs-number">74</span>
+  </span>},
+  {
+    "<span class="hljs-attribute">sender_id</span>": <span class="hljs-value"><span class="hljs-string">"qIkFgWmzrf3PIXmbuei6"</span></span>,
+    "<span class="hljs-attribute">count</span>": <span class="hljs-value"><span class="hljs-number">72</span>
+  </span>},
+  {
+    "<span class="hljs-attribute">sender_id</span>": <span class="hljs-value"><span class="hljs-string">"Zyn4wXTIsTpNW9UbprU6"</span></span>,
+    "<span class="hljs-attribute">count</span>": <span class="hljs-value"><span class="hljs-number">68</span>
+  </span>},
+  {
+    "<span class="hljs-attribute">sender_id</span>": <span class="hljs-value"><span class="hljs-string">"FTDphoB71bl0mwTpL55z"</span></span>,
+    "<span class="hljs-attribute">count</span>": <span class="hljs-value"><span class="hljs-number">63</span>
+  </span>}
+]</code></pre><div style="height: 1px;"></div></div></div></div></div><div id="metrics-calculates-count-of-incomplete-and-unviewed-messages-by-direction" class="resource"><h3>Calculates count of incomplete and unviewed messages by direction<a href="#metrics-calculates-count-of-incomplete-and-unviewed-messages-by-direction" class="permalink">&para;</a></h3><div id="metrics-calculates-count-of-incomplete-and-unviewed-messages-by-direction-post" class="action post"><h4><div class="name">Calculates count of incomplete and unviewed messages by direction</div><a href="#metrics-calculates-count-of-incomplete-and-unviewed-messages-by-direction-post" class="method post">POST</a><code class="uri">/api/v1/metrics/messages_statuses_between_users</code></h4><p>Returns data for messages from user to friend (<code>outgoing</code>) and in reverse (<code>incoming</code>).</p>
+<div class="title"><strong>Parameters</strong><div class="collapse-button show"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><dl class="inner"><dt>user_id</dt><dd><code>string</code>&nbsp;<span class="required">(required)</span>&nbsp;<span class="text-muted example"><strong>Example:&nbsp;</strong><span>fxVPRkGICwnrAwym52gK</span></span><p>ID of user.</p>
+</dd><dt>friend_ids</dt><dd><code>string</code>&nbsp;<span class="required">(required)</span>&nbsp;<span class="text-muted example"><strong>Example:&nbsp;</strong><span>[7qdanSEmctZ2jPnYA0a1, 0DAQEVtmNKQiW6aoQrvo]</span></span><p>IDs of friends.</p>
+</dd></dl></div><div class="title"><strong>Response&nbsp;&nbsp;<code>200</code></strong><div class="collapse-button"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><div class="inner"><h5>Headers</h5><pre><code><span class="hljs-attribute">Content-Type</span>: <span class="hljs-string">application/json; charset=utf-8</span></code></pre><div style="height: 1px;"></div><h5>Body</h5><pre><code>{
+  "<span class="hljs-attribute">total</span>": <span class="hljs-value">{
+    "<span class="hljs-attribute">outgoing</span>": <span class="hljs-value">{
+      "<span class="hljs-attribute">sent</span>": <span class="hljs-value"><span class="hljs-number">59</span></span>,
+      "<span class="hljs-attribute">incomplete</span>": <span class="hljs-value"><span class="hljs-number">4</span></span>,
+      "<span class="hljs-attribute">unviewed</span>": <span class="hljs-value"><span class="hljs-number">3</span>
+    </span>}</span>,
+    "<span class="hljs-attribute">incoming</span>": <span class="hljs-value">{
+      "<span class="hljs-attribute">sent</span>": <span class="hljs-value"><span class="hljs-number">82</span></span>,
+      "<span class="hljs-attribute">incomplete</span>": <span class="hljs-value"><span class="hljs-number">6</span></span>,
+      "<span class="hljs-attribute">unviewed</span>": <span class="hljs-value"><span class="hljs-number">6</span>
+    </span>}
+  </span>}</span>,
+  "<span class="hljs-attribute">7qdanSEmctZ2jPnYA0a1</span>": <span class="hljs-value">{
+    "<span class="hljs-attribute">outgoing</span>": <span class="hljs-value">{
+      "<span class="hljs-attribute">sent</span>": <span class="hljs-value"><span class="hljs-number">39</span></span>,
+      "<span class="hljs-attribute">incomplete</span>": <span class="hljs-value"><span class="hljs-number">2</span></span>,
+      "<span class="hljs-attribute">unviewed</span>": <span class="hljs-value"><span class="hljs-number">2</span>
+    </span>}</span>,
+    "<span class="hljs-attribute">incoming</span>": <span class="hljs-value">{
+      "<span class="hljs-attribute">sent</span>": <span class="hljs-value"><span class="hljs-number">60</span></span>,
+      "<span class="hljs-attribute">incomplete</span>": <span class="hljs-value"><span class="hljs-number">6</span></span>,
+      "<span class="hljs-attribute">unviewed</span>": <span class="hljs-value"><span class="hljs-number">6</span>
+    </span>}
+  </span>}</span>,
+  "<span class="hljs-attribute">0DAQEVtmNKQiW6aoQrvo</span>": <span class="hljs-value">{
+    "<span class="hljs-attribute">outgoing</span>": <span class="hljs-value">{
+      "<span class="hljs-attribute">sent</span>": <span class="hljs-value"><span class="hljs-number">20</span></span>,
+      "<span class="hljs-attribute">incomplete</span>": <span class="hljs-value"><span class="hljs-number">2</span></span>,
+      "<span class="hljs-attribute">unviewed</span>": <span class="hljs-value"><span class="hljs-number">1</span>
+    </span>}</span>,
+    "<span class="hljs-attribute">incoming</span>": <span class="hljs-value">{
+      "<span class="hljs-attribute">sent</span>": <span class="hljs-value"><span class="hljs-number">22</span></span>,
+      "<span class="hljs-attribute">incomplete</span>": <span class="hljs-value"><span class="hljs-number">0</span></span>,
+      "<span class="hljs-attribute">unviewed</span>": <span class="hljs-value"><span class="hljs-number">0</span>
+    </span>}
+  </span>}
+</span>}</code></pre><div style="height: 1px;"></div></div></div></div></div><div id="metrics-message-failures-analysis-in-time-frame" class="resource"><h3>Message failures analysis in time frame<a href="#metrics-message-failures-analysis-in-time-frame" class="permalink">&para;</a></h3><div id="metrics-message-failures-analysis-in-time-frame-post" class="action post"><h4><div class="name">Message failures analysis in time frame</div><a href="#metrics-message-failures-analysis-in-time-frame-post" class="method post">POST</a><code class="uri">/api/v1/metrics/messages_failures</code></h4><div class="title"><strong>Parameters</strong><div class="collapse-button show"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><dl class="inner"><dt>start_date</dt><dd><code>string</code>&nbsp;<span class="required">(required)</span>&nbsp;<span class="text-info default"><strong>Default:&nbsp;</strong><span>12.days.ago</span></span>&nbsp;<span class="text-muted example"><strong>Example:&nbsp;</strong><span>2015</span></span><p>06-25 (string, optional) - Start date</p>
+</dd><dt>end_date</dt><dd><code>string</code>&nbsp;<span class="required">(required)</span>&nbsp;<span class="text-info default"><strong>Default:&nbsp;</strong><span>2.days.ago</span></span>&nbsp;<span class="text-muted example"><strong>Example:&nbsp;</strong><span>2015</span></span><p>07-05 (string, optional) - End date</p>
+</dd></dl></div><div class="title"><strong>Response&nbsp;&nbsp;<code>200</code></strong><div class="collapse-button"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><div class="inner"><h5>Headers</h5><pre><code><span class="hljs-attribute">Content-Type</span>: <span class="hljs-string">application/json; charset=utf-8</span></code></pre><div style="height: 1px;"></div><h5>Body</h5><pre><code>{
+  "<span class="hljs-attribute">meta</span>": <span class="hljs-value">{
+    "<span class="hljs-attribute">total</span>": <span class="hljs-value"><span class="hljs-string">"uploaded"</span></span>,
+    "<span class="hljs-attribute">start_date</span>": <span class="hljs-value"><span class="hljs-string">"2015-07-03"</span></span>,
+    "<span class="hljs-attribute">end_date</span>": <span class="hljs-value"><span class="hljs-string">"2015-07-13"</span>
+  </span>}</span>,
+  "<span class="hljs-attribute">data</span>": <span class="hljs-value">{
+    "<span class="hljs-attribute">uploaded</span>": <span class="hljs-value"><span class="hljs-number">2749</span></span>,
+    "<span class="hljs-attribute">delivered</span>": <span class="hljs-value"><span class="hljs-number">2537</span></span>,
+    "<span class="hljs-attribute">undelivered</span>": <span class="hljs-value"><span class="hljs-number">212</span></span>,
+    "<span class="hljs-attribute">incomplete</span>": <span class="hljs-value"><span class="hljs-number">10</span></span>,
+    "<span class="hljs-attribute">missing_kvstore_received</span>": <span class="hljs-value"><span class="hljs-number">116</span></span>,
+    "<span class="hljs-attribute">missing_notification_received</span>": <span class="hljs-value"><span class="hljs-number">245</span></span>,
+    "<span class="hljs-attribute">missing_kvstore_downloaded</span>": <span class="hljs-value"><span class="hljs-number">301</span></span>,
+    "<span class="hljs-attribute">missing_notification_downloaded</span>": <span class="hljs-value"><span class="hljs-number">308</span></span>,
+    "<span class="hljs-attribute">missing_kvstore_viewed</span>": <span class="hljs-value"><span class="hljs-number">307</span></span>,
+    "<span class="hljs-attribute">missing_notification_viewed</span>": <span class="hljs-value"><span class="hljs-number">316</span>
+  </span>}
+</span>}</code></pre><div style="height: 1px;"></div></div></div></div></div></section></div></div></div><p style="text-align: center;" class="text-muted">Generated by&nbsp;<a href="https://github.com/danielgtaylor/aglio" class="aglio">aglio</a>&nbsp;on 02 Sep 2015</p><script>/* eslint-env browser */
+/* eslint quotes: [2, "single"] */
+'use strict';
+
+/*
+  Determine if a string ends with another string.
+*/
+function endsWith(str, suffix) {
+    return str.indexOf(suffix, str.length - suffix.length) !== -1;
+}
+
+/*
+  Get an array [width, height] of the window.
+*/
+function getWindowDimensions() {
+  var w = window,
+      d = document,
+      e = d.documentElement,
+      g = d.body,
+      x = w.innerWidth || e.clientWidth || g.clientWidth,
+      y = w.innerHeight || e.clientHeight || g.clientHeight;
+
+  return [x, y];
+}
+
+/*
+  Collapse or show a request/response example.
+*/
+function toggleCollapseButton(event) {
+    var button = event.target.parentNode;
+    var content = button.parentNode.nextSibling;
+    var inner = content.children[0];
+
+    if (button.className.indexOf('collapse-button') === -1) {
+      // Clicked without hitting the right element?
+      return;
+    }
+
+    if (content.style.maxHeight && content.style.maxHeight !== '0px') {
+        // Currently showing, so let's hide it
+        button.className = 'collapse-button';
+        content.style.maxHeight = '0px';
+    } else {
+        // Currently hidden, so let's show it
+        button.className = 'collapse-button show';
+        content.style.maxHeight = inner.offsetHeight + 12 + 'px';
+    }
+}
+
+/*
+  Collapse or show a navigation menu. It will not be hidden unless it
+  is currently selected or `force` has been passed.
+*/
+function toggleCollapseNav(event, force) {
+    var heading = event.target.parentNode;
+    var content = heading.nextSibling;
+    var inner = content.children[0];
+
+    if (heading.className.indexOf('heading') === -1) {
+      // Clicked without hitting the right element?
+      return;
+    }
+
+    if (content.style.maxHeight && content.style.maxHeight !== '0px') {
+      // Currently showing, so let's hide it, but only if this nav item
+      // is already selected. This prevents newly selected items from
+      // collapsing in an annoying fashion.
+      if (force || window.location.hash && endsWith(event.target.href, window.location.hash)) {
+        content.style.maxHeight = '0px';
+      }
+    } else {
+      // Currently hidden, so let's show it
+      content.style.maxHeight = inner.offsetHeight + 12 + 'px';
+    }
+}
+
+/*
+  Refresh the page after a live update from the server. This only
+  works in live preview mode (using the `--server` parameter).
+*/
+function refresh(body) {
+    document.querySelector('body').className = 'preload';
+    document.body.innerHTML = body;
+
+    // Re-initialize the page
+    init();
+    autoCollapse();
+
+    document.querySelector('body').className = '';
+}
+
+/*
+  Determine which navigation items should be auto-collapsed to show as many
+  as possible on the screen, based on the current window height. This also
+  collapses them.
+*/
+function autoCollapse() {
+  var windowHeight = getWindowDimensions()[1];
+  var itemsHeight = 64; /* Account for some padding */
+  var itemsArray = Array.prototype.slice.call(
+    document.querySelectorAll('nav .resource-group .heading'));
+
+  // Get the total height of the navigation items
+  itemsArray.forEach(function (item) {
+    itemsHeight += item.parentNode.offsetHeight;
+  });
+
+  // Should we auto-collapse any nav items? Try to find the smallest item
+  // that can be collapsed to show all items on the screen. If not possible,
+  // then collapse the largest item and do it again. First, sort the items
+  // by height from smallest to largest.
+  var sortedItems = itemsArray.sort(function (a, b) {
+    return a.parentNode.offsetHeight - b.parentNode.offsetHeight;
+  });
+
+  while (sortedItems.length && itemsHeight > windowHeight) {
+    for (var i = 0; i < sortedItems.length; i++) {
+      // Will collapsing this item help?
+      var itemHeight = sortedItems[i].nextSibling.offsetHeight;
+      if ((itemsHeight - itemHeight <= windowHeight) || i === sortedItems.length - 1) {
+        // It will, so let's collapse it, remove its content height from
+        // our total and then remove it from our list of candidates
+        // that can be collapsed.
+        itemsHeight -= itemHeight;
+        toggleCollapseNav({target: sortedItems[i].children[0]}, true);
+        sortedItems.splice(i, 1);
+        break;
+      }
+    }
+  }
+}
+
+/*
+  Initialize the interactive functionality of the page.
+*/
+function init() {
+    var i;
+
+    // Make collapse buttons clickable
+    var buttons = document.querySelectorAll('.collapse-button');
+    for (i = 0; i < buttons.length; i++) {
+        buttons[i].onclick = toggleCollapseButton;
+
+        // Show by default? Then toggle now.
+        if (buttons[i].className.indexOf('show') !== -1) {
+            toggleCollapseButton({target: buttons[i].children[0]});
+        }
+    }
+
+    // Make nav items clickable to collapse/expand their content.
+    var navItems = document.querySelectorAll('nav .resource-group .heading');
+    for (i = 0; i < navItems.length; i++) {
+        navItems[i].onclick = toggleCollapseNav;
+
+        // Show all by default
+        toggleCollapseNav({target: navItems[i].children[0]});
+    }
+}
+
+// Initial call to set up buttons
+init();
+
+window.onload = function () {
+    autoCollapse();
+    // Remove the `preload` class to enable animations
+    document.querySelector('body').className = '';
+};
+</script></body></html>

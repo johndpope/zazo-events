@@ -1,0 +1,1127 @@
+FORMAT: 1A
+
+# Group Resources
+
+# Events [/api/v1/events]
+
+## Index [GET]
+
++ Parameters
+
+    + page: 1 (number, optional) - Set page for fetch (100 events per page).
+        + Default: 1
+
+    + filter_by: RxDrzAIuF9mFw7Xx9NSM (string, optional) - Filter events by term.
+      Used `initiator_id`, `target_id` or `SIMILAR TO '%term%'` in `data` column.
+
+    + reverse: true (boolean, optional) - Order in reverse. Default is by `triggered_at ASC`.
+        + Default: false
+
++ Request (application/json)
+
++ Response 200 (application/json; charset=utf-8)
+
+    + Body
+
+            [
+                {
+                    "id": 9,
+                    "name": [
+                        "video",
+                        "s3",
+                        "uploaded"
+                    ],
+                    "triggered_at": "2015-05-12T14:47:08.199Z",
+                    "triggered_by": "aws:s3",
+                    "initiator": "user",
+                    "initiator_id": "RxDrzAIuF9mFw7Xx9NSM",
+                    "target": "video",
+                    "target_id": "RxDrzAIuF9mFw7Xx9NSM-6pqpuUZFp1zCXLykfTIx-98dba07c0113cc717d9fc5e5809bc998",
+                    "data": null,
+                    "raw_params": null,
+                    "created_at": "2015-05-12T15:47:08.201Z",
+                    "updated_at": "2015-05-12T15:47:08.201Z",
+                    "message_id": "055cb2d7-acb8-476b-a159-601d5e639aaf"
+                    },
+                    {
+                    "id": 11,
+                    "name": [
+                        "video",
+                        "s3",
+                        "uploaded"
+                    ],
+                    "triggered_at": "2015-05-12T15:47:16.079Z",
+                    "triggered_by": "aws:s3",
+                    "initiator": "user",
+                    "initiator_id": "RxDrzAIuF9mFw7Xx9NSM",
+                    "target": "video",
+                    "target_id": "RxDrzAIuF9mFw7Xx9NSM-6pqpuUZFp1zCXLykfTIx-98dba07c0113cc717d9fc5e5809bc998",
+                    "data": null,
+                    "raw_params": null,
+                    "created_at": "2015-05-12T15:47:16.080Z",
+                    "updated_at": "2015-05-12T15:47:16.080Z",
+                    "message_id": "99c4bdef-7ff9-444f-90bc-48886d2895a3"
+                },
+                {
+                    "id": 12,
+                    "name": [
+                        "video",
+                        "s3",
+                        "uploaded"
+                    ],
+                    "triggered_at": "2015-05-12T15:47:40.300Z",
+                    "triggered_by": "aws:s3",
+                    "initiator": "user",
+                    "initiator_id": "RxDrzAIuF9mFw7Xx9NSM",
+                    "target": "video",
+                    "target_id": "RxDrzAIuF9mFw7Xx9NSM-6pqpuUZFp1zCXLykfTIx-98dba07c0113cc717d9fc5e5809bc998",
+                    "data": null,
+                    "raw_params": null,
+                    "created_at": "2015-05-12T15:47:40.301Z",
+                    "updated_at": "2015-05-12T15:47:40.301Z",
+                    "message_id": "4ed2cc14-f535-4027-95ff-276a4210c579"
+                },
+                {
+                    "id": 13,
+                    "name": [
+                        "video",
+                        "s3",
+                        "uploaded"
+                    ],
+                    "triggered_at": "2015-05-12T15:47:41.045Z",
+                    "triggered_by": "aws:s3",
+                    "initiator": "user",
+                    "initiator_id": "RxDrzAIuF9mFw7Xx9NSM",
+                    "target": "video",
+                    "target_id": "RxDrzAIuF9mFw7Xx9NSM-6pqpuUZFp1zCXLykfTIx-98dba07c0113cc717d9fc5e5809bc998",
+                    "data": null,
+                    "raw_params": null,
+                    "created_at": "2015-05-12T15:47:41.046Z",
+                    "updated_at": "2015-05-12T15:47:41.046Z",
+                    "message_id": "d4977224-d097-4eea-9baa-a484734afccf"
+                }
+            ]
+
+## Create [POST]
+
++ Request From S3 event (application/json)
+
+    + Headers
+
+            X-Aws-Sqsd-Msgid: 1db6c331-3747-49db-8b2e-41d560587933
+
+    + Body
+
+            {
+                "Records": [
+                {
+                      "eventVersion": "2.0",
+                      "eventSource": "aws:s3",
+                      "awsRegion": "us-west-1",
+                      "eventTime": "2015-04-22T18:01:20.663Z",
+                      "eventName": "ObjectCreated:Put",
+                      "userIdentity": {
+                          "principalId": "AWS:AIDAIUFT72XFHDTJOMRJW"
+                      },
+                      "requestParameters": {
+                          "sourceIPAddress": "49.204.248.238"
+                      },
+                      "responseElements": {
+                          "x-amz-request-id": "EEC1C1CCB42A1720",
+                          "x-amz-id-2": "/6QHbf9n3yNRrAuCz6kRkeAHTIl7fxr3ZOrnpMw6xqdgTwEK1RVU7D4R68OsFgjH0fB1LaFKaSU="
+                      },
+                      "s3": {
+                          "s3SchemaVersion": "1.0",
+                          "configurationId": "zazo-videos-to-sqs",
+                          "bucket": {
+                                "name": "videos.zazo.com",
+                                "ownerIdentity": {
+                                    "principalId": "A2MSYRMSE88G92"
+                                },
+                                "arn": "arn:aws:s3:::videos.zazo.com"
+                        },
+                        "object": {
+                            "key": "RxDrzAIuF9mFw7Xx9NSM-6pqpuUZFp1zCXLykfTIx-98dba07c0113cc717d9fc5e5809bc998",
+                            "size": 94555,
+                            "eTag": "d99d0f13a57d938a1e55b5030feb992e"
+                        }
+                    }
+                }],
+                "sq": {
+                    "Records": [
+                        {
+                            "eventVersion": "2.0",
+                            "eventSource": "aws:s3",
+                            "awsRegion": "us-west-1",
+                            "eventTime": "2015-04-22T18:01:20.663Z",
+                            "eventName": "ObjectCreated:Put",
+                            "userIdentity": {
+                                "principalId": "AWS:AIDAIUFT72XFHDTJOMRJW"
+                            },
+                            "requestParameters": {
+                                "sourceIPAddress": "49.204.248.238"
+                            },
+                            "responseElements": {
+                                "x-amz-request-id": "EEC1C1CCB42A1720",
+                                "x-amz-id-2": "/6QHbf9n3yNRrAuCz6kRkeAHTIl7fxr3ZOrnpMw6xqdgTwEK1RVU7D4R68OsFgjH0fB1LaFKaSU="
+                            },
+                            "s3": {
+                                "s3SchemaVersion": "1.0",
+                                "configurationId": "zazo-videos-to-sqs",
+                                "bucket": {
+                                    "name": "videos.zazo.com",
+                                    "ownerIdentity": {
+                                        "principalId": "A2MSYRMSE88G92"
+                                    },
+                                    "arn": "arn:aws:s3:::videos.zazo.com"
+                                },
+                                "object": {
+                                    "key": "RxDrzAIuF9mFw7Xx9NSM-6pqpuUZFp1zCXLykfTIx-98dba07c0113cc717d9fc5e5809bc998",
+                                    "size": 94555,
+                                    "eTag": "d99d0f13a57d938a1e55b5030feb992e"
+                                }
+                            }
+                        }
+                    ]
+                }
+            }
+
++ Response 200 (application/json; charset=utf-8)
+
+    + Body
+
+            [
+                {
+                    "id": 20,
+                    "name": [
+                        "video",
+                        "s3",
+                        "uploaded"
+                    ],
+                    "triggered_at": "2015-04-22T18:01:20.663Z",
+                    "triggered_by": "aws:s3",
+                    "initiator": "s3",
+                    "initiator_id": null,
+                    "target": "video",
+                    "target_id": "RxDrzAIuF9mFw7Xx9NSM-6pqpuUZFp1zCXLykfTIx-98dba07c0113cc717d9fc5e5809bc998",
+                    "data": {
+                        "sender_id": "RxDrzAIuF9mFw7Xx9NSM",
+                        "receiver_id": "6pqpuUZFp1zCXLykfTIx",
+                        "video_filename": "RxDrzAIuF9mFw7Xx9NSM-6pqpuUZFp1zCXLykfTIx-98dba07c0113cc717d9fc5e5809bc998"
+                    },
+                    "raw_params": {
+                        "eventVersion": "2.0",
+                        "eventSource": "aws:s3",
+                        "awsRegion": "us-west-1",
+                        "eventTime": "2015-04-22T18:01:20.663Z",
+                        "eventName": "ObjectCreated:Put",
+                        "userIdentity": {
+                            "principalId": "AWS:AIDAIUFT72XFHDTJOMRJW"
+                        },
+                        "requestParameters": {
+                            "sourceIPAddress": "49.204.248.238"
+                        },
+                        "responseElements": {
+                            "x-amz-request-id": "EEC1C1CCB42A1720",
+                            "x-amz-id-2": "/6QHbf9n3yNRrAuCz6kRkeAHTIl7fxr3ZOrnpMw6xqdgTwEK1RVU7D4R68OsFgjH0fB1LaFKaSU="
+                        },
+                        "s3": {
+                            "s3SchemaVersion": "1.0",
+                            "configurationId": "zazo-videos-to-sqs",
+                            "bucket": {
+                                "name": "videos.zazo.com",
+                                "ownerIdentity": {
+                                    "principalId": "A2MSYRMSE88G92"
+                                },
+                                "arn": "arn:aws:s3:::videos.zazo.com"
+                            },
+                            "object": {
+                                "key": "RxDrzAIuF9mFw7Xx9NSM-6pqpuUZFp1zCXLykfTIx-98dba07c0113cc717d9fc5e5809bc998",
+                                "size": 94555,
+                                "eTag": "d99d0f13a57d938a1e55b5030feb992e"
+                            }
+                        }
+                    },
+                    "created_at": "2015-05-26T11:12:17.391Z",
+                    "updated_at": "2015-05-26T11:12:17.391Z",
+                    "message_id": "1db6c331-3747-49db-8b2e-41d560587933"
+              }
+            ]
+
++ Request From API event (application/json)
+
+    + Headers
+
+            X-Aws-Sqsd-Msgid: 925b981b-87d3-48e7-aad3-73aa855e8dfa
+
+    + Body
+
+            {
+                "name": [
+                    "video",
+                    "notification",
+                    "viewed"
+                ],
+                "triggered_by": "zazo:api",
+                "triggered_at": "2015-05-26T11:10:40.965+00:00",
+                "initiator": "user",
+                "initiator_id": "SZOjYaibzpzKFuxDyKKS",
+                "target": "video",
+                "target_id": "SZOjYaibzpzKFuxDyKKS-sNn6GeRiiOLDeXDV6Kze-7a816303c0e9091354e2b5d974616fdf",
+                "data": {
+                    "sender_id": "SZOjYaibzpzKFuxDyKKS",
+                    "receiver_id\n": "sNn6GeRiiOLDeXDV6Kze",
+                    "video_filename": "SZOjYaibzpzKFuxDyKKS-sNn6GeRiiOLDeXDV6Kze-7a816303c0e9091354e2b5d974616fdf",
+                    "video_id": "1432638552696"
+                },
+                "raw_params": {
+                    "target_mkey": "SZOjYaibzpzKFuxDyKKS",
+                    "to_mkey": "sNn6GeRiiOLDeXDV6Kze",
+                    "status": "viewed",
+                    "video_id": "1432638552696"
+                }
+            }
+
++ Response 200
+
+## Show [GET /api/v1/events/{id}]
+
++ Parameters
+
+    + id: 1 (number) - ID of event
+
++ Request (application/json)
+
++ Response 200 (application/json; charset=utf-8)
+
+    + Headers
+
+            X-Content-Type-Options: nosniff
+            X-Frame-Options: SAMEORIGIN
+            X-XSS-Protection: 1; mode=block
+            X-Request-Id: 23940b13-e3e1-4bf4-bbbb-f351496afd03
+            X-Runtime: 5.603830
+            Cache-Control: max-age=0, private, must-revalidate
+            Etag: W/"1c93682bb10030762ed644116942d693"
+
+    + Body
+
+            {
+                "id": 1,
+                "name": [
+                    "video",
+                    "sent"
+                ],
+                "triggered_at": "2015-04-25T00:33:42.332Z",
+                "triggered_by": "aws:s3",
+                "initiator": "user",
+                "initiator_id": "8JY9TcxpuPGRVNMtRV6z",
+                "target": "user",
+                "target_id": "HM45WMMT4qu5fOD2kOTY",
+                "data": {
+                    "video_filename": "8JY9TcxpuPGRVNMtRV6z-HM45WMMT4qu5fOD2kOTY-148b05c63bdd3619a644701690e059c0"
+                },
+                "raw_params": {
+                "eventVersion": "2.0",
+                "eventSource": "aws:s3",
+                "awsRegion": "us-west-1",
+                "eventTime": "2015-04-25T00:33:42.332Z",
+                "eventName": "ObjectCreated:Put",
+                "userIdentity": {
+                    "principalId": "AWS:AIDAIUFT72XFHDTJOMRJW"
+                },
+                "requestParameters": {
+                    "sourceIPAddress": "24.2.75.168"
+                },
+                "responseElements": {
+                    "x-amz-request-id": "C55ED7CBC3E9E2E9",
+                    "x-amz-id-2": "LTmyAkMe+PTf+3mSoCYOv+H+XP11wEvZ6QlVAcrphGBT0fxFcwur7PYaFaOnLtd6"
+                },
+                "s3": {
+                  "s3SchemaVersion": "1.0",
+                  "configurationId": "zazo-videos-to-sqs",
+                  "bucket": {
+                    "name": "videos.zazo.com",
+                    "ownerIdentity": {
+                        "principalId": "A2MSYRMSE88G92"
+                    },
+                    "arn": "arn:aws:s3:::videos.zazo.com"
+                  },
+                  "object": {
+                      "key": "8JY9TcxpuPGRVNMtRV6z-HM45WMMT4qu5fOD2kOTY-148b05c63bdd3619a644701690e059c0",
+                      "size": 5025,
+                      "eTag": "bd829632c91525c02d9724049c6b3d3a"
+                  }
+                  }
+                },
+                "created_at": "2015-04-26T13:07:05.550Z",
+                "updated_at": "2015-04-26T13:07:05.550Z",
+                "message_id": null
+            }
+
+# Messages [/api/v1/messages]
+
+## Index [GET ]
+
++ Parameters
+    + sender_id: fxVPRkGICwnrAwym52gK (string, optional) - Filter messages by sender
+    + receiver_id: 7qdanSEmctZ2jPnYA0a1 (string, optional) - Filter messages by receiver
+    + reverse: true (boolean, optional) - Order in reverse. Default is by `triggered_at ASC`.
+        + Default: false
+    + page: 1 (number, optional) - Set page for fetch (100 events per page).
+        + Default: 1
+    + per: 1 (number, optional) - Number of records per page
+        + Default: 100
+
+
++ Request (application/json)
+
++ Response 200 (application/json; charset=utf-8)
+
+    + Body
+
+            [
+                {
+                    "id": "25bGO6mmNEmQmKbvrnj1-j8WAdT1Kxqb0WQGBp30v-815dabd1540103ce39fa8c182c9889e5",
+                    "sender_id": "25bGO6mmNEmQmKbvrnj1",
+                    "receiver_id": "j8WAdT1Kxqb0WQGBp30v",
+                    "uploaded_at": "2015-05-04T23:20:35.200Z",
+                    "file_name": "25bGO6mmNEmQmKbvrnj1-j8WAdT1Kxqb0WQGBp30v-815dabd1540103ce39fa8c182c9889e5",
+                    "file_size": 96604,
+                    "missing_events": [
+                        [
+                            "video",
+                            "kvstore",
+                            "received"
+                        ],
+                        [
+                            "video",
+                            "notification",
+                            "received"
+                        ],
+                        [
+                            "video",
+                            "kvstore",
+                            "downloaded"
+                        ],
+                        [
+                            "video",
+                            "notification",
+                            "downloaded"
+                        ],
+                        [
+                            "video",
+                            "kvstore",
+                            "viewed"
+                        ],
+                        [
+                            "video",
+                            "notification",
+                            "viewed"
+                        ]
+                    ],
+                    "status": "uploaded",
+                    "delivered": false,
+                    "viewed": false,
+                    "complete": false
+                },
+                {
+                    "id": "25bGO6mmNEmQmKbvrnj1-tceDMXCQDbBWaKhhAhc5-0390c02cfae30b2b54fe5e789ff8fb54",
+                    "sender_id": "25bGO6mmNEmQmKbvrnj1",
+                    "receiver_id": "tceDMXCQDbBWaKhhAhc5",
+                    "uploaded_at": "2015-05-04T23:20:52.867Z",
+                    "file_name": "25bGO6mmNEmQmKbvrnj1-tceDMXCQDbBWaKhhAhc5-0390c02cfae30b2b54fe5e789ff8fb54",
+                    "file_size": 190713,
+                    "missing_events": [
+                        [
+                            "video",
+                            "kvstore",
+                            "received"
+                        ],
+                        [
+                            "video",
+                            "notification",
+                            "received"
+                        ],
+                        [
+                            "video",
+                            "kvstore",
+                            "downloaded"
+                        ],
+                        [
+                            "video",
+                            "notification",
+                            "downloaded"
+                        ],
+                        [
+                            "video",
+                            "kvstore",
+                            "viewed"
+                        ],
+                        [
+                            "video",
+                            "notification",
+                            "viewed"
+                        ]
+                    ],
+                    "status": "uploaded",
+                    "delivered": false,
+                    "viewed": false,
+                    "complete": false
+                },
+                {
+                    "id": "25bGO6mmNEmQmKbvrnj1-VPO8LSmr8FD3vLhHFYQN-527233cc5fccf31805d2e65673f339b7",
+                    "sender_id": "25bGO6mmNEmQmKbvrnj1",
+                    "receiver_id": "VPO8LSmr8FD3vLhHFYQN",
+                    "uploaded_at": "2015-05-04T23:21:17.788Z",
+                    "file_name": "25bGO6mmNEmQmKbvrnj1-VPO8LSmr8FD3vLhHFYQN-527233cc5fccf31805d2e65673f339b7",
+                    "file_size": 106467,
+                    "missing_events": [
+                        [
+                            "video",
+                            "kvstore",
+                            "received"
+                        ],
+                        [
+                            "video",
+                            "notification",
+                            "received"
+                        ],
+                        [
+                            "video",
+                            "kvstore",
+                            "downloaded"
+                        ],
+                        [
+                            "video",
+                            "notification",
+                            "downloaded"
+                        ],
+                        [
+                            "video",
+                            "kvstore",
+                            "viewed"
+                        ],
+                        [
+                            "video",
+                            "notification",
+                            "viewed"
+                        ]
+                    ],
+                    "status": "uploaded",
+                    "delivered": false,
+                    "viewed": false,
+                    "complete": false
+                }
+            ]
+
+## Show [GET /api/v1/messages/{id}]
+
++ Parameters
+
+    + id: `fxVPRkGICwnrAwym52gK-7qdanSEmctZ2jPnYA0a1-568a66958adfcd2d43a46fcdccf67960` (string) - ID of message
+
++ Request (application/json)
+
++ Response 200 (application/json; charset=utf-8)
+
+    + Body
+
+            {
+                "id": "fxVPRkGICwnrAwym52gK-7qdanSEmctZ2jPnYA0a1-568a66958adfcd2d43a46fcdccf67960",
+                "sender_id": "fxVPRkGICwnrAwym52gK",
+                "receiver_id": "7qdanSEmctZ2jPnYA0a1",
+                "uploaded_at": "2015-05-06T15:27:59.291Z",
+                "file_name": "fxVPRkGICwnrAwym52gK-7qdanSEmctZ2jPnYA0a1-568a66958adfcd2d43a46fcdccf67960",
+                "file_size": 270864,
+                "missing_events": [],
+                "status": "viewed",
+                "delivered": true,
+                "viewed": true,
+                "complete": true
+            }
+
+## Events [GET /api/v1/messages/{id}/events]
+
++ Parameters
+
+    + id: `fxVPRkGICwnrAwym52gK-7qdanSEmctZ2jPnYA0a1-568a66958adfcd2d43a46fcdccf67960` (string) - ID of message
+
++ Request (application/json)
+
++ Response 200 (application/json; charset=utf-8)
+
+    + Body
+
+            [
+                {
+                    "id": 29736,
+                    "name": [
+                        "video",
+                        "s3",
+                        "uploaded"
+                    ],
+                    "triggered_at": "2015-05-06T15:27:59.291Z",
+                    "triggered_by": "aws:s3",
+                    "initiator": "s3",
+                    "initiator_id": null,
+                    "target": "video",
+                    "target_id": "fxVPRkGICwnrAwym52gK-7qdanSEmctZ2jPnYA0a1-568a66958adfcd2d43a46fcdccf67960",
+                    "data": {
+                        "sender_id": "fxVPRkGICwnrAwym52gK",
+                        "receiver_id": "7qdanSEmctZ2jPnYA0a1",
+                        "video_file_name": "fxVPRkGICwnrAwym52gK-7qdanSEmctZ2jPnYA0a1-568a66958adfcd2d43a46fcdccf67960"
+                    },
+                    "raw_params": {
+                        "eventVersion": "2.0",
+                        "eventSource": "aws:s3",
+                        "awsRegion": "us-west-1",
+                        "eventTime": "2015-05-06T15:27:59.291Z",
+                        "eventName": "ObjectCreated:Put",
+                        "userIdentity": {
+                            "principalId": "AWS:AIDAIUFT72XFHDTJOMRJW"
+                        },
+                        "requestParameters": {
+                            "sourceIPAddress": "213.169.66.130"
+                        },
+                        "responseElements": {
+                            "x-amz-request-id": "8349EDA9DA7B0991",
+                            "x-amz-id-2": "KNLtuYUT5\/BGmD4PjbL\/IfNROPdGw9Vc1N1fBdaChJTM+mLoyQzMr0zBiMUo\/U9yhdAsqx0OpSo="
+                        },
+                        "s3": {
+                            "s3SchemaVersion": "1.0",
+                            "configurationId": "zazo-videos-to-sqs",
+                            "bucket": {
+                                "name": "videos.zazo.com",
+                                "ownerIdentity": {
+                                    "principalId": "A2MSYRMSE88G92"
+                                },
+                                "arn": "arn:aws:s3:::videos.zazo.com"
+                            },
+                            "object": {
+                                "key": "fxVPRkGICwnrAwym52gK-7qdanSEmctZ2jPnYA0a1-568a66958adfcd2d43a46fcdccf67960",
+                                "file_size": 270864,
+                                "eTag": "703cdde8e407571420c7712e1491b08f"
+                            }
+                        }
+                    },
+                    "created_at": "2015-05-06T15:27:59.395Z",
+                    "updated_at": "2015-05-06T15:27:59.395Z",
+                    "message_id": "3d7b75f5-c2fe-4ab0-bf92-592b59d1ee1a"
+                },
+                {
+                    "id": 29738,
+                    "name": [
+                        "video",
+                        "notification",
+                        "received"
+                    ],
+                    "triggered_at": "2015-05-06T15:27:59.754Z",
+                    "triggered_by": "zazo:api",
+                    "initiator": "user",
+                    "initiator_id": "fxVPRkGICwnrAwym52gK",
+                    "target": "video",
+                    "target_id": "fxVPRkGICwnrAwym52gK-7qdanSEmctZ2jPnYA0a1-568a66958adfcd2d43a46fcdccf67960",
+                    "data": {
+                        "sender_id": "fxVPRkGICwnrAwym52gK",
+                        "receiver_id": "7qdanSEmctZ2jPnYA0a1",
+                        "video_file_name": "fxVPRkGICwnrAwym52gK-7qdanSEmctZ2jPnYA0a1-568a66958adfcd2d43a46fcdccf67960",
+                        "video_id": "1430926059657"
+                    },
+                    "raw_params": {
+                        "from_mkey": "fxVPRkGICwnrAwym52gK",
+                        "sender_name": "Alex",
+                        "target_mkey": "7qdanSEmctZ2jPnYA0a1",
+                        "video_id": "1430926059657"
+                    },
+                    "created_at": "2015-05-06T15:27:59.831Z",
+                    "updated_at": "2015-05-06T15:27:59.831Z",
+                    "message_id": "21860ed7-c41b-4a3c-80aa-dadb303cbd4f"
+                },
+                {
+                    "id": 29737,
+                    "name": [
+                        "video",
+                        "kvstore",
+                        "received"
+                    ],
+                    "triggered_at": "2015-05-06T15:27:59.758Z",
+                    "triggered_by": "zazo:api",
+                    "initiator": "user",
+                    "initiator_id": "fxVPRkGICwnrAwym52gK",
+                    "target": "video",
+                    "target_id": "fxVPRkGICwnrAwym52gK-7qdanSEmctZ2jPnYA0a1-568a66958adfcd2d43a46fcdccf67960",
+                    "data": {
+                        "sender_id": "fxVPRkGICwnrAwym52gK",
+                        "receiver_id": "7qdanSEmctZ2jPnYA0a1",
+                        "video_file_name": "fxVPRkGICwnrAwym52gK-7qdanSEmctZ2jPnYA0a1-568a66958adfcd2d43a46fcdccf67960",
+                        "video_id": "1430926059657"
+                    },
+                    "raw_params": {
+                        "key1": "fxVPRkGICwnrAwym52gK-7qdanSEmctZ2jPnYA0a1-63edf4e66cc521c4ad19b5124f255388-VideoIdKVKey",
+                        "key2": "1430926059657",
+                        "value": "{\"videoId\":\"1430926059657\"}"
+                    },
+                    "created_at": "2015-05-06T15:27:59.830Z",
+                    "updated_at": "2015-05-06T15:27:59.830Z",
+                    "message_id": "90636ea1-fdca-4bd1-93f0-5352abd13ffd"
+                },
+                {
+                    "id": 29742,
+                    "name": [
+                        "video",
+                        "kvstore",
+                        "downloaded"
+                    ],
+                    "triggered_at": "2015-05-06T15:28:05.765Z",
+                    "triggered_by": "zazo:api",
+                    "initiator": "user",
+                    "initiator_id": "fxVPRkGICwnrAwym52gK",
+                    "target": "video",
+                    "target_id": "fxVPRkGICwnrAwym52gK-7qdanSEmctZ2jPnYA0a1-568a66958adfcd2d43a46fcdccf67960",
+                    "data": {
+                        "sender_id": "fxVPRkGICwnrAwym52gK",
+                        "receiver_id": "7qdanSEmctZ2jPnYA0a1",
+                        "video_file_name": "fxVPRkGICwnrAwym52gK-7qdanSEmctZ2jPnYA0a1-568a66958adfcd2d43a46fcdccf67960",
+                        "video_id": "1430926059657"
+                    },
+                    "raw_params": {
+                        "key1": "fxVPRkGICwnrAwym52gK-7qdanSEmctZ2jPnYA0a1-63edf4e66cc521c4ad19b5124f255388-VideoStatusKVKey",
+                        "key2": null,
+                        "value": "{\"videoId\":\"1430926059657\",\"status\":\"downloaded\"}"
+                    },
+                    "created_at": "2015-05-06T15:28:05.821Z",
+                    "updated_at": "2015-05-06T15:28:05.821Z",
+                    "message_id": "bfa9b6d9-3ca6-4073-ae46-41130a7ac2d5"
+                },
+                {
+                    "id": 29743,
+                    "name": [
+                        "video",
+                        "notification",
+                        "downloaded"
+                    ],
+                    "triggered_at": "2015-05-06T15:28:05.848Z",
+                    "triggered_by": "zazo:api",
+                    "initiator": "user",
+                    "initiator_id": "fxVPRkGICwnrAwym52gK",
+                    "target": "video",
+                    "target_id": "fxVPRkGICwnrAwym52gK-7qdanSEmctZ2jPnYA0a1-568a66958adfcd2d43a46fcdccf67960",
+                    "data": {
+                        "sender_id": "fxVPRkGICwnrAwym52gK",
+                        "receiver_id": "7qdanSEmctZ2jPnYA0a1",
+                        "video_file_name": "fxVPRkGICwnrAwym52gK-7qdanSEmctZ2jPnYA0a1-568a66958adfcd2d43a46fcdccf67960",
+                        "video_id": "1430926059657"
+                    },
+                    "raw_params": {
+                        "target_mkey": "fxVPRkGICwnrAwym52gK",
+                        "to_mkey": "7qdanSEmctZ2jPnYA0a1",
+                        "status": "downloaded",
+                        "video_id": "1430926059657"
+                    },
+                    "created_at": "2015-05-06T15:28:05.896Z",
+                    "updated_at": "2015-05-06T15:28:05.896Z",
+                    "message_id": "9123fc3e-e7f5-4057-9f22-1ad7cab7ce16"
+                },
+                {
+                    "id": 29744,
+                    "name": [
+                        "video",
+                        "kvstore",
+                        "viewed"
+                    ],
+                    "triggered_at": "2015-05-06T15:28:07.727Z",
+                    "triggered_by": "zazo:api",
+                    "initiator": "user",
+                    "initiator_id": "fxVPRkGICwnrAwym52gK",
+                    "target": "video",
+                    "target_id": "fxVPRkGICwnrAwym52gK-7qdanSEmctZ2jPnYA0a1-568a66958adfcd2d43a46fcdccf67960",
+                    "data": {
+                        "sender_id": "fxVPRkGICwnrAwym52gK",
+                        "receiver_id": "7qdanSEmctZ2jPnYA0a1",
+                        "video_file_name": "fxVPRkGICwnrAwym52gK-7qdanSEmctZ2jPnYA0a1-568a66958adfcd2d43a46fcdccf67960",
+                        "video_id": "1430926059657"
+                    },
+                    "raw_params": {
+                        "key1": "fxVPRkGICwnrAwym52gK-7qdanSEmctZ2jPnYA0a1-63edf4e66cc521c4ad19b5124f255388-VideoStatusKVKey",
+                        "key2": null,
+                        "value": "{\"videoId\":\"1430926059657\",\"status\":\"viewed\"}"
+                    },
+                    "created_at": "2015-05-06T15:28:07.787Z",
+                    "updated_at": "2015-05-06T15:28:07.787Z",
+                    "message_id": "11cc23af-7997-479a-867e-2a014cc0b0b1"
+                },
+                {
+                    "id": 29745,
+                    "name": [
+                        "video",
+                        "notification",
+                        "viewed"
+                    ],
+                    "triggered_at": "2015-05-06T15:28:07.853Z",
+                    "triggered_by": "zazo:api",
+                    "initiator": "user",
+                    "initiator_id": "fxVPRkGICwnrAwym52gK",
+                    "target": "video",
+                    "target_id": "fxVPRkGICwnrAwym52gK-7qdanSEmctZ2jPnYA0a1-568a66958adfcd2d43a46fcdccf67960",
+                    "data": {
+                        "sender_id": "fxVPRkGICwnrAwym52gK",
+                        "receiver_id": "7qdanSEmctZ2jPnYA0a1",
+                        "video_file_name": "fxVPRkGICwnrAwym52gK-7qdanSEmctZ2jPnYA0a1-568a66958adfcd2d43a46fcdccf67960",
+                        "video_id": "1430926059657"
+                    },
+                    "raw_params": {
+                        "target_mkey": "fxVPRkGICwnrAwym52gK",
+                        "to_mkey": "7qdanSEmctZ2jPnYA0a1",
+                        "status": "viewed",
+                        "video_id": "1430926059657"
+                    },
+                    "created_at": "2015-05-06T15:28:07.895Z",
+                    "updated_at": "2015-05-06T15:28:07.895Z",
+                    "message_id": "5f456c93-1231-445c-a04c-970e31ae4021"
+                }
+            ]
+
+# Metrics [/api/v1/metrics]
+
+## Index [GET]
+
++ Response 200 (application/json; charset=utf-8)
+
+    + Body
+
+            [
+              {
+                "name": "active_users",
+                "type": "aggregated_by_timeframe"
+              },
+              {
+                "name": "aggregate_messaging_info",
+                "type": "aggregated"
+              },
+              {
+                "name": "messages_sent",
+                "type": "aggregated_by_timeframe"
+              },
+              {
+                "name": "usage_by_active_users",
+                "type": "aggregated_by_timeframe"
+              },
+              {
+                "name": "user_activity",
+                "type": "aggregated"
+              }
+            ]
+
+# Group Metrics
+
+## Messages Sent [POST /api/v1/metrics/messages_sent]
+
++ Parameters
+
+    + group_by: day (enum[string], optional) - Time frame for grouping
+        + Default: day
+        + Members:
+            + day - group by day
+            + week - group by week
+            + month - group by month
+
++ Response 200 (application/json; charset=utf-8)
+
+    + Body
+
+            {
+                "2015-05-04 00:00:00 UTC": 42,
+                "2015-05-05 00:00:00 UTC": 1094,
+                "2015-05-06 00:00:00 UTC": 820,
+                "2015-05-07 00:00:00 UTC": 845,
+                "2015-05-08 00:00:00 UTC": 828,
+                "2015-05-09 00:00:00 UTC": 924,
+                "2015-05-10 00:00:00 UTC": 713,
+                "2015-05-11 00:00:00 UTC": 317,
+                "2015-05-12 00:00:00 UTC": 551,
+                "2015-05-13 00:00:00 UTC": 574,
+                "2015-05-14 00:00:00 UTC": 490,
+                "2015-05-15 00:00:00 UTC": 705,
+                "2015-05-16 00:00:00 UTC": 460,
+                "2015-05-17 00:00:00 UTC": 208,
+                "2015-05-18 00:00:00 UTC": 296,
+                "2015-05-19 00:00:00 UTC": 376,
+                "2015-05-20 00:00:00 UTC": 235,
+                "2015-05-21 00:00:00 UTC": 591,
+                "2015-05-22 00:00:00 UTC": 423,
+                "2015-05-23 00:00:00 UTC": 445,
+                "2015-05-24 00:00:00 UTC": 226,
+                "2015-05-25 00:00:00 UTC": 243,
+                "2015-05-26 00:00:00 UTC": 216,
+                "2015-05-27 00:00:00 UTC": 344,
+                "2015-05-28 00:00:00 UTC": 328
+            }
+
+## Active Users [POST /api/v1/metrics/active_users]
+
++ Parameters
+
+    + group_by: day (enum[string], optional) - Time frame for grouping
+        + Default: day
+        + Members:
+            + day - group by day
+            + week - group by week
+            + month - group by month
+
++ Response 200 (application/json; charset=utf-8)
+
+    + Body
+
+            {
+                "2015-05-06 00:00:00 UTC": 122,
+                "2015-05-25 00:00:00 UTC": 64,
+                "2015-05-05 00:00:00 UTC": 152,
+                "2015-05-07 00:00:00 UTC": 134,
+                "2015-05-08 00:00:00 UTC": 152,
+                "2015-05-09 00:00:00 UTC": 154,
+                "2015-05-10 00:00:00 UTC": 126,
+                "2015-05-11 00:00:00 UTC": 105,
+                "2015-05-14 00:00:00 UTC": 102,
+                "2015-05-15 00:00:00 UTC": 114,
+                "2015-05-16 00:00:00 UTC": 90,
+                "2015-05-20 00:00:00 UTC": 70,
+                "2015-05-21 00:00:00 UTC": 93,
+                "2015-05-22 00:00:00 UTC": 84,
+                "2015-05-24 00:00:00 UTC": 57,
+                "2015-05-27 00:00:00 UTC": 71,
+                "2015-05-12 00:00:00 UTC": 120,
+                "2015-05-13 00:00:00 UTC": 103,
+                "2015-05-19 00:00:00 UTC": 60,
+                "2015-05-26 00:00:00 UTC": 61,
+                "2015-05-28 00:00:00 UTC": 66,
+                "2015-05-17 00:00:00 UTC": 77,
+                "2015-05-18 00:00:00 UTC": 72,
+                "2015-05-23 00:00:00 UTC": 69,
+                "2015-05-04 00:00:00 UTC": 14
+            }
+
+## Usage by Active Users [POST /api/v1/metrics/usage_by_active_users]
+
++ Parameters
+
+    + group_by: day (enum[string], optional) - Time frame for grouping
+        + Default: day
+        + Members:
+            + day - group by day
+            + week - group by week
+            + month - group by month
+
++ Response 200 (application/json; charset=utf-8)
+
+    + Body
+
+            {
+                "2015-05-04 00:00:00 UTC": 3.0,
+                "2015-05-05 00:00:00 UTC": 7.197368421052632,
+                "2015-05-06 00:00:00 UTC": 7.0085470085470085,
+                "2015-05-07 00:00:00 UTC": 7.222222222222222,
+                "2015-05-08 00:00:00 UTC": 6.46875,
+                "2015-05-09 00:00:00 UTC": 7.162790697674419,
+                "2015-05-10 00:00:00 UTC": 7.505263157894737,
+                "2015-05-11 00:00:00 UTC": 4.731343283582089,
+                "2015-05-12 00:00:00 UTC": 6.191011235955056,
+                "2015-05-13 00:00:00 UTC": 7.08641975308642,
+                "2015-05-14 00:00:00 UTC": 6.447368421052632,
+                "2015-05-15 00:00:00 UTC": 8.19767441860465,
+                "2015-05-16 00:00:00 UTC": 6.216216216216216,
+                "2015-05-17 00:00:00 UTC": 3.8518518518518516,
+                "2015-05-18 00:00:00 UTC": 4.933333333333334,
+                "2015-05-19 00:00:00 UTC": 8.173913043478262,
+                "2015-05-20 00:00:00 UTC": 4.519230769230769,
+                "2015-05-21 00:00:00 UTC": 8.32394366197183,
+                "2015-05-22 00:00:00 UTC": 6.507692307692308,
+                "2015-05-23 00:00:00 UTC": 8.557692307692308,
+                "2015-05-24 00:00:00 UTC": 5.136363636363637,
+                "2015-05-25 00:00:00 UTC": 5.170212765957447,
+                "2015-05-26 00:00:00 UTC": 4.909090909090909,
+                "2015-05-27 00:00:00 UTC": 5.830508474576271,
+                "2015-05-28 00:00:00 UTC": 6.452830188679245
+            }
+
+## Aggregate Messaging Info [POST /api/v1/metrics/aggregate_messaging_info]
+
++ Parameters
+
+    + user_id: fxVPRkGICwnrAwym52gK (string) - ID of user.
+    + friend_id: 7qdanSEmctZ2jPnYA0a1 (string, optional) - ID of friend.
+        If set, returns data for messages from user to friend (outgoing) and in reverse (incoming).
+
++ Response 200 (application/json; charset=utf-8)
+
+    + Body
+
+            {
+                "outgoing": {
+                    "total_sent": 41,
+                    "total_received": 40,
+                    "undelivered_percent": 2.4390243902439024
+                },
+                "incoming": {
+                    "total_sent": 70,
+                    "total_received": 48,
+                    "undelivered_percent": 31.428571428571427
+                }
+            }
+
+## Sent Messages Count By Period [POST /api/v1/metrics/messages_count_by_period]
+
++ Parameters
+
+    + users_ids: [fxVPRkGICwnrAwym52gK] (array of strings) - IDs of users.
+    + group_by: day (enum[string], optional) - Time frame for grouping
+        + Default: day
+        + Members:
+            + day - group by day
+            + week - group by week
+            + month - group by month
+    + since: 2015-05-25 00:00:00 (string, optional) - Start datetime
+
++ Response 200 (application/json; charset=utf-8)
+
+    + Body
+
+            {
+                "fxVPRkGICwnrAwym52gK": {
+                    "2015-05-21 00:00:00 UTC": 13,
+                    "2015-05-24 00:00:00 UTC": 2,
+                    "2015-05-26 00:00:00 UTC": 1,
+                    "2015-05-27 00:00:00 UTC": 2
+                }
+            }
+
+## Video uploads duplications by sender_id [POST /api/v1/metrics/upload_duplications]
+
++ Response 200 (application/json; charset=utf-8)
+
+    + Body
+
+            [
+                {
+                    "sender_id": "7qdanSEmctZ2jPnYA0a1",
+                    "count": 961
+                },
+                {
+                    "sender_id": "oRXc4Q9pIkTZXYDtQka6",
+                    "count": 254
+                },
+                {
+                    "sender_id": "0JviygYehuUCOwY8TsMm",
+                    "count": 132
+                },
+                {
+                    "sender_id": "aTgcP52EcZr2rylLaUQY",
+                    "count": 84
+                },
+                {
+                    "sender_id": "j8WAdT1Kxqb0WQGBp30v",
+                    "count": 80
+                },
+                {
+                    "sender_id": "czxnpPGc3NNM73JpwV5e",
+                    "count": 74
+                },
+                {
+                    "sender_id": "qIkFgWmzrf3PIXmbuei6",
+                    "count": 72
+                },
+                {
+                    "sender_id": "Zyn4wXTIsTpNW9UbprU6",
+                    "count": 68
+                },
+                {
+                    "sender_id": "FTDphoB71bl0mwTpL55z",
+                    "count": 63
+                }
+            ]
+
+## Calculates count of incomplete and unviewed messages by direction [POST /api/v1/metrics/messages_statuses_between_users]
+
+Returns data for messages from user to friend (`outgoing`) and in reverse (`incoming`).
+
++ Parameters
+
+    + user_id: fxVPRkGICwnrAwym52gK (string) - ID of user.
+    + friend_ids: [7qdanSEmctZ2jPnYA0a1, 0DAQEVtmNKQiW6aoQrvo] (enum[string]) - IDs of friends.
+
++ Response 200 (application/json; charset=utf-8)
+
+    + Body
+
+            {
+                "total": {
+                    "outgoing": {
+                        "sent": 59,
+                        "incomplete": 4,
+                        "unviewed": 3
+                    },
+                    "incoming": {
+                        "sent": 82,
+                        "incomplete": 6,
+                        "unviewed": 6
+                    }
+                },
+                "7qdanSEmctZ2jPnYA0a1": {
+                    "outgoing": {
+                        "sent": 39,
+                        "incomplete": 2,
+                        "unviewed": 2
+                    },
+                    "incoming": {
+                        "sent": 60,
+                        "incomplete": 6,
+                        "unviewed": 6
+                    }
+                },
+                "0DAQEVtmNKQiW6aoQrvo": {
+                    "outgoing": {
+                        "sent": 20,
+                        "incomplete": 2,
+                        "unviewed": 1
+                    },
+                    "incoming": {
+                        "sent": 22,
+                        "incomplete": 0,
+                        "unviewed": 0
+                    }
+                }
+            }
+
+## Message failures analysis in time frame [POST /api/v1/metrics/messages_failures]
+
++ Parameters
+
+    + start_date: 2015-06-25 (string, optional) - Start date
+      + Default: 12.days.ago
+
+    + end_date: 2015-07-05 (string, optional) - End date
+      + Default: 2.days.ago
+
++ Response 200 (application/json; charset=utf-8)
+
+    + Body
+
+            {
+                "meta": {
+                    "total": "uploaded",
+                    "start_date": "2015-07-03",
+                    "end_date": "2015-07-13"
+                },
+                "data": {
+                    "uploaded": 2749,
+                    "delivered": 2537,
+                    "undelivered": 212,
+                    "incomplete": 10,
+                    "missing_kvstore_received": 116,
+                    "missing_notification_received": 245,
+                    "missing_kvstore_downloaded": 301,
+                    "missing_notification_downloaded": 308,
+                    "missing_kvstore_viewed": 307,
+                    "missing_notification_viewed": 316
+                }
+            }
