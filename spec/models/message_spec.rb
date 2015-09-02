@@ -159,23 +159,43 @@ RSpec.describe Message, type: :model do
   end
 
   context '#sender_platform' do
-    before do
-      receive_video data_ios_android
-      download_video data_ios_android
-      view_video data_ios_android
-    end
     subject { instance.sender_platform }
-    it { is_expected.to eq(:ios) }
+    context 'with platforms' do
+      before do
+        receive_video data_ios_android
+        download_video data_ios_android
+        view_video data_ios_android
+      end
+      it { is_expected.to eq(:ios) }
+    end
+    context 'without platforms' do
+      before do
+        receive_video data
+        download_video data
+        view_video data
+      end
+      it { is_expected.to be nil }
+    end
   end
 
   context '#receiver_platform' do
-    before do
-      receive_video data_ios_android
-      download_video data_ios_android
-      view_video data_ios_android
-    end
     subject { instance.receiver_platform }
-    it { is_expected.to eq(:android) }
+    context 'with platforms' do
+      before do
+        receive_video data_ios_android
+        download_video data_ios_android
+        view_video data_ios_android
+      end
+      it { is_expected.to eq(:android) }
+    end
+    context 'without platforms' do
+      before do
+        receive_video data
+        download_video data
+        view_video data
+      end
+      it { is_expected.to be nil }
+    end
   end
 
   context 'to_hash' do

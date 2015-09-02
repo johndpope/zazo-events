@@ -5,20 +5,44 @@ RSpec.describe Metric::MessagesFailures, type: :model do
   let(:user_1) { gen_hash }
   let(:user_2) { gen_hash }
 
-  let(:video_121) { video_data user_1, user_2, gen_video_id }
-  let(:video_122) { video_data user_1, user_2, gen_video_id }
-  let(:video_123) { video_data user_1, user_2, gen_video_id }
-  let(:video_124) { video_data user_1, user_2, gen_video_id }
-  let(:video_125) { video_data user_1, user_2, gen_video_id }
-  let(:video_126) { video_data user_1, user_2, gen_video_id }
-  let(:video_127) { video_data user_1, user_2, gen_video_id }
+  let(:video_121) { video_data(user_1, user_2, gen_video_id) }
+  let(:video_122) { video_data(user_1, user_2, gen_video_id) }
+  let(:video_123) { video_data(user_1, user_2, gen_video_id) }
+  let(:video_124) do
+    video_data(user_1, user_2, gen_video_id).merge(
+      'sender_platform' => 'ios',
+      'receiver_platform' => 'android') end
+  let(:video_125) do
+    video_data(user_1, user_2, gen_video_id).merge(
+      'sender_platform' => 'android',
+      'receiver_platform' => 'android') end
+  let(:video_126) do
+    video_data(user_1, user_2, gen_video_id).merge(
+      'sender_platform' => 'ios',
+      'receiver_platform' => 'ios') end
+  let(:video_127) do
+    video_data(user_1, user_2, gen_video_id).merge(
+      'sender_platform' => 'android',
+      'receiver_platform' => 'ios') end
 
-  let(:video_211) { video_data user_2, user_1, gen_video_id }
-  let(:video_212) { video_data user_2, user_1, gen_video_id }
-  let(:video_213) { video_data user_2, user_1, gen_video_id }
-  let(:video_214) { video_data user_2, user_1, gen_video_id }
-  let(:video_215) { video_data user_2, user_1, gen_video_id }
-  let(:video_216) { video_data user_2, user_1, gen_video_id }
+  let(:video_211) { video_data(user_2, user_1, gen_video_id) }
+  let(:video_212) { video_data(user_2, user_1, gen_video_id) }
+  let(:video_213) do
+    video_data(user_2, user_1, gen_video_id).merge(
+      'sender_platform' => 'ios',
+      'receiver_platform' => 'android') end
+  let(:video_214) do
+    video_data(user_2, user_1, gen_video_id).merge(
+      'sender_platform' => 'ios',
+      'receiver_platform' => 'ios') end
+  let(:video_215) do
+    video_data(user_2, user_1, gen_video_id).merge(
+      'sender_platform' => 'android',
+      'receiver_platform' => 'android') end
+  let(:video_216) do
+    video_data(user_2, user_1, gen_video_id).merge(
+      'sender_platform' => 'android',
+      'receiver_platform' => 'ios') end
 
   before do
     Timecop.travel(13.days.ago) do
@@ -84,16 +108,66 @@ RSpec.describe Metric::MessagesFailures, type: :model do
                                 start_date: 12.days.ago.to_date,
                                 end_date: 2.days.ago.to_date },
                         data: {
-                          uploaded: 11,
-                          delivered: 9,
-                          undelivered: 2,
-                          incomplete: 1,
-                          missing_kvstore_received: 4,
-                          missing_notification_received: 4,
-                          missing_kvstore_downloaded: 5,
-                          missing_notification_downloaded: 5,
-                          missing_kvstore_viewed: 8,
-                          missing_notification_viewed: 8 })
+                          ios_to_ios: {
+                            uploaded: 2,
+                            delivered: 2,
+                            undelivered: 0,
+                            incomplete: 0,
+                            missing_kvstore_received: 0,
+                            missing_notification_received: 1,
+                            missing_kvstore_downloaded: 1,
+                            missing_notification_downloaded: 0,
+                            missing_kvstore_viewed: 1,
+                            missing_notification_viewed: 1
+                          },
+                          ios_to_android: {
+                            uploaded: 2,
+                            delivered: 2,
+                            undelivered: 0,
+                            incomplete: 0,
+                            missing_kvstore_received: 1,
+                            missing_notification_received: 0,
+                            missing_kvstore_downloaded: 0,
+                            missing_notification_downloaded: 1,
+                            missing_kvstore_viewed: 1,
+                            missing_notification_viewed: 2
+                          },
+                          android_to_android: {
+                            uploaded: 2,
+                            delivered: 2,
+                            undelivered: 0,
+                            incomplete: 0,
+                            missing_kvstore_received: 1,
+                            missing_notification_received: 0,
+                            missing_kvstore_downloaded: 0,
+                            missing_notification_downloaded: 1,
+                            missing_kvstore_viewed: 1,
+                            missing_notification_viewed: 1
+                          },
+                          android_to_ios: {
+                            uploaded: 2,
+                            delivered: 0,
+                            undelivered: 2,
+                            incomplete: 1,
+                            missing_kvstore_received: 1,
+                            missing_notification_received: 1,
+                            missing_kvstore_downloaded: 2,
+                            missing_notification_downloaded: 2,
+                            missing_kvstore_viewed: 2,
+                            missing_notification_viewed: 2
+                          },
+                          other: {
+                            uploaded: 3,
+                            delivered: 3,
+                            undelivered: 0,
+                            incomplete: 0,
+                            missing_kvstore_received: 1,
+                            missing_notification_received: 2,
+                            missing_kvstore_downloaded: 2,
+                            missing_notification_downloaded: 1,
+                            missing_kvstore_viewed: 3,
+                            missing_notification_viewed: 2
+                          } })
     end
   end
 end

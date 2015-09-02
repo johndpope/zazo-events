@@ -34,6 +34,14 @@ class Metric::MessagesFailures < Metric::Base
        missing_notification_viewed: 0 }
   end
 
+  def aggregated_by_platforms
+    { ios_to_ios: sample,
+      ios_to_android: sample,
+      android_to_android: sample,
+      android_to_ios: sample,
+      other: sample }
+  end
+
   def events_scope
     Event.since(start_date).till(end_date + 1)
   end
@@ -47,7 +55,12 @@ class Metric::MessagesFailures < Metric::Base
   end
 
   def data
-    messages.each_with_object(sample) do |message, data|
+    messages.each_with_object(aggregated_by_platforms) do |message, result|
+      data = if message.sender_platform && message.receiver_platform
+               result[:"#{message.sender_platform}_to_#{message.receiver_platform}"]
+             else
+               result[:other]
+             end
       data[:uploaded] += 1
       data[:delivered] += 1 if message.delivered?
       data[:undelivered] += 1 if message.undelivered?

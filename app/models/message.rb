@@ -168,6 +168,7 @@ class Message
   end
 
   def find_platform(member)
-    events.select { |e| e.data["#{member}_platform"].present? }.first.data["#{member}_platform"].to_sym
+    e = events.find { |e| e.data["#{member}_platform"].present? }
+    e && e.data["#{member}_platform"].to_sym
   end
 end
