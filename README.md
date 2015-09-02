@@ -20,6 +20,4 @@ Stack
 Documentation
 -------------
 
-* [Events API](./doc/events.apib)
-* [Metrics API](./doc/metrics.apib)
-* [Messages API](./doc/messages.apib)
+[API Documentation](./apiary.apib)
