@@ -66,9 +66,9 @@ RSpec.describe Metric::ActiveUsers, type: :model do
         end
 
         specify do
-          is_expected.to eq(3.days.ago.midnight.strftime(format) => 2,
-                            2.days.ago.midnight.strftime(format) => 3,
-                            1.days.ago.midnight.strftime(format) => 4)
+          is_expected.to eq(format_datetime(3.days.ago.midnight) => 2,
+                            format_datetime(2.days.ago.midnight) => 3,
+                            format_datetime(1.days.ago.midnight) => 4)
         end
       end
 
@@ -102,9 +102,9 @@ RSpec.describe Metric::ActiveUsers, type: :model do
           end
         end
         specify do
-          is_expected.to eq(3.days.ago.midnight.strftime(format) => 3,
-                            2.days.ago.midnight.strftime(format) => 2,
-                            1.days.ago.midnight.strftime(format) => 2)
+          is_expected.to eq(format_datetime(3.days.ago.midnight) => 3,
+                            format_datetime(2.days.ago.midnight) => 2,
+                            format_datetime(1.days.ago.midnight) => 2)
         end
       end
     end
@@ -191,9 +191,9 @@ RSpec.describe Metric::ActiveUsers, type: :model do
       end
 
       specify do
-        is_expected.to eq(3.weeks.ago.beginning_of_week.strftime(format) => 2,
-                          2.weeks.ago.beginning_of_week.strftime(format) => 3,
-                          1.weeks.ago.beginning_of_week.strftime(format) => 4)
+        is_expected.to eq(format_datetime(3.weeks.ago.beginning_of_week) => 2,
+                          format_datetime(2.weeks.ago.beginning_of_week) => 3,
+                          format_datetime(1.weeks.ago.beginning_of_week) => 4)
       end
     end
 
@@ -279,9 +279,9 @@ RSpec.describe Metric::ActiveUsers, type: :model do
       end
 
       specify do
-        is_expected.to eq(3.months.ago.beginning_of_month.strftime(format) => 2,
-                          2.months.ago.beginning_of_month.strftime(format) => 3,
-                          1.months.ago.beginning_of_month.strftime(format) => 4)
+        is_expected.to eq(format_datetime(3.months.ago.beginning_of_month) => 2,
+                          format_datetime(2.months.ago.beginning_of_month) => 3,
+                          format_datetime(1.months.ago.beginning_of_month) => 4)
       end
     end
   end
