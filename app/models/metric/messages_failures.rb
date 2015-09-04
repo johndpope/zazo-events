@@ -60,7 +60,8 @@ class Metric::MessagesFailures < Metric::Base
 
   def data
     messages.each_with_object(aggregated_by_platforms) do |message, result|
-      data = result[:"#{message.sender_platform}_to_#{message.receiver_platform}"]
+      direction = :"#{message.sender_platform}_to_#{message.receiver_platform}"
+      data = result.fetch(direction, sample)
       data[:uploaded] += 1
       data[:delivered] += 1 if message.delivered?
       data[:undelivered] += 1 if message.undelivered?
@@ -83,6 +84,7 @@ class Metric::MessagesFailures < Metric::Base
       if message.missing_events.include?(%w(video notification viewed))
         data[:missing_notification_viewed] += 1
       end
+      result[direction] = data
     end
   end
 end

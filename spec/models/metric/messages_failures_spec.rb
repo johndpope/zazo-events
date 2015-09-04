@@ -22,8 +22,7 @@ RSpec.describe Metric::MessagesFailures, type: :model do
       'receiver_platform' => 'ios') end
   let(:video_127) do
     video_data(user_1, user_2, gen_video_id).merge(
-      'sender_platform' => 'android',
-      'receiver_platform' => 'ios') end
+      'sender_platform' => 'android') end
 
   let(:video_211) { video_data(user_2, user_1, gen_video_id) }
   let(:video_212) { video_data(user_2, user_1, gen_video_id) }
@@ -41,7 +40,6 @@ RSpec.describe Metric::MessagesFailures, type: :model do
       'receiver_platform' => 'android') end
   let(:video_216) do
     video_data(user_2, user_1, gen_video_id).merge(
-      'sender_platform' => 'android',
       'receiver_platform' => 'ios') end
 
   before do
@@ -145,16 +143,16 @@ RSpec.describe Metric::MessagesFailures, type: :model do
                             missing_notification_viewed: 1
                           },
                           android_to_ios: {
-                            uploaded: 2,
+                            uploaded: 0,
                             delivered: 0,
-                            undelivered: 2,
-                            incomplete: 1,
-                            missing_kvstore_received: 1,
-                            missing_notification_received: 1,
-                            missing_kvstore_downloaded: 2,
-                            missing_notification_downloaded: 2,
-                            missing_kvstore_viewed: 2,
-                            missing_notification_viewed: 2
+                            undelivered: 0,
+                            incomplete: 0,
+                            missing_kvstore_received: 0,
+                            missing_notification_received: 0,
+                            missing_kvstore_downloaded: 0,
+                            missing_notification_downloaded: 0,
+                            missing_kvstore_viewed: 0,
+                            missing_notification_viewed: 0
                           },
                           unknown_to_unknown: {
                             uploaded: 3,
@@ -167,6 +165,30 @@ RSpec.describe Metric::MessagesFailures, type: :model do
                             missing_notification_downloaded: 1,
                             missing_kvstore_viewed: 3,
                             missing_notification_viewed: 2
+                          },
+                          unknown_to_ios: {
+                            uploaded: 1,
+                            delivered: 0,
+                            undelivered: 1,
+                            incomplete: 0,
+                            missing_kvstore_received: 0,
+                            missing_notification_received: 0,
+                            missing_kvstore_downloaded: 1,
+                            missing_notification_downloaded: 1,
+                            missing_kvstore_viewed: 1,
+                            missing_notification_viewed: 1
+                          },
+                          android_to_unknown: {
+                            uploaded: 1,
+                            delivered: 0,
+                            undelivered: 1,
+                            incomplete: 1,
+                            missing_kvstore_received: 1,
+                            missing_notification_received: 1,
+                            missing_kvstore_downloaded: 1,
+                            missing_notification_downloaded: 1,
+                            missing_kvstore_viewed: 1,
+                            missing_notification_viewed: 1
                           } })
     end
 
