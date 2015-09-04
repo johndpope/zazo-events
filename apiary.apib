@@ -1106,22 +1106,72 @@ Returns data for messages from user to friend (`outgoing`) and in reverse (`inco
 
     + Body
 
-            {
-                "meta": {
-                    "total": "uploaded",
-                    "start_date": "2015-07-03",
-                    "end_date": "2015-07-13"
+        {
+            "meta": {
+                "total": "uploaded",
+                "start_date": "2015-08-23",
+                "end_date": "2015-09-02"
+            },
+            "data": {
+                "ios_to_ios": {
+                    "uploaded": 16,
+                    "delivered": 14,
+                    "undelivered": 2,
+                    "incomplete": 0,
+                    "missing_kvstore_received": 0,
+                    "missing_notification_received": 0,
+                    "missing_kvstore_downloaded": 2,
+                    "missing_notification_downloaded": 2,
+                    "missing_kvstore_viewed": 2,
+                    "missing_notification_viewed": 2
                 },
-                "data": {
-                    "uploaded": 2749,
-                    "delivered": 2537,
-                    "undelivered": 212,
-                    "incomplete": 10,
-                    "missing_kvstore_received": 116,
-                    "missing_notification_received": 245,
-                    "missing_kvstore_downloaded": 301,
-                    "missing_notification_downloaded": 308,
+                "ios_to_android": {
+                    "uploaded": 4,
+                    "delivered": 4,
+                    "undelivered": 0,
+                    "incomplete": 0,
+                    "missing_kvstore_received": 0,
+                    "missing_notification_received": 0,
+                    "missing_kvstore_downloaded": 0,
+                    "missing_notification_downloaded": 0,
+                    "missing_kvstore_viewed": 0,
+                    "missing_notification_viewed": 0
+                },
+                "android_to_android": {
+                    "uploaded": 6,
+                    "delivered": 6,
+                    "undelivered": 0,
+                    "incomplete": 0,
+                    "missing_kvstore_received": 0,
+                    "missing_notification_received": 0,
+                    "missing_kvstore_downloaded": 0,
+                    "missing_notification_downloaded": 0,
+                    "missing_kvstore_viewed": 2,
+                    "missing_notification_viewed": 2
+                },
+                "android_to_ios": {
+                    "uploaded": 2,
+                    "delivered": 2,
+                    "undelivered": 0,
+                    "incomplete": 0,
+                    "missing_kvstore_received": 0,
+                    "missing_notification_received": 0,
+                    "missing_kvstore_downloaded": 0,
+                    "missing_notification_downloaded": 0,
+                    "missing_kvstore_viewed": 0,
+                    "missing_notification_viewed": 0
+                },
+                "unknown_to_unknown": {
+                    "uploaded": 3316,
+                    "delivered": 3091,
+                    "undelivered": 225,
+                    "incomplete": 4,
+                    "missing_kvstore_received": 103,
+                    "missing_notification_received": 273,
+                    "missing_kvstore_downloaded": 297,
+                    "missing_notification_downloaded": 306,
                     "missing_kvstore_viewed": 307,
-                    "missing_notification_viewed": 316
+                    "missing_notification_viewed": 312
                 }
             }
+        }

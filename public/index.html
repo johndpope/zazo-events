@@ -871,22 +871,72 @@ If set, returns data for messages from user to friend (outgoing) and in reverse 
 </dd></dl></div><div class="title"><strong>Response&nbsp;&nbsp;<code>200</code></strong><div class="collapse-button"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><div class="inner"><h5>Headers</h5><pre><code><span class="hljs-attribute">Content-Type</span>: <span class="hljs-string">application/json; charset=utf-8</span></code></pre><div style="height: 1px;"></div><h5>Body</h5><pre><code>{
   "<span class="hljs-attribute">meta</span>": <span class="hljs-value">{
     "<span class="hljs-attribute">total</span>": <span class="hljs-value"><span class="hljs-string">"uploaded"</span></span>,
-    "<span class="hljs-attribute">start_date</span>": <span class="hljs-value"><span class="hljs-string">"2015-07-03"</span></span>,
-    "<span class="hljs-attribute">end_date</span>": <span class="hljs-value"><span class="hljs-string">"2015-07-13"</span>
+    "<span class="hljs-attribute">start_date</span>": <span class="hljs-value"><span class="hljs-string">"2015-08-23"</span></span>,
+    "<span class="hljs-attribute">end_date</span>": <span class="hljs-value"><span class="hljs-string">"2015-09-02"</span>
   </span>}</span>,
   "<span class="hljs-attribute">data</span>": <span class="hljs-value">{
-    "<span class="hljs-attribute">uploaded</span>": <span class="hljs-value"><span class="hljs-number">2749</span></span>,
-    "<span class="hljs-attribute">delivered</span>": <span class="hljs-value"><span class="hljs-number">2537</span></span>,
-    "<span class="hljs-attribute">undelivered</span>": <span class="hljs-value"><span class="hljs-number">212</span></span>,
-    "<span class="hljs-attribute">incomplete</span>": <span class="hljs-value"><span class="hljs-number">10</span></span>,
-    "<span class="hljs-attribute">missing_kvstore_received</span>": <span class="hljs-value"><span class="hljs-number">116</span></span>,
-    "<span class="hljs-attribute">missing_notification_received</span>": <span class="hljs-value"><span class="hljs-number">245</span></span>,
-    "<span class="hljs-attribute">missing_kvstore_downloaded</span>": <span class="hljs-value"><span class="hljs-number">301</span></span>,
-    "<span class="hljs-attribute">missing_notification_downloaded</span>": <span class="hljs-value"><span class="hljs-number">308</span></span>,
-    "<span class="hljs-attribute">missing_kvstore_viewed</span>": <span class="hljs-value"><span class="hljs-number">307</span></span>,
-    "<span class="hljs-attribute">missing_notification_viewed</span>": <span class="hljs-value"><span class="hljs-number">316</span>
+    "<span class="hljs-attribute">ios_to_ios</span>": <span class="hljs-value">{
+      "<span class="hljs-attribute">uploaded</span>": <span class="hljs-value"><span class="hljs-number">16</span></span>,
+      "<span class="hljs-attribute">delivered</span>": <span class="hljs-value"><span class="hljs-number">14</span></span>,
+      "<span class="hljs-attribute">undelivered</span>": <span class="hljs-value"><span class="hljs-number">2</span></span>,
+      "<span class="hljs-attribute">incomplete</span>": <span class="hljs-value"><span class="hljs-number">0</span></span>,
+      "<span class="hljs-attribute">missing_kvstore_received</span>": <span class="hljs-value"><span class="hljs-number">0</span></span>,
+      "<span class="hljs-attribute">missing_notification_received</span>": <span class="hljs-value"><span class="hljs-number">0</span></span>,
+      "<span class="hljs-attribute">missing_kvstore_downloaded</span>": <span class="hljs-value"><span class="hljs-number">2</span></span>,
+      "<span class="hljs-attribute">missing_notification_downloaded</span>": <span class="hljs-value"><span class="hljs-number">2</span></span>,
+      "<span class="hljs-attribute">missing_kvstore_viewed</span>": <span class="hljs-value"><span class="hljs-number">2</span></span>,
+      "<span class="hljs-attribute">missing_notification_viewed</span>": <span class="hljs-value"><span class="hljs-number">2</span>
+    </span>}</span>,
+    "<span class="hljs-attribute">ios_to_android</span>": <span class="hljs-value">{
+      "<span class="hljs-attribute">uploaded</span>": <span class="hljs-value"><span class="hljs-number">4</span></span>,
+      "<span class="hljs-attribute">delivered</span>": <span class="hljs-value"><span class="hljs-number">4</span></span>,
+      "<span class="hljs-attribute">undelivered</span>": <span class="hljs-value"><span class="hljs-number">0</span></span>,
+      "<span class="hljs-attribute">incomplete</span>": <span class="hljs-value"><span class="hljs-number">0</span></span>,
+      "<span class="hljs-attribute">missing_kvstore_received</span>": <span class="hljs-value"><span class="hljs-number">0</span></span>,
+      "<span class="hljs-attribute">missing_notification_received</span>": <span class="hljs-value"><span class="hljs-number">0</span></span>,
+      "<span class="hljs-attribute">missing_kvstore_downloaded</span>": <span class="hljs-value"><span class="hljs-number">0</span></span>,
+      "<span class="hljs-attribute">missing_notification_downloaded</span>": <span class="hljs-value"><span class="hljs-number">0</span></span>,
+      "<span class="hljs-attribute">missing_kvstore_viewed</span>": <span class="hljs-value"><span class="hljs-number">0</span></span>,
+      "<span class="hljs-attribute">missing_notification_viewed</span>": <span class="hljs-value"><span class="hljs-number">0</span>
+    </span>}</span>,
+    "<span class="hljs-attribute">android_to_android</span>": <span class="hljs-value">{
+      "<span class="hljs-attribute">uploaded</span>": <span class="hljs-value"><span class="hljs-number">6</span></span>,
+      "<span class="hljs-attribute">delivered</span>": <span class="hljs-value"><span class="hljs-number">6</span></span>,
+      "<span class="hljs-attribute">undelivered</span>": <span class="hljs-value"><span class="hljs-number">0</span></span>,
+      "<span class="hljs-attribute">incomplete</span>": <span class="hljs-value"><span class="hljs-number">0</span></span>,
+      "<span class="hljs-attribute">missing_kvstore_received</span>": <span class="hljs-value"><span class="hljs-number">0</span></span>,
+      "<span class="hljs-attribute">missing_notification_received</span>": <span class="hljs-value"><span class="hljs-number">0</span></span>,
+      "<span class="hljs-attribute">missing_kvstore_downloaded</span>": <span class="hljs-value"><span class="hljs-number">0</span></span>,
+      "<span class="hljs-attribute">missing_notification_downloaded</span>": <span class="hljs-value"><span class="hljs-number">0</span></span>,
+      "<span class="hljs-attribute">missing_kvstore_viewed</span>": <span class="hljs-value"><span class="hljs-number">2</span></span>,
+      "<span class="hljs-attribute">missing_notification_viewed</span>": <span class="hljs-value"><span class="hljs-number">2</span>
+    </span>}</span>,
+    "<span class="hljs-attribute">android_to_ios</span>": <span class="hljs-value">{
+      "<span class="hljs-attribute">uploaded</span>": <span class="hljs-value"><span class="hljs-number">2</span></span>,
+      "<span class="hljs-attribute">delivered</span>": <span class="hljs-value"><span class="hljs-number">2</span></span>,
+      "<span class="hljs-attribute">undelivered</span>": <span class="hljs-value"><span class="hljs-number">0</span></span>,
+      "<span class="hljs-attribute">incomplete</span>": <span class="hljs-value"><span class="hljs-number">0</span></span>,
+      "<span class="hljs-attribute">missing_kvstore_received</span>": <span class="hljs-value"><span class="hljs-number">0</span></span>,
+      "<span class="hljs-attribute">missing_notification_received</span>": <span class="hljs-value"><span class="hljs-number">0</span></span>,
+      "<span class="hljs-attribute">missing_kvstore_downloaded</span>": <span class="hljs-value"><span class="hljs-number">0</span></span>,
+      "<span class="hljs-attribute">missing_notification_downloaded</span>": <span class="hljs-value"><span class="hljs-number">0</span></span>,
+      "<span class="hljs-attribute">missing_kvstore_viewed</span>": <span class="hljs-value"><span class="hljs-number">0</span></span>,
+      "<span class="hljs-attribute">missing_notification_viewed</span>": <span class="hljs-value"><span class="hljs-number">0</span>
+    </span>}</span>,
+    "<span class="hljs-attribute">unknown_to_unknown</span>": <span class="hljs-value">{
+      "<span class="hljs-attribute">uploaded</span>": <span class="hljs-value"><span class="hljs-number">3316</span></span>,
+      "<span class="hljs-attribute">delivered</span>": <span class="hljs-value"><span class="hljs-number">3091</span></span>,
+      "<span class="hljs-attribute">undelivered</span>": <span class="hljs-value"><span class="hljs-number">225</span></span>,
+      "<span class="hljs-attribute">incomplete</span>": <span class="hljs-value"><span class="hljs-number">4</span></span>,
+      "<span class="hljs-attribute">missing_kvstore_received</span>": <span class="hljs-value"><span class="hljs-number">103</span></span>,
+      "<span class="hljs-attribute">missing_notification_received</span>": <span class="hljs-value"><span class="hljs-number">273</span></span>,
+      "<span class="hljs-attribute">missing_kvstore_downloaded</span>": <span class="hljs-value"><span class="hljs-number">297</span></span>,
+      "<span class="hljs-attribute">missing_notification_downloaded</span>": <span class="hljs-value"><span class="hljs-number">306</span></span>,
+      "<span class="hljs-attribute">missing_kvstore_viewed</span>": <span class="hljs-value"><span class="hljs-number">307</span></span>,
+      "<span class="hljs-attribute">missing_notification_viewed</span>": <span class="hljs-value"><span class="hljs-number">312</span>
+    </span>}
   </span>}
-</span>}</code></pre><div style="height: 1px;"></div></div></div></div></div></section></div></div></div><p style="text-align: center;" class="text-muted">Generated by&nbsp;<a href="https://github.com/danielgtaylor/aglio" class="aglio">aglio</a>&nbsp;on 02 Sep 2015</p><script>/* eslint-env browser */
+</span>}</code></pre><div style="height: 1px;"></div></div></div></div></div></section></div></div></div><p style="text-align: center;" class="text-muted">Generated by&nbsp;<a href="https://github.com/danielgtaylor/aglio" class="aglio">aglio</a>&nbsp;on 04 Sep 2015</p><script>/* eslint-env browser */
 /* eslint quotes: [2, "single"] */
 'use strict';
 
