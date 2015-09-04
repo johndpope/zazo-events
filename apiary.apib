@@ -791,26 +791,66 @@ FORMAT: 1A
     + Body
 
             [
-              {
-                "name": "active_users",
-                "type": "aggregated_by_timeframe"
-              },
-              {
-                "name": "aggregate_messaging_info",
-                "type": "aggregated"
-              },
-              {
-                "name": "messages_sent",
-                "type": "aggregated_by_timeframe"
-              },
-              {
-                "name": "usage_by_active_users",
-                "type": "aggregated_by_timeframe"
-              },
-              {
-                "name": "user_activity",
-                "type": "aggregated"
-              }
+                {
+                    "name": "active_users",
+                    "type": "aggregated_by_timeframe"
+                },
+                {
+                    "name": "aggregate_messaging_info",
+                    "type": "aggregated"
+                },
+                {
+                    "name": "non_marketing",
+                    "type": "filter"
+                },
+                {
+                    "name": "invitation_funnel",
+                    "type": "invitation_funnel"
+                },
+                {
+                    "name": "invited_becoming_registered",
+                    "type": "rate_line_chart"
+                },
+                {
+                    "name": "messages_count_between_users",
+                    "type": "aggregated"
+                },
+                {
+                    "name": "messages_count_by_period",
+                    "type": "aggregated_by_timeframe"
+                },
+                {
+                    "name": "messages_failures",
+                    "type": "messages_failures"
+                },
+                {
+                    "name": "messages_sent",
+                    "type": "aggregated_by_timeframe"
+                },
+                {
+                    "name": "messages_statuses_between_users",
+                    "type": "aggregated"
+                },
+                {
+                    "name": "onboarding_info",
+                    "type": "onboarding_info"
+                },
+                {
+                    "name": "upload_duplications",
+                    "type": "upload_duplications"
+                },
+                {
+                    "name": "usage_by_active_users",
+                    "type": "aggregated_by_timeframe"
+                },
+                {
+                    "name": "user_activity",
+                    "type": "aggregated"
+                },
+                {
+                    "name": "verified_after_nth_notification",
+                    "type": "aggregated"
+                }
             ]
 
 # Group Metrics

@@ -673,8 +673,44 @@ Used <code>initiator_id</code>, <code>target_id</code> or <code>SIMILAR TO '%ter
     "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"aggregated"</span>
   </span>},
   {
+    "<span class="hljs-attribute">name</span>": <span class="hljs-value"><span class="hljs-string">"non_marketing"</span></span>,
+    "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"filter"</span>
+  </span>},
+  {
+    "<span class="hljs-attribute">name</span>": <span class="hljs-value"><span class="hljs-string">"invitation_funnel"</span></span>,
+    "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"invitation_funnel"</span>
+  </span>},
+  {
+    "<span class="hljs-attribute">name</span>": <span class="hljs-value"><span class="hljs-string">"invited_becoming_registered"</span></span>,
+    "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"rate_line_chart"</span>
+  </span>},
+  {
+    "<span class="hljs-attribute">name</span>": <span class="hljs-value"><span class="hljs-string">"messages_count_between_users"</span></span>,
+    "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"aggregated"</span>
+  </span>},
+  {
+    "<span class="hljs-attribute">name</span>": <span class="hljs-value"><span class="hljs-string">"messages_count_by_period"</span></span>,
+    "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"aggregated_by_timeframe"</span>
+  </span>},
+  {
+    "<span class="hljs-attribute">name</span>": <span class="hljs-value"><span class="hljs-string">"messages_failures"</span></span>,
+    "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"messages_failures"</span>
+  </span>},
+  {
     "<span class="hljs-attribute">name</span>": <span class="hljs-value"><span class="hljs-string">"messages_sent"</span></span>,
     "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"aggregated_by_timeframe"</span>
+  </span>},
+  {
+    "<span class="hljs-attribute">name</span>": <span class="hljs-value"><span class="hljs-string">"messages_statuses_between_users"</span></span>,
+    "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"aggregated"</span>
+  </span>},
+  {
+    "<span class="hljs-attribute">name</span>": <span class="hljs-value"><span class="hljs-string">"onboarding_info"</span></span>,
+    "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"onboarding_info"</span>
+  </span>},
+  {
+    "<span class="hljs-attribute">name</span>": <span class="hljs-value"><span class="hljs-string">"upload_duplications"</span></span>,
+    "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"upload_duplications"</span>
   </span>},
   {
     "<span class="hljs-attribute">name</span>": <span class="hljs-value"><span class="hljs-string">"usage_by_active_users"</span></span>,
@@ -682,6 +718,10 @@ Used <code>initiator_id</code>, <code>target_id</code> or <code>SIMILAR TO '%ter
   </span>},
   {
     "<span class="hljs-attribute">name</span>": <span class="hljs-value"><span class="hljs-string">"user_activity"</span></span>,
+    "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"aggregated"</span>
+  </span>},
+  {
+    "<span class="hljs-attribute">name</span>": <span class="hljs-value"><span class="hljs-string">"verified_after_nth_notification"</span></span>,
     "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"aggregated"</span>
   </span>}
 ]</code></pre><div style="height: 1px;"></div></div></div></div></div></section><section id="metrics" class="resource-group"><h2 class="group-heading">Metrics<a href="#metrics" class="permalink">&para;</a></h2><div id="metrics-messages-sent" class="resource"><h3>Messages Sent<a href="#metrics-messages-sent" class="permalink">&para;</a></h3><div id="metrics-messages-sent-post" class="action post"><h4><div class="name">Messages Sent</div><a href="#metrics-messages-sent-post" class="method post">POST</a><code class="uri">/api/v1/metrics/messages_sent</code></h4><div class="title"><strong>Parameters</strong><div class="collapse-button show"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><dl class="inner"><dt>group_by</dt><dd><code>string</code>&nbsp;<span>(optional)</span>&nbsp;<span class="text-info default"><strong>Default:&nbsp;</strong><span>day</span></span>&nbsp;<span class="text-muted example"><strong>Example:&nbsp;</strong><span>day</span></span><p>Time frame for grouping</p>
