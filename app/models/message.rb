@@ -40,11 +40,18 @@ class Message
   end
 
   def self.build_from_events_scope(scope)
-    events = scope.group("data->>'video_filename'", :name).count
+    events = scope.group("data->>'video_filename'", :triggered_at, :name, "data->>'sender_platform'", "data->>'receiver_platform'").count
     data = events.group_by { |row, _count| row.first }
     data.map do |file_name, row|
       next if file_name.nil?
-      Message.new(file_name, event_names: row.map { |r| r[0][1] })
+      uploaded_at = row.map { |r| r[0][1] }.first
+      event_names = row.map { |r| r[0][2] }
+      sender_platform = row.map { |r| r[0][3] }.first.try(:to_sym)
+      receiver_platform = row.map { |r| r[0][4] }.first.try(:to_sym)
+      Message.new(file_name, event_names: event_names,
+                             uploaded_at: uploaded_at,
+                             sender_platform: sender_platform,
+                             receiver_platform: receiver_platform)
     end.compact
   end
 
@@ -65,6 +72,9 @@ class Message
     end
     @event_names = options[:event_names]
     @events = options[:events]
+    @sender_platform = options[:sender_platform]
+    @receiver_platform = options[:receiver_platform]
+    @uploaded_at = options[:uploaded_at]
   end
 
   def ==(other)
@@ -72,7 +82,7 @@ class Message
   end
 
   def inspect
-    "#<#{self.class.name} #{file_name}>"
+    "#<#{self.class.name} #{file_name} (#{uploaded_at})>"
   end
 
   def s3_event
@@ -107,7 +117,7 @@ class Message
   end
 
   def uploaded_at
-    s3_event.triggered_at
+    @uploaded_at ||= s3_event.triggered_at
   end
 
   def file_size
@@ -152,11 +162,11 @@ class Message
   end
 
   def sender_platform
-    find_platform(:sender)
+    @sender_platform ||= find_platform(:sender)
   end
 
   def receiver_platform
-    find_platform(:receiver)
+    @receiver_platform ||= find_platform(:receiver)
   end
 
   protected
