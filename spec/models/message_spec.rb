@@ -637,7 +637,7 @@ RSpec.describe Message, type: :model do
 
   describe '.build_from_events_scope' do
     let(:scope) { Event.all }
-    let(:list) { described_class.build_from_events_scope(scope) }
+    let(:list) { described_class.build_from_events_scope(scope).sort_by(&:uploaded_at) }
     let(:video_1) { video_data(sender_id, receiver_id, gen_video_id).merge(
       'sender_platform' => 'ios',
       'receiver_platform' => 'android') }
@@ -651,7 +651,7 @@ RSpec.describe Message, type: :model do
     let(:message_2) { described_class.new(video_2[:video_filename]) }
     let(:message_3) { described_class.new(video_3[:video_filename]) }
     let(:instance) { list.first }
-    subject { list.sort_by(&:uploaded_at) }
+    subject { list }
 
     before do
       Timecop.scale(3600) do
