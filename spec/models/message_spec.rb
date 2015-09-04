@@ -650,7 +650,7 @@ RSpec.describe Message, type: :model do
     let(:message_1) { described_class.new(video_1[:video_filename]) }
     let(:message_2) { described_class.new(video_2[:video_filename]) }
     let(:message_3) { described_class.new(video_3[:video_filename]) }
-    let(:instance) { list.find { |m| m.data['video_id'] == video_1['video_id'] } }
+    let(:instance) { list.first }
     subject { list.sort_by(&:uploaded_at) }
 
     before do
