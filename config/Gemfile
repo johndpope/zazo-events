@@ -19,6 +19,7 @@ gem 'rails-api'
 gem 'hashie'
 gem 'groupdate'
 gem 'kaminari'
+gem 'activerecord-colored_log_subscriber'
 
 group :development do
   gem 'better_errors'
