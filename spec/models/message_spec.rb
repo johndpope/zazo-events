@@ -174,7 +174,7 @@ RSpec.describe Message, type: :model do
         download_video data
         view_video data
       end
-      it { is_expected.to be nil }
+      it { is_expected.to eq(:unknown) }
     end
   end
 
@@ -194,7 +194,7 @@ RSpec.describe Message, type: :model do
         download_video data
         view_video data
       end
-      it { is_expected.to be nil }
+      it { is_expected.to eq(:unknown) }
     end
   end
 

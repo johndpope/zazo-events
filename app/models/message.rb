@@ -46,8 +46,8 @@ class Message
       next if file_name.nil?
       uploaded_at = row.map { |r| r[0][1] }.first
       event_names = row.map { |r| r[0][2] }
-      sender_platform = row.map { |r| r[0][3] }.first.try(:to_sym)
-      receiver_platform = row.map { |r| r[0][4] }.first.try(:to_sym)
+      sender_platform = row.map { |r| r[0][3] }.first.try(:to_sym) || :unknown
+      receiver_platform = row.map { |r| r[0][4] }.first.try(:to_sym) || :unknown
       Message.new(file_name, event_names: event_names,
                              uploaded_at: uploaded_at,
                              sender_platform: sender_platform,
@@ -179,6 +179,6 @@ class Message
 
   def find_platform(member)
     e = events.find { |e| e.data["#{member}_platform"].present? }
-    e && e.data["#{member}_platform"].to_sym
+    e && e.data["#{member}_platform"].to_sym || :unknown
   end
 end

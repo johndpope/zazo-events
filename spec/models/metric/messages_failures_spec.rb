@@ -156,7 +156,7 @@ RSpec.describe Metric::MessagesFailures, type: :model do
                             missing_kvstore_viewed: 2,
                             missing_notification_viewed: 2
                           },
-                          other: {
+                          unknown_to_unknown: {
                             uploaded: 3,
                             delivered: 3,
                             undelivered: 0,
@@ -168,6 +168,11 @@ RSpec.describe Metric::MessagesFailures, type: :model do
                             missing_kvstore_viewed: 3,
                             missing_notification_viewed: 2
                           } })
+    end
+
+    it 'does not load events' do
+      expect_any_instance_of(Message).to_not receive(:events)
+      subject
     end
   end
 end
