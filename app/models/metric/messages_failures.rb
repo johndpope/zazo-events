@@ -2,6 +2,10 @@ class Metric::MessagesFailures < Metric::Base
   after_initialize :set_attributes
   attr_reader :start_date, :end_date
 
+  def self.type
+    :messages_failures
+  end
+
   def generate
     { meta: meta, data: data }
   end
