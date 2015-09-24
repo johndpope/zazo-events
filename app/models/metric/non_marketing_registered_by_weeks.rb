@@ -1,15 +1,15 @@
-class Metric::InvitedBecomingRegistered < Metric::Base
+class Metric::NonMarketingRegisteredByWeeks < Metric::Base
   def self.type
-    :rate_line_chart
+    :simple_line_chart
   end
 
   def generate
     query.each_with_object({}) do |row, memo|
-      memo[row['week']] = row['percentage'].to_f
+      memo[row['week']] = row['count'].to_i
     end
   end
 
-  protected
+  private
 
   def query
     run_raw_query <<-SQL
@@ -35,26 +35,12 @@ class Metric::InvitedBecomingRegistered < Metric::Base
           date_trunc('week', becoming_registered) becoming_registered
         FROM invited
           LEFT JOIN registered ON invited.invitee = registered.initiator
-      ), count_by_invited AS (
-        SELECT
-          becoming_invited week,
-          COUNT(invitee) count
-        FROM truncated
-        GROUP BY becoming_invited
-      ), count_by_registered AS (
-        SELECT
+      ) SELECT
           becoming_registered week,
           COUNT(invitee) count
         FROM truncated
         WHERE becoming_registered NOTNULL
         GROUP BY becoming_registered
-      ) SELECT
-          count_by_invited.week,
-          ROUND(count_by_registered.count::NUMERIC /
-                NULLIF(count_by_invited.count, 0)::NUMERIC * 100, 2) percentage
-        FROM count_by_invited
-          JOIN count_by_registered
-            ON count_by_registered.week = count_by_invited.week
         ORDER BY week
     SQL
   end

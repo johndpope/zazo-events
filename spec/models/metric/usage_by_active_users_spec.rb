@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe Metric::UsageByActiveUsers, type: :model do
   describe '#generate' do
     let(:instance) { described_class.new(group_by: group_by) }
+    let(:format)   { '%Y-%m-%d %H:%M:%S' }
     subject { instance.generate }
 
     context 'by day' do
@@ -43,9 +44,9 @@ RSpec.describe Metric::UsageByActiveUsers, type: :model do
 
       specify do
         is_expected.to eq(
-          3.days.ago.midnight => 3.0 / 2.0,
-          2.days.ago.midnight => 4.0 / 3.0,
-          1.days.ago.midnight => 5.0 / 3.0)
+          3.days.ago.midnight.strftime(format) => 3.0 / 2.0,
+          2.days.ago.midnight.strftime(format) => 4.0 / 3.0,
+          1.days.ago.midnight.strftime(format) => 5.0 / 3.0)
       end
     end
   end

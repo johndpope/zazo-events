@@ -35,6 +35,7 @@ RSpec.describe Metric, type: :model do
        Metric::MessagesFailures,
        Metric::MessagesSent,
        Metric::MessagesStatusesBetweenUsers,
+       Metric::NonMarketingRegisteredByWeeks,
        Metric::OnboardingInfo,
        Metric::UploadDuplications,
        Metric::UsageByActiveUsers,

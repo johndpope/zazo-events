@@ -25,4 +25,10 @@ class Metric::Base
 
   def generate
   end
+
+  protected
+
+  def run_raw_query(query)
+    Event.connection.select_all(query)
+  end
 end
