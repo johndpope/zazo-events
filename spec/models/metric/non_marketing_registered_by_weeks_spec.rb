@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Metric::InvitedBecomingRegistered, type: :model do
+RSpec.describe Metric::NonMarketingRegisteredByWeeks, type: :model do
   let(:instance) { described_class.new }
 
   let(:user_1) { gen_hash }
@@ -20,8 +20,8 @@ RSpec.describe Metric::InvitedBecomingRegistered, type: :model do
     end
 
     it { is_expected.to eq({
-      format_datetime(3.weeks.ago.beginning_of_week) => 50.00,
-      format_datetime(2.weeks.ago.beginning_of_week) => 100.00
+      format_datetime(3.weeks.ago.beginning_of_week) => 1,
+      format_datetime(2.weeks.ago.beginning_of_week) => 1
     }) }
   end
 end
