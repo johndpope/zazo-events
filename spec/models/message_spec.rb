@@ -663,26 +663,5 @@ RSpec.describe Message, type: :model do
     end
 
     it { is_expected.to eq([message, message_1, message_2, message_3]) }
-
-    context 'instance' do
-      context 'sender_platform' do
-        subject { instance.sender_platform }
-        it 'should not load events' do
-          expect_any_instance_of(Message).to_not receive(:find_platform)
-          subject
-        end
-
-        it { is_expected.to eq(:ios) }
-      end
-      context 'receiver_platform' do
-        subject { instance.receiver_platform }
-        it 'should not load events' do
-          expect_any_instance_of(Message).to_not receive(:find_platform)
-          subject
-        end
-
-        it { is_expected.to eq(:android) }
-      end
-    end
   end
 end
