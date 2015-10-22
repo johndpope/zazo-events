@@ -20,6 +20,7 @@ gem 'hashie'
 gem 'groupdate'
 gem 'kaminari'
 gem 'activerecord-colored_log_subscriber'
+gem 'aws-sdk', '~> 2'
 
 group :development do
   gem 'better_errors'
