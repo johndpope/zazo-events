@@ -15,9 +15,8 @@ class S3Record::FetchClientVersion
   private
 
   def s3_metadata
-    params = s3_record.first['s3']
-    bucket_name = params['bucket']['name']
-    file_name   = params['object']['key']
+    bucket_name = s3_record['s3']['bucket']['name']
+    file_name   = s3_record['s3']['object']['key']
     s3_client_instance.head_object(bucket: bucket_name, key: file_name).metadata
   end
 
