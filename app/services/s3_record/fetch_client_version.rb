@@ -6,8 +6,7 @@ class S3Record::FetchClientVersion
   end
 
   def do
-    client_version = s3_metadata['client-version']
-    client_version || :undefined
+    s3_metadata['client-version'] || :undefined
   rescue Exception => e
     Rollbar.error exception: e.class.name, message: e.message
     :undefined
