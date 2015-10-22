@@ -127,6 +127,7 @@ RSpec.describe Message, type: :model do
     subject { instance.data }
     specify do
       is_expected.to eq(
+        'client_version' => 'undefined',
         'sender_id' => sender_id,
         'receiver_id' => receiver_id,
         'video_filename' => file_name)

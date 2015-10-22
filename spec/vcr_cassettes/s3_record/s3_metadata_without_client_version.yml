@@ -1,0 +1,59 @@
+---
+http_interactions:
+- request:
+    method: head
+    uri: https://s3-us-west-1.amazonaws.com/staging-videos.zazo.com/OoutNPPY7rCIVhlLsKKB-Z2TNnW0igOL0UzL457eQ-1c0f0cbdfd2a2ee8a8823db478c5a807
+    body:
+      encoding: ASCII-8BIT
+      string: ''
+    headers:
+      Content-Type:
+      - ''
+      Accept-Encoding:
+      - ''
+      User-Agent:
+      - aws-sdk-ruby2/2.1.27 ruby/2.2.2 x86_64-darwin14
+      X-Amz-Date:
+      - 20151008T122632Z
+      Host:
+      - s3-us-west-1.amazonaws.com
+      X-Amz-Content-Sha256:
+      - e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+      Authorization:
+      - AWS4-HMAC-SHA256 Credential=AKIAII2H736MBQ7JHWSA/20151008/us-west-1/s3/aws4_request,
+        SignedHeaders=host;user-agent;x-amz-content-sha256;x-amz-date, Signature=6460a0ddb2db0ad4fa4a6591c01b4ab0cd0871eff29bafaf79af4c6aab93426f
+      Content-Length:
+      - '0'
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Amz-Id-2:
+      - X6+ebnFtUCgLGqzMim/eEtei3lNkuOd6AdAo9q0FQE/ZahwIoRZA5KO2YVjDNkDFidG3riIlVFE=
+      X-Amz-Request-Id:
+      - BF91876B7783C437
+      Date:
+      - Thu, 08 Oct 2015 12:26:35 GMT
+      X-Amz-Meta-Client-Platform:
+      - android
+      Last-Modified:
+      - Wed, 07 Oct 2015 16:43:12 GMT
+      Etag:
+      - '"a04a994958935ce7bd60577759ac9c9a"'
+      Accept-Ranges:
+      - bytes
+      Content-Type:
+      - video/mp4
+      Content-Length:
+      - '51224'
+      Server:
+      - AmazonS3
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version:
+  recorded_at: Thu, 08 Oct 2015 12:26:33 GMT
+recorded_with: VCR 2.9.3

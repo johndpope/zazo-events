@@ -1,0 +1,67 @@
+---
+http_interactions:
+- request:
+    method: head
+    uri: https://s3-us-west-1.amazonaws.com/staging-videos.zazo.com/ZcAK4dM9S4m0IFui6ok6-lpb8DcispONUSfdMOT9g-da6f35c931ea53de0e24fb4c76beb5f3
+    body:
+      encoding: ASCII-8BIT
+      string: ''
+    headers:
+      Content-Type:
+      - ''
+      Accept-Encoding:
+      - ''
+      User-Agent:
+      - aws-sdk-ruby2/2.1.27 ruby/2.2.2 x86_64-darwin14
+      X-Amz-Date:
+      - 20151008T115657Z
+      Host:
+      - s3-us-west-1.amazonaws.com
+      X-Amz-Content-Sha256:
+      - e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+      Authorization:
+      - AWS4-HMAC-SHA256 Credential=AKIAII2H736MBQ7JHWSA/20151008/us-west-1/s3/aws4_request,
+        SignedHeaders=host;user-agent;x-amz-content-sha256;x-amz-date, Signature=aaad1afad41f8be7aa0a33952d2053e2499d56058e4b66f6c837a0d8722afe99
+      Content-Length:
+      - '0'
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Amz-Id-2:
+      - KvqR7PNGWW0fra5kEFPrwfjv06BAR7x3NQyu4lOAq5VuXKqpKcXp/q8E9h7/vtd9U1NfvimzES4=
+      X-Amz-Request-Id:
+      - 72023BB1D2788E9B
+      Date:
+      - Thu, 08 Oct 2015 11:57:00 GMT
+      X-Amz-Meta-Client-Platform:
+      - android
+      X-Amz-Meta-Client-Version:
+      - '112'
+      X-Amz-Meta-Video-Id:
+      - '1444235919617'
+      X-Amz-Meta-Receiver-Mkey:
+      - lpb8DcispONUSfdMOT9g
+      X-Amz-Meta-Sender-Mkey:
+      - ZcAK4dM9S4m0IFui6ok6
+      Last-Modified:
+      - Wed, 07 Oct 2015 16:37:35 GMT
+      Etag:
+      - '"e3ce50829093f3a85b4dffcb3c9d05ae"'
+      Accept-Ranges:
+      - bytes
+      Content-Type:
+      - video/mp4
+      Content-Length:
+      - '867989'
+      Server:
+      - AmazonS3
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version:
+  recorded_at: Thu, 08 Oct 2015 11:56:58 GMT
+recorded_with: VCR 2.9.3

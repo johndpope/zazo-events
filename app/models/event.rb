@@ -52,7 +52,8 @@ class Event < ActiveRecord::Base
     sender_id, receiver_id, _hash = video_filename.split('-')
     event.data = { sender_id: sender_id,
                    receiver_id: receiver_id,
-                   video_filename: video_filename }
+                   video_filename: video_filename,
+                   client_version: S3Record::FetchClientVersion.new(raw_record).do }
     event.target = 'video'
     event.target_id = video_filename
     event.raw_params = raw_record
