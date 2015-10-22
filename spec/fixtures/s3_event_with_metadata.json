@@ -1,0 +1,30 @@
+{
+  "Records": [{
+    "eventVersion":"2.0",
+    "eventSource":"aws:s3",
+    "awsRegion":"us-west-1",
+    "eventTime":"2015-10-07T16:37:41.796Z",
+    "eventName":"ObjectCreated:Put",
+    "userIdentity":{"principalId":"AWS:AIDAIUFT72XFHDTJOMRJW"},
+    "requestParameters":{"sourceIPAddress":"213.108.72.42"},
+    "responseElements":{
+      "x-amz-request-id":"AA5CFEF4C4E2F7BC",
+      "x-amz-id-2":"Th0NgQOgmmfYcYUBQKim0MPBPd0nXS2bcI5Uwp9zCXeJ4xdDwh/Jzr3huv8ny7cOAP2Qy2bZUuI="
+    },
+    "s3":{
+      "s3SchemaVersion":"1.0",
+      "configurationId":"zazo-videos-to-sqs",
+      "bucket":{
+        "name":"staging-videos.zazo.com",
+        "ownerIdentity":{"principalId":"A2MSYRMSE88G92"},
+        "arn":"arn:aws:s3:::staging-videos.zazo.com"
+      },
+      "object":{
+        "key":"ZcAK4dM9S4m0IFui6ok6-lpb8DcispONUSfdMOT9g-da6f35c931ea53de0e24fb4c76beb5f3",
+        "size":867989,
+        "eTag":"e3ce50829093f3a85b4dffcb3c9d05ae",
+        "sequencer":"0056154A4E21D6BBD8"
+      }
+    }
+  }]
+}
