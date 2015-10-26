@@ -14,7 +14,8 @@ RSpec.describe Api::V1::EventsController, type: :controller do
       data: { 'sender_id' => 'RxDrzAIuF9mFw7Xx9NSM',
               'receiver_id' => '6pqpuUZFp1zCXLykfTIx',
               'video_filename' => 'RxDrzAIuF9mFw7Xx9NSM-6pqpuUZFp1zCXLykfTIx-98dba07c0113cc717d9fc5e5809bc998',
-              'client_version' => 'undefined'} }
+              'client_platform' => 'undefined',
+              'client_version' => 'undefined' } }
   end
 
   describe 'GET #index' do

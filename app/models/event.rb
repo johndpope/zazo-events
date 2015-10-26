@@ -50,10 +50,13 @@ class Event < ActiveRecord::Base
     event.initiator = 's3'
     video_filename = record.s3.object[:key]
     sender_id, receiver_id, _hash = video_filename.split('-')
+    client_info = S3Record::FetchClientInfo.new(raw_record).do
+
     event.data = { sender_id: sender_id,
                    receiver_id: receiver_id,
                    video_filename: video_filename,
-                   client_version: S3Record::FetchClientVersion.new(raw_record).do }
+                   client_platform: client_info[:client_platform],
+                   client_version:  client_info[:client_version] }
     event.target = 'video'
     event.target_id = video_filename
     event.raw_params = raw_record
