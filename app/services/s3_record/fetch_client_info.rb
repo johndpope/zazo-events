@@ -1,4 +1,4 @@
-class S3Record::FetchClientVersion
+class S3Record::FetchClientInfo
   attr_accessor :s3_record
 
   def initialize(s3_record)
@@ -6,10 +6,12 @@ class S3Record::FetchClientVersion
   end
 
   def do
-    s3_metadata['client-version'] || :undefined
+    metadata = s3_metadata
+    { client_version:  metadata['client-version']  || :undefined,
+      client_platform: metadata['client-platform'] || :undefined }
   rescue Exception => e
     Rollbar.error exception: e.class.name, message: e.message
-    :undefined
+    { client_version: :undefined, client_platform: :undefined }
   end
 
   private
