@@ -48,10 +48,8 @@ class Message
       event_names = row.map { |r| r[0][2] }
       sender_platform = row.map { |r| r[0][3] }.first.try(:to_sym) || :unknown
       receiver_platform = row.map { |r| r[0][4] }.first.try(:to_sym) || :unknown
-      Message.new(file_name, event_names: event_names,
-                             uploaded_at: uploaded_at,
-                             sender_platform: sender_platform,
-                             receiver_platform: receiver_platform)
+      Message.new(file_name, event_names: event_names, uploaded_at: uploaded_at,
+                  sender_platform: sender_platform, receiver_platform: receiver_platform)
     end.compact
   end
 
