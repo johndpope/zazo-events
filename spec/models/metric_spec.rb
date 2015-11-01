@@ -33,6 +33,7 @@ RSpec.describe Metric, type: :model do
        Metric::MessagesCountBetweenUsers,
        Metric::MessagesCountByPeriod,
        Metric::MessagesFailures,
+       Metric::MessagesFailuresAutonotification,
        Metric::MessagesSent,
        Metric::MessagesStatusesBetweenUsers,
        Metric::NonMarketingRegisteredByWeeks,
