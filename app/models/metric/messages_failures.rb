@@ -1,20 +1,21 @@
 class Metric::MessagesFailures < Metric::Base
   after_initialize :set_attributes
-  attr_reader :start_date, :end_date
+  attr_reader :start_date, :end_date, :only_autonotification
 
   def self.type
     :messages_failures
   end
 
   def generate
-    { meta: meta, data: data }
+    { meta: meta, data: only_autonotification ? data_only_autonotification : data }
   end
 
   private
 
   def set_attributes
     @start_date = attributes.fetch('start_date', default_start_date).to_date
-    @end_date = attributes.fetch('end_date', default_end_date).to_date
+    @end_date   = attributes.fetch('end_date', default_end_date).to_date
+    @only_autonotification = !!attributes['only_autonotification']
   end
 
   def default_start_date
@@ -61,18 +62,31 @@ class Metric::MessagesFailures < Metric::Base
   def data
     messages.each_with_object(aggregated_by_platforms) do |message, result|
       direction = :"#{message.sender_platform}_to_#{message.receiver_platform}"
-      data = result.fetch(direction, sample)
-      data[:uploaded]    += 1
-      data[:delivered]   += 1 if message.delivered?
-      data[:undelivered] += 1 if message.undelivered?
-      data[:incomplete]  += 1 if message.status.uploaded?
-      data[:missing_kvstore_received]        += 1 if message.missing_events.include?(%w(video kvstore received))
-      data[:missing_notification_received]   += 1 if message.missing_events.include?(%w(video notification received))
-      data[:missing_kvstore_downloaded]      += 1 if message.missing_events.include?(%w(video kvstore downloaded))
-      data[:missing_notification_downloaded] += 1 if message.missing_events.include?(%w(video notification downloaded))
-      data[:missing_kvstore_viewed]          += 1 if message.missing_events.include?(%w(video kvstore viewed))
-      data[:missing_notification_viewed]     += 1 if message.missing_events.include?(%w(video notification viewed))
-      result[direction] = data
+      result[direction] = handle_data_by_message result.fetch(direction, sample), message
     end
+  end
+
+  def data_only_autonotification
+    messages.each_with_object(aggregated_by_platforms.except(:unknown_to_unknown)) do |message, result|
+      if message.data.client_platform == 'android' && message.data.client_version.to_i >= 112
+        direction = :"#{message.data.client_platform}_to_#{message.receiver_platform}"
+        result[direction] = handle_data_by_message result.fetch(direction, sample), message
+      end
+    end
+  end
+
+  def handle_data_by_message(data, message)
+    missing_events = message.missing_events
+    data[:uploaded]    += 1
+    data[:delivered]   += 1 if message.delivered?
+    data[:undelivered] += 1 if message.undelivered?
+    data[:incomplete]  += 1 if message.status.uploaded?
+    data[:missing_kvstore_received]        += 1 if missing_events.include?(%w(video kvstore received))
+    data[:missing_notification_received]   += 1 if missing_events.include?(%w(video notification received))
+    data[:missing_kvstore_downloaded]      += 1 if missing_events.include?(%w(video kvstore downloaded))
+    data[:missing_notification_downloaded] += 1 if missing_events.include?(%w(video notification downloaded))
+    data[:missing_kvstore_viewed]          += 1 if missing_events.include?(%w(video kvstore viewed))
+    data[:missing_notification_viewed]     += 1 if missing_events.include?(%w(video notification viewed))
+    data
   end
 end
