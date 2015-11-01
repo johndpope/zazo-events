@@ -1,21 +1,20 @@
 class Metric::MessagesFailures < Metric::Base
   after_initialize :set_attributes
-  attr_reader :start_date, :end_date, :only_autonotification
+  attr_reader :start_date, :end_date
 
   def self.type
     :messages_failures
   end
 
   def generate
-    { meta: meta, data: only_autonotification ? data_only_autonotification : data }
+    { meta: meta, data: data }
   end
 
-  private
+  protected
 
   def set_attributes
     @start_date = attributes.fetch('start_date', default_start_date).to_date
     @end_date   = attributes.fetch('end_date', default_end_date).to_date
-    @only_autonotification = !!attributes['only_autonotification']
   end
 
   def default_start_date
@@ -63,15 +62,6 @@ class Metric::MessagesFailures < Metric::Base
     messages.each_with_object(aggregated_by_platforms) do |message, result|
       direction = :"#{message.sender_platform}_to_#{message.receiver_platform}"
       result[direction] = handle_data_by_message result.fetch(direction, sample), message
-    end
-  end
-
-  def data_only_autonotification
-    messages.each_with_object(aggregated_by_platforms.except(:unknown_to_unknown)) do |message, result|
-      if message.data.client_platform == 'android' && message.data.client_version.to_i >= 112
-        direction = :"#{message.data.client_platform}_to_#{message.receiver_platform}"
-        result[direction] = handle_data_by_message result.fetch(direction, sample), message
-      end
     end
   end
 

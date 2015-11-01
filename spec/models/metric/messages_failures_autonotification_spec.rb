@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-RSpec.describe Metric::MessagesFailures, type: :model do
-  let(:instance) { described_class.new({ only_autonotification: true }) }
+RSpec.describe Metric::MessagesFailuresAutonotification, type: :model do
+  let(:instance) { described_class.new }
 
   let(:user_1) { gen_hash }
   let(:user_2) { gen_hash }
