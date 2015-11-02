@@ -51,8 +51,8 @@ class Message
       next if file_name.nil?
       uploaded_at = row.map { |r| r[0][1] }.first
       event_names = row.map { |r| r[0][2] }
-      sender_platform   = row.map { |r| r[0][3] }.first.try(:to_sym) || :unknown
-      receiver_platform = row.map { |r| r[0][4] }.first.try(:to_sym) || :unknown
+      sender_platform   = row.map { |r| r[0][3] }.compact.first.try(:to_sym) || :unknown
+      receiver_platform = row.map { |r| r[0][4] }.compact.first.try(:to_sym) || :unknown
       client_platform   = row.map { |r| r[0][5] }.compact.first.try(:to_sym) || :undefined
       client_version    = row.map { |r| r[0][6] }.compact.first.try(:to_i)   || 0
       Message.new(file_name, event_names: event_names, uploaded_at: uploaded_at,
