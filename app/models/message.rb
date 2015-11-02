@@ -10,7 +10,7 @@ class Message
     %w(video notification viewed)
   ].freeze
 
-  attr_reader :file_name
+  attr_reader :file_name, :client_platform, :client_version
   alias_method :id, :file_name
   delegate :viewed?, to: :status
 
@@ -40,16 +40,24 @@ class Message
   end
 
   def self.build_from_events_scope(scope)
-    events = scope.group("data->>'video_filename'", :triggered_at, :name, "data->>'sender_platform'", "data->>'receiver_platform'").count
+    events = scope.group("data->>'video_filename'",
+                         :triggered_at, :name,
+                         "data->>'sender_platform'",
+                         "data->>'receiver_platform'",
+                         "data->>'client_platform'",
+                         "data->>'client_version'").count
     data = events.group_by { |row, _count| row.first }
     data.map do |file_name, row|
       next if file_name.nil?
       uploaded_at = row.map { |r| r[0][1] }.first
       event_names = row.map { |r| r[0][2] }
-      sender_platform = row.map { |r| r[0][3] }.first.try(:to_sym) || :unknown
+      sender_platform   = row.map { |r| r[0][3] }.first.try(:to_sym) || :unknown
       receiver_platform = row.map { |r| r[0][4] }.first.try(:to_sym) || :unknown
+      client_platform   = row.map { |r| r[0][5] }.compact.first.try(:to_sym) || :undefined
+      client_version    = row.map { |r| r[0][6] }.compact.first.try(:to_i)   || 0
       Message.new(file_name, event_names: event_names, uploaded_at: uploaded_at,
-                  sender_platform: sender_platform, receiver_platform: receiver_platform)
+                  sender_platform: sender_platform, receiver_platform: receiver_platform,
+                  client_platform: client_platform, client_version: client_version)
     end.compact
   end
 
@@ -70,8 +78,10 @@ class Message
     end
     @event_names = options[:event_names]
     @events = options[:events]
-    @sender_platform = options[:sender_platform]
+    @sender_platform   = options[:sender_platform]
     @receiver_platform = options[:receiver_platform]
+    @client_platform   = options[:client_platform]
+    @client_version    = options[:client_version]
     @uploaded_at = options[:uploaded_at]
   end
 
