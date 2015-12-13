@@ -35,24 +35,36 @@ class Metric::NonMarketingUsersData < Metric::Base
           LEFT OUTER JOIN inviters ON inviters.inviter = invited.invitee
       ), verified AS (
         SELECT
-          DISTINCT events.initiator_id initiator
+          events.initiator_id initiator,
+          MIN(events.triggered_at) becoming_verified
         FROM events
           INNER JOIN invited ON events.initiator_id = invited.invitee
         WHERE name @> ARRAY['user', 'verified']::VARCHAR[]
+        GROUP BY initiator_id
       ), registered AS (
         SELECT
           DISTINCT events.initiator_id initiator
         FROM events
           INNER JOIN invited ON events.initiator_id = invited.invitee
         WHERE name @> ARRAY['user', 'registered']::VARCHAR[]
+      ), app_link_clicks AS (
+        SELECT
+          data->>'connection_creator_mkey' inviter,
+          COUNT(DISTINCT data->>'connection_target_mkey') link_clicks
+        FROM events
+        WHERE name = '{user,app_link_clicked}'
+        GROUP BY inviter
       ) SELECT
-          inviter,
+          non_marketing_invitations.inviter,
+          becoming_verified,
           invites_sent,
+          COALESCE(link_clicks, 0) link_clicks,
           CASE WHEN verified.initiator ISNULL THEN FALSE ELSE TRUE END is_verified,
           CASE WHEN registered.initiator ISNULL THEN FALSE ELSE TRUE END is_registered
         FROM non_marketing_invitations
           LEFT OUTER JOIN verified ON non_marketing_invitations.inviter = verified.initiator
           LEFT OUTER JOIN registered ON non_marketing_invitations.inviter = registered.initiator
+          LEFT OUTER JOIN app_link_clicks ON non_marketing_invitations.inviter = app_link_clicks.inviter
     SQL
   end
 end
