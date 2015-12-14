@@ -104,7 +104,7 @@ RSpec.describe Api::V1::MetricsController, type: :controller do
 
     specify do
       subject
-      expect(json_response.first).to eq('name' => 'active_users',
+      expect(json_response[1]).to eq('name' => 'active_users',
                                         'type' => 'aggregated_by_timeframe')
     end
 
