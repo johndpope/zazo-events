@@ -1,6 +1,6 @@
-class Metric::ActiveDaysAndMessagesByActiveFriends < Metric::Base
+class Metric::ActiveFriendsGroupedData < Metric::Base
   def self.type
-    :active_days_by_active_friends
+    :active_friends_grouped_data
   end
 
   def generate
