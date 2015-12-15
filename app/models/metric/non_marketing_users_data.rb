@@ -1,4 +1,10 @@
 class Metric::NonMarketingUsersData < Metric::Base
+  FAR_IN_PAST_DATE   = 10.years.ago.to_time
+  IN_FAR_FUTURE_DATE = 10.years.from_now.to_time
+
+  after_initialize :set_attributes
+  attr_reader :start_date, :end_date
+
   def self.type
     :non_marketing_users_data
   end
@@ -9,6 +15,11 @@ class Metric::NonMarketingUsersData < Metric::Base
 
   private
 
+  def set_attributes
+    @start_date = (Time.parse attributes['start_date'] rescue FAR_IN_PAST_DATE)
+    @end_date   = (Time.parse attributes['end_date']   rescue IN_FAR_FUTURE_DATE)
+  end
+
   def query
     <<-SQL
       WITH invited AS (
@@ -16,7 +27,9 @@ class Metric::NonMarketingUsersData < Metric::Base
           initiator_id invitee,
           triggered_at
         FROM events
-        WHERE name @> ARRAY['user', 'invited']::VARCHAR[]
+        WHERE name @> ARRAY['user', 'invited']::VARCHAR[] AND
+              triggered_at > '#{start_date}' AND
+              triggered_at < '#{end_date}'
       ), inviters AS (
         SELECT
           events.initiator_id inviter,
@@ -52,7 +65,9 @@ class Metric::NonMarketingUsersData < Metric::Base
           data->>'connection_creator_mkey' inviter,
           COUNT(DISTINCT data->>'connection_target_mkey') link_clicks
         FROM events
-        WHERE name = '{user,app_link_clicked}'
+        WHERE name = '{user,app_link_clicked}' AND
+              triggered_at > '#{start_date}' AND
+              triggered_at < '#{end_date}'
         GROUP BY inviter
       ) SELECT
           non_marketing_invitations.inviter,

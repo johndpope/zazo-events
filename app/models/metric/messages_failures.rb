@@ -13,16 +13,22 @@ class Metric::MessagesFailures < Metric::Base
   protected
 
   def set_attributes
-    @start_date = attributes.fetch('start_date', default_start_date).to_date
-    @end_date   = attributes.fetch('end_date', default_end_date).to_date
+    @start_date = get_attribute_value 'start_date'
+    @end_date   = get_attribute_value 'end_date'
   end
 
-  def default_start_date
-    12.days.ago
+  def get_attribute_value(variable)
+    Time.parse attributes[variable]
+  rescue ArgumentError, TypeError
+    default_attribute_value variable
   end
 
-  def default_end_date
-    2.days.ago
+  def default_attribute_value(attr)
+    case attr
+      when 'start_date' then FAR_IN_PAST_DATE
+      when 'end_date'   then IN_FAR_FUTURE_DATE
+      else FAR_IN_PAST_DATE
+    end
   end
 
   def sample
