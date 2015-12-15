@@ -38,7 +38,7 @@ class Metric::ActiveDaysAndMessagesByActiveFriends < Metric::Base
         SELECT DISTINCT
           initiator,
           date_trunc('day', triggered_at) triggered_at
-        FROM activity
+        FROM video_sent
       ), messages_sent_received AS (
         SELECT
           initiator,
@@ -71,27 +71,16 @@ class Metric::ActiveDaysAndMessagesByActiveFriends < Metric::Base
           LEFT OUTER JOIN active_friends ON registered.initiator_id = active_friends.initiator
           LEFT OUTER JOIN messages_sent_received ON registered.initiator_id = messages_sent_received.initiator
         GROUP BY registered.initiator_id, registered_at, active_friends.count, messages_sent_received.count
-      ), activity_by_active_days AS (
-        SELECT
+      ) SELECT
           active_friends,
+          COUNT(DISTINCT active_friends.initiator) owners,
           ROUND(AVG(percent_active_days), 4) avg_percent_active_days,
           ROUND(AVG(messages_per_days), 4) avg_messages_per_days
         FROM prepared_data
+          LEFT OUTER JOIN active_friends ON active_friends.count = active_friends
+        WHERE active_friends > 0
         GROUP BY active_friends
         ORDER BY active_friends
-      ) SELECT
-          active_friends::VARCHAR,
-          avg_percent_active_days,
-          avg_messages_per_days
-        FROM activity_by_active_days
-        WHERE active_friends > 0 AND active_friends < 8
-        UNION
-        SELECT
-          '8 or more'::VARCHAR active_friends,
-          ROUND(AVG(avg_percent_active_days), 4) avg_percent_active_days,
-          ROUND(AVG(avg_messages_per_days), 4) avg_messages_per_days
-        FROM activity_by_active_days
-        WHERE active_friends >= 8
     SQL
   end
 end
