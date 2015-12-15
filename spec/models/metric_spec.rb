@@ -25,7 +25,7 @@ RSpec.describe Metric, type: :model do
   describe '.all' do
     subject { described_class.all }
     let(:all_metrics) do
-      [Metric::ActiveDaysAndMessagesByActiveFriends,
+      [Metric::ActiveFriendsGroupedData,
        Metric::ActiveUsers,
        Metric::AggregateMessagingInfo,
        Metric::Filter::NonMarketing,
