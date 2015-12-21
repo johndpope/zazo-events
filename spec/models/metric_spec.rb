@@ -41,6 +41,7 @@ RSpec.describe Metric, type: :model do
        Metric::NonMarketingUsersData,
        Metric::OnboardingInfo,
        Metric::UploadDuplications,
+       Metric::UploadDuplicationsData,
        Metric::UsageByActiveUsers,
        Metric::UserActivity,
        Metric::VerifiedAfterNthNotification]
