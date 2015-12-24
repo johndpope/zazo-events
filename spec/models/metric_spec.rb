@@ -29,6 +29,7 @@ RSpec.describe Metric, type: :model do
        Metric::ActiveUsers,
        Metric::AggregateMessagingInfo,
        Metric::Filter::NonMarketing,
+       Metric::InvitationConversionData,
        Metric::InvitationFunnel,
        Metric::InvitedBecomingRegistered,
        Metric::MessagesCountBetweenUsers,
