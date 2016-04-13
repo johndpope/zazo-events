@@ -1,5 +1,8 @@
 class Event < ActiveRecord::Base
-  SOURCES = %w(aws:s3 zazo:api zazo:ios zazo:android).freeze
+  SOURCES = %w(
+    aws:s3 zazo:api zazo:ios zazo:android
+    ff:web_client ff:api ff:notification
+  ).freeze
 
   validates :name, :triggered_at, :triggered_by, :initiator,
             presence: true
