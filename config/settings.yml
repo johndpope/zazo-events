@@ -1,5 +1,5 @@
 defaults: &settings
-  version: 1.15.5
+  version: 1.15.5-wip.1
   app_name: Zazo SQS Worker
 
 development:

@@ -10,7 +10,7 @@ class S3Record::FetchClientInfo
     { client_version:  metadata['client-version']  || :undefined,
       client_platform: metadata['client-platform'] || :undefined }
   rescue Exception => e
-    Rollbar.error exception: e.class.name, message: e.message
+    Rollbar.error(exception: e.class.name, message: e.message)
     { client_version: :undefined, client_platform: :undefined }
   end
 
@@ -23,7 +23,7 @@ class S3Record::FetchClientInfo
   end
 
   def s3_client_instance
-    Aws::S3::Client.new access_key_id: Figaro.env.s3_access_key_id,
-                        secret_access_key: Figaro.env.s3_secret_access_key
+    Aws::S3::Client.new(access_key_id: Figaro.env.s3_access_key_id,
+                        secret_access_key: Figaro.env.s3_secret_access_key)
   end
 end
