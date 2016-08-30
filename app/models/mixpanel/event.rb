@@ -1,4 +1,4 @@
-class Mixpanel::Events
+class Mixpanel::Event
   attr_reader :e
 
   def initialize(original_event = nil)
@@ -6,7 +6,7 @@ class Mixpanel::Events
   end
 
   def allowed_to_send?
-    true
+    !Rails.env.test?
   end
 
   def name

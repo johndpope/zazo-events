@@ -1,4 +1,4 @@
-class Mixpanel::Events::StatusTransition < Mixpanel::Events
+class Mixpanel::Event::StatusTransition < Mixpanel::Event
   def user
     e.initiator_id
   end

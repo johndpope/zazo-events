@@ -1,4 +1,4 @@
-class Mixpanel::Events::ZazoSent < Mixpanel::Events
+class Mixpanel::Event::ZazoSent < Mixpanel::Event
   def user
     e.data['sender_id']
   end

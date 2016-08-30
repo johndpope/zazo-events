@@ -1,4 +1,4 @@
-class Mixpanel::Events::DirectInviteMessage < Mixpanel::Events
+class Mixpanel::Event::DirectInviteMessage < Mixpanel::Event
   def user
     e.initiator_id
   end

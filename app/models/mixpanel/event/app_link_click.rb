@@ -1,4 +1,4 @@
-class Mixpanel::Events::AppLinkClick < Mixpanel::Events
+class Mixpanel::Event::AppLinkClick < Mixpanel::Event
   def user
     e.data['link_key'] == 'l' ?
       e.data['inviter_mkey'] :

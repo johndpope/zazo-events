@@ -15,6 +15,8 @@ class Api::V1::EventsController < ApplicationController
     @event = Event.create_from_params(event_params, request.headers['X-Aws-Sqsd-Msgid'])
     return render json: @event if @event.is_a?(Array)
     if @event.valid?
+      mixpanel_event = Mixpanel::BuildEvent.new(@event).perform
+      Mixpanel::PushEvent.new(mixpanel_event).perform
       render json: @event
     else
       render json: { errors: @event.errors }, status: :unprocessable_entity
@@ -34,11 +36,12 @@ class Api::V1::EventsController < ApplicationController
     if params.key?('Records')
       params.require('Records')
     else
-      params.permit(:name, :triggered_at, :triggered_by, :initiator,
-                    :initiator_id, :target, :target_id,
-                    name: [],
-                    data: params[:data].try(:keys),
-                    raw_params: params[:raw_params].try(:keys))
+      params.permit(
+        :name, :triggered_at, :triggered_by, :initiator,
+        :initiator_id, :target, :target_id,
+        name: [],
+        data: params[:data].try(:keys),
+        raw_params: params[:raw_params].try(:keys))
     end
   end
 

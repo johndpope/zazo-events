@@ -18,7 +18,7 @@ class Mixpanel::BuildEvent
 
   def perform
     name_type = NAME_TO_TYPE.find { |name,_| e.name == name }
-    name_type ? event_by_type(name_type.last) : Mixpanel::Events::NilEvent.new
+    name_type ? event_by_type(name_type.last) : Mixpanel::Event::NilEvent.new
   end
 
   private
