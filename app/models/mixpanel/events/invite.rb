@@ -1,9 +1,9 @@
 class Mixpanel::Events::Invite < Mixpanel::Events
   def user
-    orig_event.initiator_id
+    e.initiator_id
   end
 
   def data
-    { 'target_mkey' => orig_event.target_id }
+    { 'target_mkey' => e.target_id }
   end
 end

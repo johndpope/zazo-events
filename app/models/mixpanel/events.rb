@@ -1,8 +1,8 @@
 class Mixpanel::Events
-  attr_reader :orig_event
+  attr_reader :e
 
-  def initialize(orig_event = nil)
-    @orig_event = orig_event
+  def initialize(original_event = nil)
+    @e = original_event
   end
 
   def allowed_to_send?

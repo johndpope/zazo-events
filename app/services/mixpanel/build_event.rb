@@ -10,21 +10,20 @@ class Mixpanel::BuildEvent
     %w(user app_link_clicked)                 => :app_link_click,
     %w(user invitation direct_invite_message) => :direct_invite_message }
 
-  attr_reader :orig_event
+  attr_reader :e
 
-  def initialize(orig_event)
-    @orig_event = orig_event
+  def initialize(original_event)
+    @e = original_event
   end
 
   def perform
-    name_type = NAME_TO_TYPE.find { |name,_| orig_event.name == name }
+    name_type = NAME_TO_TYPE.find { |name,_| e.name == name }
     name_type ? event_by_type(name_type.last) : Mixpanel::Events::NilEvent.new
   end
 
   private
 
   def event_by_type(type)
-    klass = Zazo::Tool::Classifier.new([:mixpanel, :events, type]).klass
-    klass.new(orig_event)
+    Zazo::Tool::Classifier.new([:mixpanel, :events, type]).klass.new(e)
   end
 end
