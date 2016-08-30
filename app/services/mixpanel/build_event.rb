@@ -24,6 +24,6 @@ class Mixpanel::BuildEvent
   private
 
   def event_by_type(type)
-    Zazo::Tool::Classifier.new([:mixpanel, :events, type]).klass.new(e)
+    Zazo::Tool::Classifier.new([:mixpanel, :event, type]).klass.new(e)
   end
 end
