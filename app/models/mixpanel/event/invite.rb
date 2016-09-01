@@ -4,6 +4,6 @@ class Mixpanel::Event::Invite < Mixpanel::Event
   end
 
   def data
-    { 'target_mkey' => e.target_id }
+    { 'target' => e.target_id }
   end
 end

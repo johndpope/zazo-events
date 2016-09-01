@@ -11,11 +11,11 @@ class Mixpanel::Event::AppLinkClick < Mixpanel::Event
       'platform' => e.data['platform'] }
     if e.data['link_key'] == 'l'
       base.merge(
-        'inviter_mkey' => e.data['inviter_mkey'])
+        'inviter' => e.data['inviter_mkey'])
     else
       base.merge(
-        'inviter_mkey' => e.data['connection_creator_mkey'],
-        'target_mkey'  => e.data['connection_target_mkey'])
+        'inviter' => e.data['connection_creator_mkey'],
+        'target' => e.data['connection_target_mkey'])
     end
   end
 end

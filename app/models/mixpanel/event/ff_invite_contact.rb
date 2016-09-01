@@ -5,6 +5,6 @@ class Mixpanel::Event::FfInviteContact < Mixpanel::Event
 
   def data
     { 'triggered_by' => 'api',
-      'contact_mkey' => e.data['zazo_mkey'] }
+      'contact' => e.data['zazo_mkey'] }
   end
 end

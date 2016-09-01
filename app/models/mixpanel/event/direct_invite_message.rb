@@ -4,9 +4,9 @@ class Mixpanel::Event::DirectInviteMessage < Mixpanel::Event
   end
 
   def data
-    { 'inviter_id'         => e.data['inviter_id'],
-      'invitee_id'         => e.data['invitee_id'],
+    { 'inviter' => e.data['inviter_id'],
+      'invitee' => e.data['invitee_id'],
       'messaging_platform' => e.data['messaging_platform'],
-      'message_status'     => e.data['message_status'] }
+      'message_status' => e.data['message_status'] }
   end
 end
