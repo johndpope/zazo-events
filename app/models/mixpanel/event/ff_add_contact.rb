@@ -3,7 +3,7 @@ class Mixpanel::Event::FfAddContact < Mixpanel::Event
     e.initiator_id
   end
 
-  def data
+  def specific_data
     { 'triggered_by' => 'api' }
   end
 end

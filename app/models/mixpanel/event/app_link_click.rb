@@ -5,7 +5,7 @@ class Mixpanel::Event::AppLinkClick < Mixpanel::Event
       e.data['connection_creator_mkey']
   end
 
-  def data
+  def specific_data
     base = {
       'link_key' => e.data['link_key'],
       'platform' => e.data['platform'] }

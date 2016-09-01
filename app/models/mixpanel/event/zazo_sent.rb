@@ -3,7 +3,7 @@ class Mixpanel::Event::ZazoSent < Mixpanel::Event
     e.initiator_id
   end
 
-  def data
+  def specific_data
     { 'type' => e.name.first,
       'sender_platform' => e.data['sender_platform'],
       'receiver' => e.data['receiver_id'],

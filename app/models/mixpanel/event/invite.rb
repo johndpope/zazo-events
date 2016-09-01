@@ -3,7 +3,7 @@ class Mixpanel::Event::Invite < Mixpanel::Event
     e.initiator_id
   end
 
-  def data
+  def specific_data
     { 'target' => e.target_id }
   end
 end

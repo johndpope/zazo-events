@@ -3,7 +3,7 @@ class Mixpanel::Event::FfInviteContact < Mixpanel::Event
     e.initiator_id
   end
 
-  def data
+  def specific_data
     { 'triggered_by' => 'api',
       'contact' => e.data['zazo_mkey'] }
   end

@@ -18,7 +18,7 @@ class Mixpanel::Event
   end
 
   def data
-    {}
+    common_data.merge(specific_data)
   end
 
   def to_hash
@@ -33,5 +33,18 @@ class Mixpanel::Event
 
   def to_a
     [name, user, data]
+  end
+
+  protected
+
+  def specific_data
+    {}
+  end
+
+  private
+
+  def common_data
+    { 'event_id' => e.id,
+      'time' => e.triggered_at.to_i }
   end
 end
