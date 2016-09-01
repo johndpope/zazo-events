@@ -20,4 +20,18 @@ class Mixpanel::Event
   def data
     {}
   end
+
+  def to_hash
+    { name: name,
+      user: user,
+      data: data }
+  end
+
+  def to_s
+    to_hash.to_s
+  end
+
+  def to_a
+    [name, user, data]
+  end
 end

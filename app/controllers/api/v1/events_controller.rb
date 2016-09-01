@@ -15,8 +15,7 @@ class Api::V1::EventsController < ApplicationController
     @event = Event.create_from_params(event_params, request.headers['X-Aws-Sqsd-Msgid'])
     return render json: @event if @event.is_a?(Array)
     if @event.valid?
-      mixpanel_event = Mixpanel::BuildEvent.new(@event).perform
-      Mixpanel::PushEvent.new(mixpanel_event).perform
+      Mixpanel::PushEvent.new(@event).perform
       render json: @event
     else
       render json: { errors: @event.errors }, status: :unprocessable_entity
