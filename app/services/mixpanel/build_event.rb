@@ -1,7 +1,7 @@
 class Mixpanel::BuildEvent
   NAME_TO_TYPE = {
     ['zazo:api', %w(video kvstore received)]                => :zazo_sent,
-    ['zazo:api', %w(text kvstore received)]                 => :text_sent,
+    ['zazo:api', %w(text kvstore received)]                 => :zazo_sent,
     ['zazo:api', %w(user invited)]                          => :status_transition,
     ['zazo:api', %w(user initialized)]                      => :status_transition,
     ['zazo:api', %w(user registered)]                       => :status_transition,

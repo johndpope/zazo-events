@@ -1,9 +1,12 @@
 class Mixpanel::Event::ZazoSent < Mixpanel::Event
   def user
-    e.data['sender_id']
+    e.initiator_id
   end
 
   def data
-    { 'target_mkey' => e.data['receiver_id'] }
+    { 'type' => e.name.first,
+      'sender_platform' => e.data['sender_platform'],
+      'receiver' => e.data['receiver_id'],
+      'receiver_platform' => e.data['receiver_platform'] }
   end
 end
