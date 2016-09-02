@@ -17,8 +17,8 @@ class S3Record::FetchClientInfo
   private
 
   def s3_metadata
+    file_name = s3_record['s3']['object']['key']
     bucket_name = s3_record['s3']['bucket']['name']
-    file_name   = s3_record['s3']['object']['key']
     s3_client_instance.head_object(bucket: bucket_name, key: file_name).metadata
   end
 

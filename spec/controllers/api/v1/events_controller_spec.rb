@@ -1,5 +1,6 @@
 require 'rails_helper'
 
+
 RSpec.describe Api::V1::EventsController, type: :controller do
   let(:message_id) { Digest::UUID.uuid_v4 }
   let(:s3_event) { json_fixture('s3_event') }
@@ -155,6 +156,10 @@ RSpec.describe Api::V1::EventsController, type: :controller do
           target_id: 'IUed5vP9n4qzW6jY8wSu-smRug5xj8J469qX5XvGk-220943fef3c03f4aa415beaf9f05c9c2',
           data: { 'sender_id' => 'IUed5vP9n4qzW6jY8wSu', 'receiver_id' => 'smRug5xj8J469qX5XvGk', 'video_filename' => 'IUed5vP9n4qzW6jY8wSu-smRug5xj8J469qX5XvGk-220943fef3c03f4aa415beaf9f05c9c2', 'video_id' => '1430762196568' },
           raw_params: { 'sender_id' => 'IUed5vP9n4qzW6jY8wSu', 'id' => '1' } }
+      end
+
+      before do
+        #allow_any_instance_of(Mixpanel::PushEvent).to receive(:perform).and_return(true)
       end
 
       it 'returns http ok' do

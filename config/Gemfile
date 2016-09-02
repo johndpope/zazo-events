@@ -12,6 +12,9 @@ gem 'groupdate'
 gem 'kaminari'
 gem 'activerecord-colored_log_subscriber'
 gem 'aws-sdk', '~> 2'
+gem 'mixpanel-ruby'
+gem 'zazo-tools', github: 'noplanb/zazo-tools', tag: '1.0.0', require: 'zazo'
+
 
 gem 'puma'
 gem 'foreman'
