@@ -1,5 +1,8 @@
 # Changelog
 
+### 2.1.0
+- :bulb: Implemented auto-pushing events to Mixpanel
+
 ### 2.0.0
 - :arrow_up: Removed all legacy code
 - :arrow_up: Changed status routes

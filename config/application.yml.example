@@ -3,6 +3,9 @@ AWS_REGION: us-west-1
 s3_access_key_id:
 s3_secret_access_key:
 
+mixpanel_app_token:
+mixpanel_api_key:
+
 db_name: zazo_events
 db_username: postgres
 db_password:
